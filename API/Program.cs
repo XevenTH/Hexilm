@@ -1,11 +1,16 @@
+using API.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.UseServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -21,5 +26,20 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+    var context = services.GetRequiredService<DataContext>();
+    context.Database.Migrate();
+    await Seed.Seeding(context);
+}
+catch (Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Error During Migrations");
+}
 
 app.Run();
