@@ -5,11 +5,14 @@ import './App.css'
 import Dashboard from '../../Components/Movies/Dashboard/Dashboard';
 import Navbar from './Navbar';
 import Browse from '../../Components/Movies/Browse/Browse';
+import uuid from 'react-uuid';
+import { observer } from 'mobx-react-lite';
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [selectedMovie, setSelectedMovies] = useState<Movie | undefined>(undefined);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | undefined>(undefined);
   const [openForm, setOpenForm] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/movie').then(res => {
@@ -22,14 +25,31 @@ function App() {
   }
 
   function selectedMovieHandler(id: string) {
-    setSelectedMovies(movies.find(x => x.id === id));
-    setOpenForm(true);
+    let movie = movies.find(x => x.id === id);
+    // console.log(movie);
+    setSelectedMovie(movie);
+    setOpenDetails(true);
+    setOpenForm(false);
   }
 
   const EditCreateHandler = (movie: Movie) => {
-    movie.id ? 
-    setMovies([...movies.filter(x => x.id !== movie.id), movie]) 
-    : setMovies([...movies, movie]);
+    if (movie.id) {
+      setMovies([...movies.filter(x => x.id !== movie.id), movie]);
+    }
+    else {
+      movie.id = uuid();
+      setMovies([...movies, movie]);
+    }
+  }
+
+  const CloseDetailsResetMovie = (state: boolean) => {
+    setSelectedMovie(undefined);
+    setOpenFormHandler(state);
+  }
+
+  const setOpenFormHandler = (state: boolean) => {
+    setOpenForm(state);
+    setOpenDetails(false);
   }
 
   return (
@@ -42,11 +62,13 @@ function App() {
         selectedMovie={selectedMovie}
         selectedMovieHandler={selectedMovieHandler}
         EditCreateHandler={EditCreateHandler}
-        setOpenForm={setOpenForm}
         openForm={openForm}
+        setOpenFormHandler={setOpenFormHandler}
+        CloseDetailsResetMovie={CloseDetailsResetMovie}
+        openDetails={openDetails}
       />
     </>
   )
 }
 
-export default App
+export default observer(App)

@@ -3,17 +3,20 @@ import ReuseableForm from "../../../App/common/ReuseableForm";
 import { Movie } from "../../../App/model/movie"
 
 interface Props {
-    Movie: Movie
+    selectedMovie: Movie | undefined
     EditCreateHandler: (movie: Movie) => void,
-    selectedMovieHandler: (id: string) => void,
-    setOpenForm: (state: boolean) => void
+    setOpenFormHandler: (state: boolean) => void
 }
 
-export default function EditCompo({ Movie, EditCreateHandler, selectedMovieHandler, setOpenForm }: Props) {
-    const intialValue = Movie ?? {
-        id: "",
-        title: "",
-        picture: ""
+export default function EditCompo({ selectedMovie, EditCreateHandler, setOpenFormHandler }: Props) {
+    let intialValue = selectedMovie;
+
+    if (intialValue == undefined) {
+        intialValue = {
+            id: "",
+            title: "",
+            picture: null
+        }
     }
 
     const [formValue, setFormValue] = useState<Movie>(intialValue);
@@ -21,13 +24,14 @@ export default function EditCompo({ Movie, EditCreateHandler, selectedMovieHandl
     const onChangehandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormValue({ ...formValue, [name]: value })
+        console.log(formValue);
     }
 
     const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         EditCreateHandler(formValue);
-        selectedMovieHandler(formValue.id);
-        setOpenForm(false);
+        setOpenFormHandler(false);
+        // console.log(formValue);
     }
 
     return (
@@ -37,7 +41,8 @@ export default function EditCompo({ Movie, EditCreateHandler, selectedMovieHandl
             </div>
             <div className="bg-green-600 h-1 my-1"></div>
             <div className="text-slate-800 font-bold mt-5 text-2xl text-center m-2">
-                {Movie.title}
+                {selectedMovie ?
+                    selectedMovie.title : "New Title"}
             </div>
             <div className="flex items-center justify-center p-4">
                 <div className="mx-auto w-full max-w-[550px]">
