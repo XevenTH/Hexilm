@@ -1,36 +1,33 @@
 import { observer } from "mobx-react-lite";
 import { useState } from "react"
 import ReuseableForm from "../../../App/common/ReuseableForm";
-import { Movie } from "../../../App/model/movie"
+import NewMovie, { Movie } from "../../../App/model/movie"
 import { UseStore } from "../../../App/Stores/BaseStore";
 
 export default observer(function EditCompo() {
-    const { MovieStore: { selectedMovie, OpenFormCloseDetailsHandler: setOpenFormHandler, EditCreateHandler } } = UseStore()
+    const { MovieStore } = UseStore();
+    const { selectedMovie, OpenFormCloseDetailsHandler: setOpenFormHandler, EditMovie, CreateNewMovie } = MovieStore
 
-    let intialValue = selectedMovie;
+    const [formValue, setFormValue] = useState<Movie>(new NewMovie(selectedMovie));
 
-    if (intialValue == undefined) {
-        intialValue = {
-            id: "",
-            title: "",
-            picture: null
+    const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
+        if (formValue.id) {
+            EditMovie(formValue);
         }
-    }
+        else {
+            CreateNewMovie(formValue);
+        }
 
-    const [formValue, setFormValue] = useState<Movie>(intialValue);
+        setOpenFormHandler(false);
+    }
 
     const onChangehandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormValue({ ...formValue, [name]: value })
-        console.log(formValue);
     }
 
-    const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        EditCreateHandler(formValue);
-        setOpenFormHandler(false);
-        // console.log(formValue);
-    }
 
     return (
         <div className="mt-4 max-w-lg bg-blue-300 max-h-fit m-4 p-2">

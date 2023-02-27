@@ -1,10 +1,8 @@
 import { observer } from "mobx-react-lite"
-import ReuseableForm from "../../../App/common/ReuseableForm"
-import { Movie } from "../../../App/model/movie"
 import { UseStore } from "../../../App/Stores/BaseStore"
-import MovieList from "../Browse/MovieList"
-import EditCompo from "./edit"
-import MovieDetails from "./MovieDetails"
+import MovieList from "../Dashboard/MovieList"
+import EditCompo from "../Dashboard/edit"
+import MovieDetails from "../Dashboard/MovieDetails"
 
 export default observer(function Dashboard() {
     const { MovieStore } = UseStore();

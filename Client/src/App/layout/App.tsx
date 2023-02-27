@@ -1,13 +1,10 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { Movie } from '../model/movie';
-import './App.css'
-import Dashboard from '../../Components/Movies/Dashboard/Dashboard';
-import Navbar from './Navbar';
-import Browse from '../../Components/Movies/Browse/Browse';
-import uuid from 'react-uuid';
 import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
+import Browse from '../../Components/Movies/Browse/Browse';
+import Dashboard from '../../Components/Movies/Browse/Dashboard';
 import { UseStore } from '../Stores/BaseStore';
+import './App.css';
+import Navbar from './Navbar';
 
 function App() {
   const { MovieStore } = UseStore();

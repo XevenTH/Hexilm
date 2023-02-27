@@ -1,7 +1,8 @@
 import axios from "axios";
 import { makeAutoObservable, runInAction } from "mobx";
 import uuid from "react-uuid";
-import { Movie } from "../model/movie";
+import ApiAgent from "../API/Agent";
+import NewMovie, { Movie } from "../model/movie";
 
 export default class MovieStore {
     movieList: Movie[] = [];
@@ -15,7 +16,10 @@ export default class MovieStore {
 
     getMovie = async () => {
         try {
-            await axios.get('http://localhost:5000/api/movie').then(res => this.movieList = res.data);
+            let result = await ApiAgent.movieApi.getMovieList();
+            runInAction(() => {
+                this.movieList = result
+            })
         } catch (error) {
             runInAction(() => {
                 console.log(error);
@@ -23,11 +27,48 @@ export default class MovieStore {
         }
     }
 
-    deleteMovie = (id: string) => {
-        this.movieList = [...this.movieList.filter(x => x.id !== id)];
+    deleteMovie = async (id: string) => {
+        try {
+            await ApiAgent.movieApi.deleteMovie(id);
 
-        if (id === this.selectedMovie?.id) {
-            this.isOpenDetails = false;
+            runInAction(() => {
+                this.movieList = [...this.movieList.filter(x => x.id !== id)];
+
+                if (id === this.selectedMovie?.id) {
+                    this.isOpenDetails = false;
+                }
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    CreateNewMovie = async (movie: Movie) => {
+        try {
+            let newMovie = new NewMovie(movie);
+            newMovie.id = uuid();
+            // console.log(newMovie);
+            await ApiAgent.movieApi.postMovie(newMovie);
+
+            runInAction(() => {
+                this.movieList = [...this.movieList, movie];
+            })
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    EditMovie = async (movie: Movie) => {
+        try {
+            await ApiAgent.movieApi.editMovie(movie);
+            
+            runInAction(() => {
+                this.movieList = [...this.movieList.filter(x => x.id !== movie.id), movie];
+            })
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -39,22 +80,11 @@ export default class MovieStore {
         this.isOpenForm = false;;
     }
 
-    EditCreateHandler = (movie: Movie) => {
-        if (movie.id) {
-            this.movieList = [...this.movieList.filter(x => x.id !== movie.id), movie];
-        }
-        else {
-            movie.id = uuid();
-            this.movieList = [...this.movieList, movie];
-        }
-    }
-
-    
     CloseDetailsResetMovie = (state: boolean) => {
         this.OpenFormCloseDetailsHandler(state);
         this.selectedMovie = undefined;
     }
-    
+
     OpenFormCloseDetailsHandler = (state: boolean) => {
         this.isOpenForm = state;
         this.isOpenDetails = false;
