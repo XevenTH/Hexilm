@@ -1,14 +1,12 @@
+import { observer } from "mobx-react-lite";
 import { useState } from "react"
 import ReuseableForm from "../../../App/common/ReuseableForm";
 import { Movie } from "../../../App/model/movie"
+import { UseStore } from "../../../App/Stores/BaseStore";
 
-interface Props {
-    selectedMovie: Movie | undefined
-    EditCreateHandler: (movie: Movie) => void,
-    setOpenFormHandler: (state: boolean) => void
-}
+export default observer(function EditCompo() {
+    const { MovieStore: { selectedMovie, OpenFormCloseDetailsHandler: setOpenFormHandler, EditCreateHandler } } = UseStore()
 
-export default function EditCompo({ selectedMovie, EditCreateHandler, setOpenFormHandler }: Props) {
     let intialValue = selectedMovie;
 
     if (intialValue == undefined) {
@@ -51,4 +49,4 @@ export default function EditCompo({ selectedMovie, EditCreateHandler, setOpenFor
             </div>
         </div>
     )
-}
+})

@@ -1,12 +1,14 @@
+import { observer } from "mobx-react-lite";
 import { Movie } from "../../../App/model/movie";
+import { UseStore } from "../../../App/Stores/BaseStore";
 
 interface Props {
     movie: Movie;
-    deleteMovie: (id: string) => void;
-    selectedMovieHandler: (id: string) => void;
 }
 
-export default function MovieList({ movie, deleteMovie, selectedMovieHandler }: Props) {
+export default observer(function MovieList({ movie }: Props) {
+    const { MovieStore: { deleteMovie, selectedMovieHandler } } = UseStore()
+
     return (
         <div className="max-w-lg bg-slate-300 max-h-96 p-2 m-4 rounded-md">
             {movie.title}
@@ -21,4 +23,4 @@ export default function MovieList({ movie, deleteMovie, selectedMovieHandler }: 
             </div>
         </div>
     )
-}
+})

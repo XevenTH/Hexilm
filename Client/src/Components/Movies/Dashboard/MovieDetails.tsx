@@ -1,12 +1,9 @@
-import { useState } from "react"
-import { Movie } from "../../../App/model/movie"
+import { observer } from "mobx-react-lite"
+import { UseStore } from "../../../App/Stores/BaseStore"
 
-interface Props {
-    selectedMovie: Movie | undefined,
-    setOpenFormHandler: (state: boolean) => void
-}
+export default observer(function MovieDetails() {
+    const { MovieStore: { selectedMovie, OpenFormCloseDetailsHandler: setOpenFormHandler } } = UseStore()
 
-export default function MovieDetails({ selectedMovie, setOpenFormHandler }: Props) {
     return (
         <div className="m-4 max-w-lg max-h-fit p-2 bg-slate-300 rounded-md">
             <h2 className='text-center font-semibold text-lg'>
@@ -26,4 +23,4 @@ export default function MovieDetails({ selectedMovie, setOpenFormHandler }: Prop
             </div>
         </div>
     )
-}
+})

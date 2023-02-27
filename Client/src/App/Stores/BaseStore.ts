@@ -9,8 +9,8 @@ export const storeContainer: Store = {
     MovieStore: new MovieStore(),
 }
 
-export const storeContext = createContext(storeContainer);
+export const BaseStoreContext = createContext(storeContainer);
 
 export function UseStore() {
-    return useContext(storeContext);
+    return useContext(BaseStoreContext);
 }
