@@ -1,5 +1,7 @@
 using API.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Model;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.UseServices(builder.Configuration);
+builder.Services.UseIdentityServiceExtension();
 
 var app = builder.Build();
 
@@ -33,8 +36,9 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
+    var manager = services.GetRequiredService<UserManager<UserApp>>();
     context.Database.Migrate();
-    await Seed.Seeding(context);
+    await Seed.Seeding(context, manager);
 }
 catch (Exception ex)
 {

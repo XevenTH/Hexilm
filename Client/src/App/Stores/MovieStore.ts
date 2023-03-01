@@ -1,4 +1,3 @@
-import axios from "axios";
 import { makeAutoObservable, runInAction } from "mobx";
 import uuid from "react-uuid";
 import ApiAgent from "../API/Agent";
@@ -63,7 +62,7 @@ export default class MovieStore {
     EditMovie = async (movie: Movie) => {
         try {
             await ApiAgent.movieApi.editMovie(movie);
-            
+
             runInAction(() => {
                 this.movieList = [...this.movieList.filter(x => x.id !== movie.id), movie];
             })
