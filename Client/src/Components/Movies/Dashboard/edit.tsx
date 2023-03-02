@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useState } from "react"
-import ReuseableForm from "../../../App/common/ReuseableForm";
+import ReuseableForm from "../../../App/common/Form/ReuseableForm";
+import ReuseableTextInput from "../../../App/common/Form/ReuseableTextInput";
 import NewMovie, { Movie } from "../../../App/model/movie"
 import { UseStore } from "../../../App/Stores/BaseStore";
 
@@ -23,7 +24,7 @@ export default observer(function EditCompo() {
         setOpenFormHandler(false);
     }
 
-    const onChangehandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormValue({ ...formValue, [name]: value })
     }
@@ -41,7 +42,9 @@ export default observer(function EditCompo() {
             </div>
             <div className="flex items-center justify-center p-4">
                 <div className="mx-auto w-full max-w-[550px]">
-                    <ReuseableForm onChangehandler={onChangehandler} submitHandler={submitHandler} />
+                    <ReuseableForm submitHandler={submitHandler}>
+                        <ReuseableTextInput onChangeHandler={onChangeHandler} label="Title" name="title" />
+                    </ReuseableForm>
                 </div>
             </div>
         </div>

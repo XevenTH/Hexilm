@@ -42,12 +42,10 @@ export default class MovieStore {
         }
     }
 
-
     CreateNewMovie = async (movie: Movie) => {
         try {
             let newMovie = new NewMovie(movie);
             newMovie.id = uuid();
-            // console.log(newMovie);
             await ApiAgent.movieApi.postMovie(newMovie);
 
             runInAction(() => {
@@ -56,7 +54,6 @@ export default class MovieStore {
         } catch (error) {
             console.log(error);
         }
-
     }
 
     EditMovie = async (movie: Movie) => {
