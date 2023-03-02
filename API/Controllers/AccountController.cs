@@ -1,4 +1,7 @@
+using System.Security.Claims;
+using API.Services;
 using Controllers.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,15 +9,20 @@ using Model;
 
 namespace API.Controllers;
 
-public class AccountController : BaseApiController
+[AllowAnonymous]
+[ApiController]
+[Route("Api/[Controller]")]
+public class AccountController : ControllerBase
 {
     private readonly UserManager<UserApp> _manager;
     private readonly SignInManager<UserApp> _signInManager;
+    private readonly TokenFactory _tokenFactory;
 
-    public AccountController(UserManager<UserApp> manager, SignInManager<UserApp> signInManager)
+    public AccountController(UserManager<UserApp> manager, SignInManager<UserApp> signInManager, TokenFactory tokenFactory)
     {
         _manager = manager;
         _signInManager = signInManager;
+        _tokenFactory = tokenFactory;
     }
 
     [HttpPost("login")]
@@ -22,18 +30,13 @@ public class AccountController : BaseApiController
     {
         var user = await _manager.Users.FirstOrDefaultAsync(x => x.Email == loginData.Email);
 
-        if(user == null) return Unauthorized();
+        if (user == null) return NotFound();
 
         var checker = await _signInManager.CheckPasswordSignInAsync(user, loginData.Password, false);
 
-        if(checker.Succeeded)
+        if (checker.Succeeded)
         {
-            return new UserDTO
-            {
-                Displayname = user.DisplayName,
-                Username = user.UserName,
-                Token = "",
-            };
+            return Ok(CreateUserDTO(user));
         }
 
         return Unauthorized();
@@ -64,14 +67,30 @@ public class AccountController : BaseApiController
 
         if (result.Succeeded)
         {
-            return new UserDTO
-            {
-                Displayname = newUser.DisplayName,
-                Username = newUser.UserName,
-                Token = "",
-            };
+            return Ok(CreateUserDTO(newUser));
         }
 
-        return Ok(result);
+        return StatusCode(StatusCodes.Status500InternalServerError);
+    }
+
+    [Authorize]
+    [HttpGet]
+    public async Task<ActionResult<UserDTO>> GetUser()
+    {
+        var user = await _manager.Users.FirstOrDefaultAsync(x => x.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        if (user == null) return NotFound();
+
+        return Ok(CreateUserDTO(user));
+    }
+
+    private UserDTO CreateUserDTO(UserApp user)
+    {
+        return new UserDTO
+        {
+            Displayname = user.DisplayName,
+            Username = user.UserName,
+            Token = _tokenFactory.CreateToken(user),
+        };
     }
 }

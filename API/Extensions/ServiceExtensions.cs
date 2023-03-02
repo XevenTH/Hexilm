@@ -2,6 +2,7 @@ using Persistence;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Application.Movies;
+using API.Services;
 
 namespace API.Extensions;
 
@@ -26,6 +27,8 @@ public static class ServiceExtensions
         });
 
         services.AddMediatR(typeof(List.Handler));
+
+        services.AddScoped<TokenFactory>();
 
         return services;
     }

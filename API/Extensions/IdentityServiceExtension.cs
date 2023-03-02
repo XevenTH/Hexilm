@@ -1,4 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Model;
 using Persistence;
 
@@ -6,16 +9,30 @@ namespace API.Extensions;
 
 public static class IdentityServiceExtension
 {
-    public static IServiceCollection UseIdentityServiceExtension(this IServiceCollection service)
+    public static IServiceCollection UseIdentityServiceExtension(this IServiceCollection service, IConfiguration _config)
     {
-        service.AddIdentityCore<UserApp>(opt => {
+        service.AddIdentityCore<UserApp>(opt =>
+        {
             opt.Password.RequiredLength = 6;
             opt.Password.RequireNonAlphanumeric = true;
         })
         .AddEntityFrameworkStores<DataContext>()
         .AddSignInManager<SignInManager<UserApp>>();
 
-        service.AddAuthentication();
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
+        var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+        service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(opt =>
+        {
+            opt.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = key,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+            };
+        });
 
         return service;
     }
