@@ -7,7 +7,7 @@ public class Seed
 {
     public static async Task Seeding(DataContext context, UserManager<UserApp> manager)
     {
-        if (!context.User.Any() || !context.Movies.Any())
+        if (!context.User.Any() || !context.Movies.Any() || !context.Room.Any())
         {
             List<UserApp> users = new List<UserApp>
             {
@@ -37,7 +37,7 @@ public class Seed
 
             if(context.Movies.Any()) return;
 
-            List<Movie> entity = new List<Movie>
+            List<Movie> movies = new List<Movie>
             {
                 new Movie {
                     Title = "Marvel",
@@ -53,7 +53,44 @@ public class Seed
                 }
             };
 
-            await context.Movies.AddRangeAsync(entity);
+            if(context.Room.Any()) return;
+
+            List<Room> rooms = new List<Room>
+            {
+                new Room {
+                    Movie = movies[0],
+                    Attendees = new List<UserRoom>
+                    {
+                        new UserRoom {
+                            User = users[0]
+                        },
+                    }
+                },
+                new Room {
+                    Movie = movies[1],
+                    Attendees = new List<UserRoom>
+                    {
+                        new UserRoom {
+                            User = users[1]
+                        },
+                    }
+                },
+                new Room {
+                    Movie = movies[2],
+                    Attendees = new List<UserRoom>
+                    {
+                        new UserRoom {
+                            User = users[2]
+                        },
+                        new UserRoom {
+                            User = users[1]
+                        }
+                    }
+                }
+            };
+
+            await context.Movies.AddRangeAsync(movies);
+            await context.Room.AddRangeAsync(rooms);
             await context.SaveChangesAsync();
         };
 

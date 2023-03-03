@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Application.Movies;
 using API.Services;
+using Application.Core;
 
 namespace API.Extensions;
 
@@ -27,6 +28,7 @@ public static class ServiceExtensions
         });
 
         services.AddMediatR(typeof(List.Handler));
+        services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
         services.AddScoped<TokenFactory>();
 
