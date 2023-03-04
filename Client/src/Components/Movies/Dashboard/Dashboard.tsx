@@ -1,11 +1,11 @@
-import { observer } from "mobx-react-lite"
-import { UseStore } from "../../../App/Stores/BaseStore"
-import MovieList from "../Dashboard/MovieList"
-import EditCompo from "../Dashboard/edit"
-import MovieDetails from "../Dashboard/MovieDetails"
-import Browse from "./Browse"
-import { useEffect } from "react"
-import Navbar from "../../../App/layout/Navbar"
+import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
+import Navbar from "../../../App/layout/Navbar";
+import { UseStore } from "../../../App/Stores/BaseStore";
+import Browse from "../Browse/Browse";
+import Edit from "./edit";
+import MovieDetails from "./MovieDetails";
+import MovieList from "./MovieList";
 
 export default observer(function Dashboard() {
     const { MovieStore } = UseStore();
@@ -17,7 +17,6 @@ export default observer(function Dashboard() {
 
     return (
         <>
-            <Navbar />
             <Browse />
             <div>
                 <ul>
@@ -34,7 +33,7 @@ export default observer(function Dashboard() {
                     <MovieDetails />
                 }
                 {isOpenForm &&
-                    <EditCompo />
+                    <Edit />
                 }
             </div>
         </>

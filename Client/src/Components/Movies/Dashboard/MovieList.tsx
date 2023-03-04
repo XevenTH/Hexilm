@@ -19,7 +19,8 @@ export default observer(function MovieList({ movie }: Props) {
                     Click to Delete </button>
                 <button className="bg-blue-300 p-1 m-1 rounded-xl shadow-md font-semibold text-blue-800"
                     onClick={() => selectedMovieHandler(movie.id)}>
-                    Select Movie </button>
+                    Select Movie 
+                </button>
             </div>
         </div>
     )

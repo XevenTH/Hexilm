@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { Movie } from "../model/movie";
 import { User, UserLogin, UserRegister } from "../model/user";
+import { UserRoom } from "../model/userRoom";
 import { storeContainer } from "../Stores/BaseStore";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
@@ -34,9 +35,14 @@ const accountApi = {
     register: (registerData: UserRegister) => request.post<User>("/account/register", registerData)
 }
 
+const userRoomAPi = {
+    getRoomList: () => request.get<UserRoom[]>("/room"),
+}
+
 const ApiAgent = {
     movieApi,
     accountApi,
+    userRoomAPi,
 };
 
 export default ApiAgent;

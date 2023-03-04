@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import CommonStore from "./CommonStore";
 import { ModalStore } from "./ModalStore";
 import MovieStore from "./MovieStore";
+import { UserRoomStore } from "./UserRoomStore";
 import UserStore from "./UserStore";
 
 interface Store {
@@ -9,6 +10,7 @@ interface Store {
     CommonStore: CommonStore
     UserStore: UserStore
     ModalStore:  ModalStore
+    UserRoomStore: UserRoomStore
 }
 
 export const storeContainer: Store = {
@@ -16,6 +18,7 @@ export const storeContainer: Store = {
     CommonStore: new CommonStore(),
     UserStore: new UserStore(),
     ModalStore:  new ModalStore(),
+    UserRoomStore: new UserRoomStore()
 }
 
 export const BaseStoreContext = createContext(storeContainer);

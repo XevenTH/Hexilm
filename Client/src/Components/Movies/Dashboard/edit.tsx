@@ -5,7 +5,7 @@ import ReuseableTextInput from "../../../App/common/Form/ReuseableTextInput";
 import NewMovie, { Movie } from "../../../App/model/movie"
 import { UseStore } from "../../../App/Stores/BaseStore";
 
-export default observer(function EditCompo() {
+export default observer(function Edit() {
     const { MovieStore } = UseStore();
     const { selectedMovie, OpenFormCloseDetailsHandler: setOpenFormHandler, EditMovie, CreateNewMovie } = MovieStore
 
