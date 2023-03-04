@@ -8,7 +8,8 @@ public class AutoMapperProfiles : Profile
 {
     public AutoMapperProfiles()
     {
-        CreateMap<Room, RoomDTO>();
+        CreateMap<Room, RoomDTO>()
+            .ForMember(r => r.MovieId, o => o.MapFrom(r => r.Movie.Id));
 
         CreateMap<UserRoom, AttendeesDTO>()
             .ForMember(u => u.Username, o => o.MapFrom(a => a.User.UserName))

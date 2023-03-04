@@ -58,6 +58,7 @@ public class Seed
             List<Room> rooms = new List<Room>
             {
                 new Room {
+                    Title = "Yook Penggemar Marvel",
                     Movie = movies[0],
                     Attendees = new List<UserRoom>
                     {
@@ -67,6 +68,7 @@ public class Seed
                     }
                 },
                 new Room {
+                    Title = "On Stream DC Movie!!!",
                     Movie = movies[1],
                     Attendees = new List<UserRoom>
                     {
@@ -76,6 +78,7 @@ public class Seed
                     }
                 },
                 new Room {
+                    Title = "Mari Kita Kaget Bareng",
                     Movie = movies[2],
                     Attendees = new List<UserRoom>
                     {
