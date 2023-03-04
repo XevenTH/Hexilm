@@ -1,7 +1,6 @@
 using Application.MovieRoom;
 using Application.MovieRoom.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Model;
 
 namespace API.Controllers;
 
@@ -24,10 +23,10 @@ public class RoomController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRoom([FromBody] RoomDTO room)
+    public async Task<ActionResult<RoomDTO>> CreateRoom([FromBody] RequestRoomDTO room)
     {
-        var result = await Mediator.Send(new Create.Command { Room = room });
+        var result = await Mediator.Send(new Create.Query { Room = room });
 
-        return Ok();
+        return result;
     }
 }

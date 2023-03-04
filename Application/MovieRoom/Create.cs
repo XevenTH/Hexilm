@@ -1,5 +1,6 @@
 using Application.Interface;
 using Application.MovieRoom.DTO;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Model;
@@ -9,27 +10,33 @@ namespace Application.MovieRoom;
 
 public class Create
 {
-    public class Command : IRequest 
+    public class Query : IRequest<RoomDTO>
     { 
-        public RoomDTO Room { get; set; }
+        public RequestRoomDTO Room { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Unit>
+    public class Handler : IRequestHandler<Query, RoomDTO>
     {
         private readonly DataContext _context;
         private readonly IUserAccessor _userAccessor;
+        private readonly IMapper _mapper;
 
-        public Handler(DataContext context, IUserAccessor userAccessor)
+        public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
             _userAccessor = userAccessor;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<RoomDTO> Handle(Query request, CancellationToken cancellationToken)
         {
             var user = await _context.User.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
 
+            if(user == null) return null;
+
             var movie = await _context.Movies.FirstOrDefaultAsync(x => x.Id.ToString() == request.Room.MovieId);
+
+            if(movie == null) return null;
 
             Room newRoom = new Room {
                 Id = request.Room.Id,
@@ -45,9 +52,11 @@ public class Create
             newRoom.Attendees.Add(attendee);
             _context.Room.Add(newRoom);
 
-            var result = await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync() > 0;
 
-            return Unit.Value;
+            if(result == false) return null;
+
+            return _mapper.Map<RoomDTO>(newRoom);
         }
     }
 }
