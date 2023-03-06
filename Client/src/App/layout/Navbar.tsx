@@ -1,43 +1,87 @@
-import { observer } from "mobx-react-lite"
-import { useNavigate } from "react-router-dom"
-import { UseStore } from "../Stores/BaseStore"
+import { useState } from 'react';
+import { UseStore } from '../Stores/BaseStore';
 
-export default observer(function NavBar() {
-    const { UserStore: { User, logout } } = UseStore()
-    const navigate = useNavigate()
+function Navbar() {
+    const { UserStore: { User, logout } } = UseStore();
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
-        <div className="flex justify-between items-center w-full bg-blue-400">
-            <div className="flex items-center text-2xl">
-                <h1 className="font-bold text-2xl text-red-600 m-2">
-                    <button onClick={() => navigate("/")}>
-                        CoolMovie
-                    </button>
-                </h1>
-                <div className="w-2 border-l-2 h-12 mx-2 border-l-blue-600"></div>
-                <div className="font-semibold text-black" >
-                    <button onClick={() => navigate("/movieRoom")}>
-                        Room
-                    </button>
-                </div>
-                <div className="w-2 border-l-2 h-12 mx-2 border-l-blue-600"></div>
-                <div className="font-semibold text-black" >
-                    <button onClick={() => navigate("/movies")}>
-                        Movie
-                    </button>
+        <nav className="bg-slate-800">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-16">
+                    <div className="flex items-center">
+                        <a href="#" className="text-white text-2xl font-bold">
+                            CoolMovie
+                        </a>
+                    </div>
+                    <div className="hidden sm:block">
+                        <div className="relative">
+                            <button
+                                className="inline-flex items-center justify-center w-full px-4 py-2 text-md font-medium text-gray-700 bg-white rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                                onClick={toggleDropdown}
+                            >
+                                {User ?
+                                    User?.displayname : "Displayname"}
+                                <div className="ml-2 w-6 h-6 bg-black rounded-full"></div>
+                            </button>
+                            {isOpen && (
+                                <div className="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg z-10 text" onClick={() => setIsOpen(false)}>
+                                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                        <a href="#" className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10" role="menuitem">
+                                            Profile
+                                        </a>
+                                        <button className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10" role="menuitem" onClick={() => logout()}>
+                                            Logout
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="-mr-2 flex sm:hidden">
+                        <button
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            type="button"
+                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                            aria-controls="mobile-menu"
+                            aria-expanded="false"
+                        >
+                            <span className="sr-only">Open main menu</span>
+                            {/* Icon when menu is closed. */}
+                            <svg className={`${isMenuOpen ? 'hidden' : 'block'} h-6 w-6`} stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                            {/* Icon when menu is open. */}
+                            <svg className={`${isMenuOpen ? 'block' : 'hidden'} h-6 w-6`} stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <h1 className="flex items-center m-2 text-xl text-red-600 gap-2 ">
-                <button className="bg-red-600 text-white font-semibold p-2 rounded-xl" onClick={() => logout()}>
-                    Logout
-                </button>
-                <div className="font-semibold ">
-                    {User ?
-                        User.displayname : "Name"}
+
+            {/* Mobile menu, toggle classes based on menu state. */}
+            <div className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden`} id="mobile-menu">
+                <div className="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg z-10 text" onClick={() => setIsOpen(false)}>
+                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <a href="#" className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10" role="menuitem">
+                            Profile
+                        </a>
+                        <button className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" onClick={() => logout()}>
+                            Logout
+                        </button>
+                    </div>
+
                 </div>
-                <div className="bg-blue-800 rounded-full w-10 h-10">
-                </div>
-            </h1>
-        </div>
-    )
-})
+            </div>
+        </nav >
+    );
+}
+
+export default Navbar;

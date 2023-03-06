@@ -17,7 +17,6 @@ export default observer(function Dashboard() {
 
     return (
         <>
-            <Browse />
             <div>
                 <ul>
                     {movie.map(x => (

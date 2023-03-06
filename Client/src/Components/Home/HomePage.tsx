@@ -36,7 +36,7 @@ export default observer(function Home() {
                     <h1 className="text-4xl font-bold">
                         WelCome
                     </h1>
-                    <button className="bg-blue-400 p-2 rounded-xl" onClick={() => navigate("/movies")}>
+                    <button className="bg-blue-400 p-2 rounded-xl" onClick={() => navigate("/browse")}>
                         Find Movies
                     </button>
                 </div>

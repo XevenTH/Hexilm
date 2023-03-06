@@ -17,7 +17,7 @@ export default class MovieStore {
         try {
             let result = await ApiAgent.movieApi.getMovieList();
             runInAction(() => {
-                this.movieList = result
+                this.movieList = result;
             })
         } catch (error) {
             runInAction(() => {

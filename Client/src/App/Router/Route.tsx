@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouteObject } from "react-router-dom";
+import Browse from "../../Components/Movies/Browse/Browse";
 import Dashboard from "../../Components/Movies/Dashboard/Dashboard";
 import RoomPage from "../../Components/UserRoom/RoomPage";
 import App from "../layout/App";
@@ -10,6 +11,7 @@ const router: RouteObject[] = [{
     children: [
         {
             element: <AuthRoute />, children: [
+                { path: "/browse", element: <Browse /> },
                 { path: "/movies", element: <Dashboard /> },
                 { path: "/movieRoom", element: <RoomPage /> },
             ]
