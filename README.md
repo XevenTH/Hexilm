@@ -7,7 +7,7 @@
   
 ### Struktur Folder  
   
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CoolMovie menggunakan Clean Architecture (By Uncle Bob) yang memungkinkan data masuk dan keluar tanpa tau menau tentang &nbsp;&nbsp;&nbsp;&nbsp;teknologi apa yang sedang memanggil mereka dan mementingkan abstraction dan encapsulation. Sehingga kita bisa menggunakan dua &nbsp;&nbsp;&nbsp;&nbsp;teknologi berbeda yaitu ASP.NET Core dan React.
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CoolMovie menggunakan Clean Architecture (By Uncle Bob) yang memungkinkan data masuk dan keluar tanpa &nbsp;&nbsp;&nbsp;&nbsp;tau menau tentang teknologi apa yang sedang memanggil mereka dan mementingkan abstraction dan &nbsp;&nbsp;&nbsp;&nbsp;encapsulation. Sehingga kita bisa menggunakan dua &nbsp;&nbsp;&nbsp;&nbsp;teknologi berbeda yaitu ASP.NET Core dan React.
 1. **./Client**  
 Merupakan project React yang digunakan untuk menerima response dan melakukan request dari API. Projek ini menggunakan MobX sebagai (state management) serta TailwindCSS sebagai styling.
 2. **./API**  
