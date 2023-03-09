@@ -1,4 +1,7 @@
 using Application.Movies;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
@@ -6,12 +9,19 @@ namespace API.Controllers;
 
 public class MovieController : BaseApiController
 {
+    private readonly IValidator<Movie> _validator;
+    public MovieController(IValidator<Movie> validator)
+    {
+        _validator = validator;
+
+    }
+
     [HttpGet]
     public async Task<ActionResult<List<Movie>>> GetMovies()
     {
         var result = await Mediator.Send(new List.Query());
 
-        return Ok(result);
+        return GetResult(result);
     }
 
     [HttpGet("{id}")]
@@ -19,24 +29,31 @@ public class MovieController : BaseApiController
     {
         var result = await Mediator.Send(new Application.Movies.Single.Query { Id = id });
 
-        return Ok(result);
+        return GetResult(result);
     }
 
     [HttpPost]
-    public async Task<ActionResult<Movie>> CreateMovie([FromBody] Movie movie)
+    public async Task<ActionResult<Movie>> CreateMovie([FromBody] Movie requestMovie)
     {
-        var result = await Mediator.Send(new Create.Command { Movie = movie });
+        ValidationResult validateResult = await _validator.ValidateAsync(requestMovie);
+        if (!validateResult.IsValid)
+        {
+            validateResult.AddToModelState(this.ModelState);
+            return ValidationProblem();
+        }
 
-        return Ok(result);
+        var result = await Mediator.Send(new Create.Command { Movie = requestMovie });
+
+        return GetResult(result);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMovie(Guid id ,[FromBody] Movie movie)
+    public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] Movie movie)
     {
         movie.Id = id;
         var result = await Mediator.Send(new Update.Command { Movie = movie });
 
-        return Ok(result);
+        return GetResult(result);
     }
 
     [HttpDelete("{id}")]
@@ -44,6 +61,6 @@ public class MovieController : BaseApiController
     {
         var result = await Mediator.Send(new Delete.Command { Id = id });
 
-        return Ok(result);
+        return GetResult(result);
     }
 }

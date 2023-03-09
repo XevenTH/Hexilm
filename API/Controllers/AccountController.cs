@@ -47,23 +47,23 @@ public class AccountController : ControllerBase
     {
         if (await _manager.Users.AnyAsync(data => data.Email == user.Email))
         {
-            ModelState.AddModelError("Email", "Email Already Taken");
+            ModelState.AddModelError("email", "Email Already Taken");
             return ValidationProblem();
         }
         if (await _manager.Users.AnyAsync(data => data.UserName == user.Username))
         {
-            ModelState.AddModelError("Username", "Username Already Taken");
+            ModelState.AddModelError("username", "Username Already Taken");
             return ValidationProblem();
         }
 
         UserApp newUser = new UserApp
         {
-            DisplayName = user.Displayname,
+            Displayname = user.Displayname,
             Email = user.Email,
             UserName = user.Username,
         };
 
-        var result = await _manager.CreateAsync(newUser, user.Password);
+        var result = await _manager.CreateAsync(newUser, user.password);
 
         if (result.Succeeded)
         {
@@ -88,7 +88,7 @@ public class AccountController : ControllerBase
     {
         return new UserDTO
         {
-            Displayname = user.DisplayName,
+            Displayname = user.Displayname,
             Username = user.UserName,
             Token = _tokenFactory.CreateToken(user),
         };

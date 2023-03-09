@@ -13,8 +13,7 @@ public static class IdentityServiceExtension
     {
         service.AddIdentityCore<UserApp>(opt =>
         {
-            opt.Password.RequiredLength = 6;
-            opt.Password.RequireNonAlphanumeric = true;
+            opt.Password.RequireNonAlphanumeric = false;
         })
         .AddEntityFrameworkStores<DataContext>()
         .AddSignInManager<SignInManager<UserApp>>();
