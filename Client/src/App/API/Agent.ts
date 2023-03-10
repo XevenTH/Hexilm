@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { Movie } from "../model/movie";
-import { User, UserLogin, UserRegister } from "../model/user";
+import { User, Credentials } from "../model/user";
 import { UserRoom } from "../model/userRoom";
 import { storeContainer } from "../Stores/BaseStore";
 
@@ -31,8 +31,8 @@ const movieApi = {
 
 const accountApi = {
     getUser: () => request.get<User>("/account"),
-    login: (loginData: UserLogin) => request.post<User>("/account/login", loginData),
-    register: (registerData: UserRegister) => request.post<User>("/account/register", registerData)
+    login: (loginData: Pick<Credentials, "email" | "password">) => request.post<User>("/account/login", loginData),
+    register: (registerData: Credentials) => request.post<User>("/account/register", registerData)
 }
 
 const userRoomAPi = {

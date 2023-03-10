@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IntialUserLogin, UserLogin } from "../../model/user";
+import { Credentials, IntialUserLogin } from "../../model/user";
 import { UseStore } from "../../Stores/BaseStore";
 import ReuseableForm from "./ReuseableForm";
 import ReuseableTextInput from "./ReuseableTextInput";
@@ -9,7 +9,7 @@ export default function LoginForm() {
     const { UserStore } = UseStore();
     const navigate = useNavigate();
 
-    const [loginData, setLoginData] = useState<UserLogin>(new IntialUserLogin());
+    const [loginData, setLoginData] = useState<Pick<Credentials, "email" | "password">>(new IntialUserLogin());
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

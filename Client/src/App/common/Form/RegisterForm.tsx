@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IntialUserRegister, UserLogin, UserRegister } from "../../model/user";
+import { IntialUserCredentials, Credentials } from "../../model/user";
 import { UseStore } from "../../Stores/BaseStore";
 import ReuseableForm from "./ReuseableForm";
 import ReuseableTextInput from "./ReuseableTextInput";
@@ -10,7 +10,7 @@ export default function RegisterForm() {
     const { UserStore } = UseStore();
     const navigate = useNavigate();
 
-    const [registerData, setRegisterData] = useState<UserRegister>(new IntialUserRegister());
+    const [registerData, setRegisterData] = useState<Credentials>(new IntialUserCredentials());
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
