@@ -18,7 +18,7 @@ export default observer(function Dashboard() {
     return (
         <>
             <div>
-                <ul>
+                <ul className="grid grid-cols-3">
                     {movie.map(x => (
                         <li key={x.id}>
                             <MovieList movie={x} />

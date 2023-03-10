@@ -22,9 +22,9 @@ export default function LoginForm() {
     }
 
     return (
-        <ReuseableForm submitHandler={onSubmitHandler}>
-            <ReuseableTextInput label="Email" name="email" onChangeHandler={onChangeHandler} />
-            <ReuseableTextInput label="Password" name="password" onChangeHandler={onChangeHandler} />
+        <ReuseableForm submitHandler={onSubmitHandler} formTitle="Login">
+            <ReuseableTextInput label="Email" name="email" onChangeHandler={onChangeHandler} nameSvg="bi bi-person-fill" />
+            <ReuseableTextInput label="Password" name="password" onChangeHandler={onChangeHandler} nameSvg="bi bi-lock" />
         </ReuseableForm>
     )
 }

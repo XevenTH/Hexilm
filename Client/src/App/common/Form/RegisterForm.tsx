@@ -23,7 +23,7 @@ export default function RegisterForm() {
     }
 
     return (
-        <ReuseableForm submitHandler={onSubmitHandler}>
+        <ReuseableForm submitHandler={onSubmitHandler} formTitle="Register">
             <ReuseableTextInput label="Email" name="email" onChangeHandler={onChangeHandler} />
             <ReuseableTextInput label="Password" name="password" onChangeHandler={onChangeHandler} />
             <ReuseableTextInput label="Username" name="username" onChangeHandler={onChangeHandler} />

@@ -12,7 +12,9 @@ export default observer(function MovieList({ movie }: Props) {
     return (
         <div className="max-w-lg bg-slate-300 max-h-96 p-2 m-4 rounded-md">
             {movie.title}
-            <div className="bg-green-400 h-1 my-1"></div>
+            <div className="bg-green-400 my-1">
+                <img src="https://static.vecteezy.com/system/resources/previews/005/502/524/original/cinema-background-concept-movie-theater-object-on-red-curtain-background-and-movie-time-with-electric-bulbs-frame-illustration-free-vector.jpg" alt="" />
+            </div>
             <div>
                 <button className="bg-red-500 m-1 p-1 rounded-xl shadow-md font-semibold text-white"
                     onClick={() => deleteMovie(movie.id)}>
