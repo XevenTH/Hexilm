@@ -28,7 +28,7 @@ public class AccountController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<UserDTO>> UserLogin([FromBody] LoginDTO loginData)
     {
-        var user = await _manager.Users.FirstOrDefaultAsync(x => x.Email == loginData.Email);
+        var user = await _manager.FindByEmailAsync(loginData.Email);
 
         if (user == null) return NotFound();
 
@@ -36,7 +36,7 @@ public class AccountController : ControllerBase
 
         if (checker.Succeeded)
         {
-            return Ok(CreateUserDTO(user));
+            return Ok(await CreateUserDTO(user));
         }
 
         return Unauthorized();
@@ -67,7 +67,7 @@ public class AccountController : ControllerBase
 
         if (result.Succeeded)
         {
-            return Ok(CreateUserDTO(newUser));
+            return Ok(await CreateUserDTO(newUser));
         }
 
         return StatusCode(StatusCodes.Status500InternalServerError);
@@ -77,20 +77,23 @@ public class AccountController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<UserDTO>> GetUser()
     {
-        var user = await _manager.Users.FirstOrDefaultAsync(x => x.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+        var user = await _manager.Users.FirstOrDefaultAsync(x => x.Id == User.FindFirstValue("id"));
 
         if (user == null) return NotFound();
 
-        return Ok(CreateUserDTO(user));
+        return Ok(await CreateUserDTO(user));
     }
 
-    private UserDTO CreateUserDTO(UserApp user)
+    private async Task<UserDTO> CreateUserDTO(UserApp user)
     {
+        var roleChecker = await _manager.IsInRoleAsync(user, "admin");
+
         return new UserDTO
         {
             Displayname = user.Displayname,
             Username = user.UserName,
-            Token = _tokenFactory.CreateToken(user),
+            IsAdmin = roleChecker,
+            Token = await _tokenFactory.CreateToken(user),
         };
     }
 }

@@ -2,6 +2,7 @@ using Application.Movies;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
@@ -32,6 +33,7 @@ public class MovieController : BaseApiController
         return GetResult(result);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<ActionResult<Movie>> CreateMovie([FromBody] Movie requestMovie)
     {
