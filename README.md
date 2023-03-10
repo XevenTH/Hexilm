@@ -105,16 +105,14 @@ Response :
         ]
     }
 }
-
-/* 
-    "message" akan berubah sesuai error yang diperlukan
-    Ketentuan Password : 
-    -) Harus mempunyai >= 8 digit dan  <= 16 digit
-    -) Tidak boleh cuman spasi
-    -) Harus ada setidaknya 1 huruf besar
-    -) Harus ada setidaknya 1 angka
-*/
-```
+```  
+**Note :**  
+    **"message"** akan berubah sesuai error yang diperlukan
+    Ketentuan Password :  
+    -) Harus mempunyai >= 8 digit dan  <= 16 digit  
+    -) Tidak boleh cuman spasi  
+    -) Harus ada setidaknya 1 huruf besar  
+    -) Harus ada setidaknya 1 angka    
 ### NotFound 404  
 Semua yang tidak ada dalam database. seperti movie, room, dll. maka akan memperoleh 404 message "Not Found"  
 ## Entity Update  
