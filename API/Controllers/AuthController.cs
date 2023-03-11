@@ -1,55 +1,86 @@
-using System.ComponentModel.DataAnnotations;
+using API.Controllers.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using Persistence;
 
 namespace API.Controllers;
 
+[AllowAnonymous]
 public class AuthController : BaseApiController
 {
     private readonly UserManager<UserApp> _manager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly DataContext _context;
 
-    public AuthController(UserManager<UserApp> manager, RoleManager<IdentityRole> roleManager)
+    public AuthController(UserManager<UserApp> manager, RoleManager<IdentityRole> roleManager, DataContext context)
     {
         _roleManager = roleManager;
+        _context = context;
         _manager = manager;
-
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateRole([Required] string name)
+    [HttpPost("createRole")]
+    public async Task<IActionResult> CreateRole([FromBody] AuthDTO requestAuth)
     {
-        if (ModelState.IsValid)
-        {
-            IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
+        IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(requestAuth.RoleName));
 
-            if (result.Succeeded) return Ok("Role successfully Added");
-        }
+        if (result.Succeeded) return Ok(CreateResponseAuth(StatusCodes.Status200OK, $"Successfully Create {requestAuth.RoleName} Role"));
 
-        return BadRequest("Oops somthing Wrong Aded");
+        return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Something Wrong While Createing {requestAuth.RoleName} Role"));
     }
 
-    [HttpGet("{email}")]
-    public async Task<IActionResult> AddRoleToUser(string email)
+    [HttpDelete("deleteRole")]
+    public async Task<IActionResult> DeleteRole([FromBody] AuthDTO requestAuth)
     {
-        UserApp user = await _manager.FindByEmailAsync(email);
+        var userInRoles = await _manager.GetUsersInRoleAsync("admin");
+        List<string> rolesToDelete = new List<string> { "admin" };
 
-        if (user == null)
+        foreach (UserApp user in userInRoles)
         {
-            return BadRequest("User not found");
+            await _manager.RemoveFromRolesAsync(user, rolesToDelete);
         }
 
-        var result = await _manager.AddToRoleAsync(user, "admin");
+        var role = await _roleManager.FindByNameAsync(requestAuth.RoleName);
 
-        if (result.Succeeded)
+        if (role != null)
         {
-            return Ok("Role 'admin' added to user successfully");
+            IdentityResult result = await _roleManager.DeleteAsync(role);
+
+            if (result.Succeeded) return Ok(CreateResponseAuth(StatusCodes.Status200OK, $"Successfully Delete {requestAuth.RoleName} Role"));
         }
         else
         {
-            return BadRequest(result.Errors);
+            return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, $"Can't Find {requestAuth.RoleName} Role"));
         }
+
+        return BadRequest();
+    }
+
+    [HttpPost("addToRole")]
+    public async Task<IActionResult> AddRoleToUser([FromBody] AuthDTO requestAuth)
+    {
+        UserApp user = await _manager.FindByEmailAsync(requestAuth.Email);
+
+        if (user == null) return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, $"Can't Find User With Email {requestAuth.Email}")); ;
+
+        var userRoleCheck = await _manager.IsInRoleAsync(user, "admin");
+
+        if (!userRoleCheck)
+        {
+            var result = await _manager.AddToRoleAsync(user, "admin");
+
+            if (result.Succeeded)
+            {
+                return Ok(CreateResponseAuth(StatusCodes.Status200OK, $"Successfully Add {requestAuth.Email} To {requestAuth.RoleName}"));
+            }
+            else
+            {
+                return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, $"Can't Find {requestAuth.RoleName} Role"));
+            }
+        }
+
+        return BadRequest();
     }
 }

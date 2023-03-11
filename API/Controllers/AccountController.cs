@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using API.Controllers.DTO;
 using API.Services;
 using Controllers.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -75,24 +76,27 @@ public class AccountController : ControllerBase
 
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<UserDTO>> GetUser()
+    public async Task<ActionResult<UserAdminDTO>> GetUser()
     {
         var user = await _manager.Users.FirstOrDefaultAsync(x => x.Id == User.FindFirstValue("id"));
-
         if (user == null) return NotFound();
 
-        return Ok(await CreateUserDTO(user));
+        var roleChecker = await _manager.IsInRoleAsync(user, "admin");
+
+        return Ok(new UserAdminDTO {
+            Displayname = user.Displayname,
+            Username = user.UserName,
+            IsAdmin = roleChecker,
+            Token = await _tokenFactory.CreateToken(user),
+        });
     }
 
     private async Task<UserDTO> CreateUserDTO(UserApp user)
     {
-        var roleChecker = await _manager.IsInRoleAsync(user, "admin");
-
         return new UserDTO
         {
             Displayname = user.Displayname,
             Username = user.UserName,
-            IsAdmin = roleChecker,
             Token = await _tokenFactory.CreateToken(user),
         };
     }

@@ -15,8 +15,17 @@ public class BaseApiController : ControllerBase
     protected ActionResult GetResult<T>(ResultValidator<T> result)
     {
         if (result.IsSuccess && result.Value != null) return Ok(result.Value);
-        if (!result.IsSuccess && result.Value == null) return NotFound();
+        if (!result.IsSuccess && result.Value == null) return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, result.Message));
 
         return BadRequest();
+    }
+
+    protected object CreateResponseAuth(int code, string message)
+    {
+        return new
+        {
+            StatusCode = code,
+            Message = message
+        };
     }
 }
