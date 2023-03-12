@@ -22,12 +22,12 @@ export default function RegisterForm() {
         UserStore.register(registerData).then(() => navigate("/movies"));
     }
 
-    return (
+    return ( // tambah atribute type
         <ReuseableForm submitHandler={onSubmitHandler} formTitle="Register">
-            <ReuseableTextInput label="Email" name="email" onChangeHandler={onChangeHandler} />
-            <ReuseableTextInput label="Password" name="password" onChangeHandler={onChangeHandler} />
-            <ReuseableTextInput label="Username" name="username" onChangeHandler={onChangeHandler} />
-            <ReuseableTextInput label="Displayname" name="displayname" onChangeHandler={onChangeHandler} />
+            <ReuseableTextInput label="Email" name="email" type="email" onChangeHandler={onChangeHandler} placeholder="Enter your email"/>
+            <ReuseableTextInput label="Password" name="password" type="password" onChangeHandler={onChangeHandler} placeholder="8-16 char, at least contain 1 capital and number" />
+            <ReuseableTextInput label="Username" name="username" type="text" onChangeHandler={onChangeHandler} placeholder="Enter your username" />
+            <ReuseableTextInput label="Displayname" name="displayname" type="text" onChangeHandler={onChangeHandler} placeholder="Enter your displayname" />
         </ReuseableForm>
     )
 }

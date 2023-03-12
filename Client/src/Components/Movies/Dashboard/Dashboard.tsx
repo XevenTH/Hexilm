@@ -15,10 +15,21 @@ export default observer(function Dashboard() {
         MovieStore.getMovie();
     }, [])
 
+    useEffect(() => {
+        document.body.style.background = '#181823';
+        document.body.style.minHeight = '100vh';
+      
+        // Cleanup function to reset the styles on unmount
+        return () => {
+          document.body.style.background = '';
+          document.body.style.minHeight = '';
+        };
+      }, []);
+
     return (
         <>
             <div>
-                <ul className="grid grid-cols-3">
+                <ul className="grid md:grid-cols-3">
                     {movie.map(x => (
                         <li key={x.id}>
                             <MovieList movie={x} />

@@ -21,10 +21,10 @@ export default function LoginForm() {
         UserStore.login(loginData).then(() => navigate("/movies"));
     }
 
-    return (
+    return ( // tambah attribute type
         <ReuseableForm submitHandler={onSubmitHandler} formTitle="Login">
-            <ReuseableTextInput label="Email" name="email" onChangeHandler={onChangeHandler} nameSvg="bi bi-person-fill" />
-            <ReuseableTextInput label="Password" name="password" onChangeHandler={onChangeHandler} nameSvg="bi bi-lock" />
+            <ReuseableTextInput label="Email" name="email" type="email" onChangeHandler={onChangeHandler} nameSvg="bi bi-person-fill" placeholder="Enter your email" />
+            <ReuseableTextInput label="Password" name="password" type="password" onChangeHandler={onChangeHandler} nameSvg="bi bi-lock" placeholder="Your password" />
         </ReuseableForm>
     )
 }
