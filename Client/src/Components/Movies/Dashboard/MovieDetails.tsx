@@ -5,7 +5,7 @@ export default observer(function MovieDetails() {
     const { MovieStore: { selectedMovie, OpenFormCloseDetailsHandler: setOpenFormHandler } } = UseStore()
 
     return (
-        <div className="m-4 max-w-lg max-h-fit p-2 bg-slate-300 rounded-md">
+        <div className="rounded m-4 max-w-lg max-h-fit p-2 bg-slate-300 rounded-md">
             <h2 className='text-center font-semibold text-lg'>
                 Movie Details
             </h2>
