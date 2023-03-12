@@ -14,7 +14,7 @@ export default observer(function RoomList() {
           <div>Judul Film : {room.movie.title}</div>
           <div className="flex gap-4 my-2 py-2">
             {room.attendees.map(attendee => (
-              <div key={attendee.id} className="flex flex-col gap-1 items-center">
+              <div key={attendee.username} className="flex flex-col gap-1 items-center">
                 <div className="bg-blue-300 rounded-full w-10 h-10" />
                 <div className="text-black">{attendee.displayname}</div>
               </div>

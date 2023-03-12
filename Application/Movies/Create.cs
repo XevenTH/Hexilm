@@ -1,3 +1,4 @@
+using Application.Core;
 using MediatR;
 using Model;
 using Persistence;
@@ -6,12 +7,12 @@ namespace Application.Movies;
 
 public class Create
 {
-    public class Command : IRequest 
+    public class Command : IRequest<ResultValidator<Unit>>
     {
         public Movie Movie { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Unit>
+    public class Handler : IRequestHandler<Command, ResultValidator<Unit>>
     {
         private readonly DataContext _context;
         public Handler(DataContext context)
@@ -19,13 +20,15 @@ public class Create
             _context = context;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<ResultValidator<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             _context.Movies.Add(request.Movie);
 
-            var result = await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync() > 0;
 
-            return Unit.Value;
+            if(result != true) return ResultValidator<Unit>.Error("Error Creating The Movie");
+
+            return ResultValidator<Unit>.Success(Unit.Value);
         }
     }
 }

@@ -5,14 +5,14 @@
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class RoomTitleUpdateMigrations : Migration
+    public partial class MoviePropertyUpdateMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Title",
-                table: "Room",
+                name: "Description",
+                table: "Movies",
                 type: "TEXT",
                 nullable: true);
         }
@@ -21,8 +21,8 @@ namespace Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Title",
-                table: "Room");
+                name: "Description",
+                table: "Movies");
         }
     }
 }

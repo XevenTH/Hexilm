@@ -12,18 +12,18 @@ function Navbar() {
     };
 
     return (
-        <nav className="bg-slate-800">
+        <nav  className="relative z-10 backdrop-blur-lg">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
-                        <a href="#" className="text-white text-2xl font-bold">
+                        <a href="#" className="bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 bg-clip-text text-transparent text-2xl font-bold">
                             CoolMovie
                         </a>
                     </div>
                     <div className="hidden sm:block">
                         <div className="relative">
                             <button
-                                className="inline-flex items-center justify-center w-full px-4 py-2 text-md font-medium text-gray-700 bg-white rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+                                className="inline-flex items-center justify-center w-full px-4 py-2 text-md font-medium text-gray-700 bg-slate-100 rounded-md hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-300"
                                 onClick={toggleDropdown}
                             >
                                 {User ?
@@ -31,14 +31,14 @@ function Navbar() {
                                 <div className="ml-2 w-6 h-6 bg-black rounded-full"></div>
                             </button>
                             {isOpen && (
-                                <div className="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg z-10 text" onClick={() => setIsOpen(false)}>
+                                <div className="absolute right-0 w-56 mt-2 origin-top-right bg-slate-100 rounded-md shadow-lg z-10 text" onClick={() => setIsOpen(false)}>
                                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                        <a href="#" className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10" role="menuitem">
+                                        <a href="#" className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-slate-300 hover:text-gray-900 z-10" role="menuitem">
                                             Profile
                                         </a>
-                                        <button className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10" role="menuitem" onClick={() => logout()}>
+                                        <a className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-slate-300 hover:text-gray-900 z-10" role="menuitem" onClick={(event) => {event.preventDefault(); logout()}}>
                                             Logout
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             )}

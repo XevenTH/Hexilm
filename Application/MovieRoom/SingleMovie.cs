@@ -1,3 +1,4 @@
+using Application.Core;
 using Application.MovieRoom.DTO;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -9,12 +10,12 @@ namespace Application.MovieRoom;
 
 public class SingleMovie
 {
-    public class Query : IRequest<RoomDTO>
+    public class Query : IRequest<ResultValidator<RoomDTO>>
     {
         public Guid Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, RoomDTO>
+    public class Handler : IRequestHandler<Query, ResultValidator<RoomDTO>>
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -24,16 +25,16 @@ public class SingleMovie
             _context = context;
         }
 
-        public async Task<RoomDTO> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<ResultValidator<RoomDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
             var room = await _context.Room
                 .Include(x => x.Attendees)
                 .ProjectTo<RoomDTO>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-            if(room == null) return null;
+            if(room == null) return ResultValidator<RoomDTO>.Error("Can't Find Room");
 
-            return room;
+            return ResultValidator<RoomDTO>.Success(room);
         }
     }
 }

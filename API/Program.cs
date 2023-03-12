@@ -10,15 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(opt => {
+builder.Services.AddControllers(opt =>
+{
     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
     opt.Filters.Add(new AuthorizeFilter(policy));
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.UseServices(builder.Configuration);
+builder.Services.UseServicesExtension(builder.Configuration);
 builder.Services.UseIdentityServiceExtension(builder.Configuration);
+builder.Services.UseValidatorServiceExtension();
 
 var app = builder.Build();
 

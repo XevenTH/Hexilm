@@ -5,25 +5,20 @@ export interface User {
     token: string
 }
 
-export interface UserLogin {
-    email: string,
-    password: string
-}
-
-export interface UserRegister {
+export interface Credentials {
     email: string,
     password: string
     displayname: string,
     username: string,
 }
 
-export class IntialUserRegister implements UserRegister {
+export class IntialUserCredentials implements Credentials {
     email = "";
     password = "";
     displayname = "";
     username = "";
 
-    constructor(registerData?: UserRegister) {
+    constructor(registerData?: Credentials) {
         if (registerData) {
             this.email = registerData.email;
             this.password = registerData.password;
@@ -33,11 +28,11 @@ export class IntialUserRegister implements UserRegister {
     }
 }
 
-export class IntialUserLogin implements UserLogin {
+export class IntialUserLogin implements Pick<Credentials, "email" | "password"> {
     email = "";
     password = "";
 
-    constructor(loginData?: UserLogin) {
+    constructor(loginData?: Pick<Credentials, "email" | "password">) {
         if (loginData) {
             this.email = loginData.email;
             this.password = loginData.password;

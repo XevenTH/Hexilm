@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import ApiAgent from "../API/Agent";
-import { User, UserLogin, UserRegister } from "../model/user";
+import { User, Credentials } from "../model/user";
 import { storeContainer } from "./BaseStore";
 
 export default class CommonStore {
@@ -14,7 +14,7 @@ export default class CommonStore {
         return !!this.User;
     }
 
-    login = async (loginData: UserLogin) => {
+    login = async (loginData: Pick<Credentials, "email" | "password">) => {
         try {
             const user = await ApiAgent.accountApi.login(loginData);
 
@@ -27,7 +27,7 @@ export default class CommonStore {
         }
     }
 
-    register = async (registerData: UserRegister) => {
+    register = async (registerData: Credentials) => {
         try {
             const user = await ApiAgent.accountApi.register(registerData);
             

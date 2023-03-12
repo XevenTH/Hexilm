@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using API.Controllers.DTO;
 using API.Services;
 using Controllers.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,7 @@ public class AccountController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<UserDTO>> UserLogin([FromBody] LoginDTO loginData)
     {
-        var user = await _manager.Users.FirstOrDefaultAsync(x => x.Email == loginData.Email);
+        var user = await _manager.FindByEmailAsync(loginData.Email);
 
         if (user == null) return NotFound();
 
@@ -36,7 +37,7 @@ public class AccountController : ControllerBase
 
         if (checker.Succeeded)
         {
-            return Ok(CreateUserDTO(user));
+            return Ok(await CreateUserDTO(user));
         }
 
         return Unauthorized();
@@ -47,27 +48,27 @@ public class AccountController : ControllerBase
     {
         if (await _manager.Users.AnyAsync(data => data.Email == user.Email))
         {
-            ModelState.AddModelError("Email", "Email Already Taken");
+            ModelState.AddModelError("email", "Email Already Taken");
             return ValidationProblem();
         }
         if (await _manager.Users.AnyAsync(data => data.UserName == user.Username))
         {
-            ModelState.AddModelError("Username", "Username Already Taken");
+            ModelState.AddModelError("username", "Username Already Taken");
             return ValidationProblem();
         }
 
         UserApp newUser = new UserApp
         {
-            DisplayName = user.Displayname,
+            Displayname = user.Displayname,
             Email = user.Email,
             UserName = user.Username,
         };
 
-        var result = await _manager.CreateAsync(newUser, user.Password);
+        var result = await _manager.CreateAsync(newUser, user.password);
 
         if (result.Succeeded)
         {
-            return Ok(CreateUserDTO(newUser));
+            return Ok(await CreateUserDTO(newUser));
         }
 
         return StatusCode(StatusCodes.Status500InternalServerError);
@@ -75,22 +76,28 @@ public class AccountController : ControllerBase
 
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<UserDTO>> GetUser()
+    public async Task<ActionResult<UserAdminDTO>> GetUser()
     {
-        var user = await _manager.Users.FirstOrDefaultAsync(x => x.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
-
+        var user = await _manager.Users.FirstOrDefaultAsync(x => x.Id == User.FindFirstValue("id"));
         if (user == null) return NotFound();
 
-        return Ok(CreateUserDTO(user));
+        var roleChecker = await _manager.IsInRoleAsync(user, "admin");
+
+        return Ok(new UserAdminDTO {
+            Displayname = user.Displayname,
+            Username = user.UserName,
+            IsAdmin = roleChecker,
+            Token = await _tokenFactory.CreateToken(user),
+        });
     }
 
-    private UserDTO CreateUserDTO(UserApp user)
+    private async Task<UserDTO> CreateUserDTO(UserApp user)
     {
         return new UserDTO
         {
-            Displayname = user.DisplayName,
+            Displayname = user.Displayname,
             Username = user.UserName,
-            Token = _tokenFactory.CreateToken(user),
+            Token = await _tokenFactory.CreateToken(user),
         };
     }
 }

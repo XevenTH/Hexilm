@@ -1,3 +1,4 @@
+using Application.Core;
 using Application.Interface;
 using Application.MovieRoom.DTO;
 using AutoMapper;
@@ -10,12 +11,12 @@ namespace Application.MovieRoom;
 
 public class Create
 {
-    public class Query : IRequest<RoomDTO>
+    public class Query : IRequest<ResultValidator<RoomDTO>>
     { 
         public RequestRoomDTO Room { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, RoomDTO>
+    public class Handler : IRequestHandler<Query, ResultValidator<RoomDTO>>
     {
         private readonly DataContext _context;
         private readonly IUserAccessor _userAccessor;
@@ -28,15 +29,13 @@ public class Create
             _userAccessor = userAccessor;
         }
 
-        public async Task<RoomDTO> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<ResultValidator<RoomDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
             var user = await _context.User.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
-
-            if(user == null) return null;
+            if(user == null) return ResultValidator<RoomDTO>.Error("User Unable to Create Room");
 
             var movie = await _context.Movies.FirstOrDefaultAsync(x => x.Id.ToString() == request.Room.MovieId);
-
-            if(movie == null) return null;
+            if(movie == null) return ResultValidator<RoomDTO>.Error("Movie Not Found");
 
             Room newRoom = new Room {
                 Id = request.Room.Id,
@@ -54,9 +53,9 @@ public class Create
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if(result == false) return null;
+            if(result != true) return ResultValidator<RoomDTO>.Error("Error While Creating The Room");
 
-            return _mapper.Map<RoomDTO>(newRoom);
+            return ResultValidator<RoomDTO>.Success(_mapper.Map<RoomDTO>(newRoom));
         }
     }
 }

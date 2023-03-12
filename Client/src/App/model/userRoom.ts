@@ -5,5 +5,5 @@ export interface UserRoom {
     id: string,
     title: string,
     movie: Movie,
-    attendees: User[]
+    attendees: Pick<User, "displayname" | "username">[]
 }

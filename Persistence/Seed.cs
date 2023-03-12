@@ -12,19 +12,19 @@ public class Seed
             List<UserApp> users = new List<UserApp>
             {
                 new UserApp {
-                    DisplayName = "Joko",
+                    Displayname = "Joko",
                     UserName = "joko",
                     Email = "joko@gmail.com"
                 },
 
                 new UserApp {
-                    DisplayName = "Wati",
+                    Displayname = "Wati",
                     UserName = "wati",
                     Email = "wati@gmail.com"
                 },
 
                 new UserApp {
-                    DisplayName = "Budi",
+                    Displayname = "Budi",
                     UserName = "budi",
                     Email = "budi@gmail.com"
                 },
@@ -32,7 +32,7 @@ public class Seed
 
             foreach (UserApp user in users)
             {
-                await manager.CreateAsync(user, "Pa$$w0rd");
+                await manager.CreateAsync(user, "Passw0rd");
             }
 
             if(context.Movies.Any()) return;
@@ -41,15 +41,33 @@ public class Seed
             {
                 new Movie {
                     Title = "Marvel",
-                    picture = null
+                    Description = "This is Marvel Movie Description",
+                    Picture = ""
                 },
                 new Movie {
                     Title = "DC",
-                    picture = null
+                    Description = "This is DC Movie Description",
+                    Picture = ""
                 },
                 new Movie {
                     Title = "The Conjuring",
-                    picture = null
+                    Description = "This is The Conjuring Movie Description",
+                    Picture = ""
+                },
+                new Movie {
+                    Title = "Suzume no Tojimari",
+                    Description = "This is Suzume no Tojimari Movie Description",
+                    Picture = ""
+                },
+                new Movie {
+                    Title = "Kimi No Nawa",
+                    Description = "This is Kimi No Nawa Movie Description",
+                    Picture = ""
+                },
+                new Movie {
+                    Title = "Spider-Man: Homecoming",
+                    Description = "This is Spider-Man: Homecoming Movie Description",
+                    Picture = ""
                 }
             };
 
@@ -64,6 +82,22 @@ public class Seed
                     {
                         new UserRoom {
                             User = users[0]
+                        },
+                    }
+                },
+                new Room {
+                    Title = "New Movie!! Suzume No Tojimari",
+                    Movie = movies[3],
+                    Attendees = new List<UserRoom>
+                    {
+                        new UserRoom {
+                            User = users[0]
+                        },
+                        new UserRoom {
+                            User = users[1]
+                        },
+                        new UserRoom {
+                            User = users[2]
                         },
                     }
                 },

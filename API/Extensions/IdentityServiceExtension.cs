@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -13,14 +14,19 @@ public static class IdentityServiceExtension
     {
         service.AddIdentityCore<UserApp>(opt =>
         {
-            opt.Password.RequiredLength = 6;
-            opt.Password.RequireNonAlphanumeric = true;
+            opt.Password.RequireNonAlphanumeric = false;
         })
+        .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<DataContext>()
         .AddSignInManager<SignInManager<UserApp>>();
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
         var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+        service.AddAuthorization(options =>
+        {
+            options.AddPolicy("admin", policy => policy.RequireRole("admin"));
+        });
 
         service.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(opt =>

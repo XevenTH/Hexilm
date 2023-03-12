@@ -12,7 +12,7 @@ namespace API.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection UseServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection UseServicesExtension(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<DataContext>(opt =>
         {
