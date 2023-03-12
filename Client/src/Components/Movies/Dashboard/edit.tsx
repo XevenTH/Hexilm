@@ -31,7 +31,7 @@ export default observer(function Edit() {
 
 
     return (
-        <div className="mt-4 max-w-lg bg-blue-300 max-h-fit m-4 p-2">
+        <div className="rounded mt-4 max-w-lg bg-blue-300 max-h-fit m-4 p-2">
             <div className="text-xl font-semibold text-blue-800 max-w-full te text-center">
                 Edit
             </div>
