@@ -37,9 +37,12 @@ public class AuthController : BaseApiController
         var userInRoles = await _manager.GetUsersInRoleAsync("admin");
         List<string> rolesToDelete = new List<string> { "admin" };
 
-        foreach (UserApp user in userInRoles)
+        if (userInRoles.Any())
         {
-            await _manager.RemoveFromRolesAsync(user, rolesToDelete);
+            foreach (UserApp user in userInRoles)
+            {
+                await _manager.RemoveFromRolesAsync(user, rolesToDelete);
+            }
         }
 
         var role = await _roleManager.FindByNameAsync(requestAuth.RoleName);
@@ -80,7 +83,9 @@ public class AuthController : BaseApiController
                 return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, $"Can't Find {requestAuth.RoleName} Role"));
             }
         }
-
-        return BadRequest();
+        else
+        {
+            return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Can't Add {requestAuth.RoleName} Role, User Only have One role"));
+        }
     }
 }
