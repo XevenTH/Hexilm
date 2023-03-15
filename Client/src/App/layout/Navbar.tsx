@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { UseStore } from '../Stores/BaseStore';
-import App from './App';
 
 function Navbar() {
     const { UserStore: { User, logout } } = UseStore();
