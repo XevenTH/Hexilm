@@ -31,7 +31,7 @@ export default function Browse() {
         />
       ))}
       <div className="absolute inset-0 bg-black opacity-70 bg-cover"></div>
-      <div className="max-w-7xl mx-auto h-full flex flex-col justify-center relative z-10">
+      <div className="max-w-7xl mx-auto h-full flex flex-col justify-center relative z-9">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             <span className="block">

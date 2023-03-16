@@ -11,7 +11,7 @@ export default function ReuseableForm({ submitHandler, children, formTitle }: Pr
         <form onSubmit={submitHandler}>
             {children}
             <div>
-                <button className="duration-300 hover:brightness-90 hover:shadow-form rounded-full bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 py-3 px-36 text-base font-semibold text-white outline-none my-5"
+                <button className="duration-300 hover:brightness-90 hover:shadow-form rounded-full bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 py-3 px-[6.5rem] sm:px-36 max-w-full text-base font-semibold text-white outline-none my-5"
                 >
                     {formTitle} {/* gunakan formTitle untuk menampilkan teks di dalam button */}
                 </button>
