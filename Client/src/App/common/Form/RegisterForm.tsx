@@ -27,7 +27,7 @@ export default function RegisterForm() {
             <ReuseableTextInput label="Email" name="email" type="email" onChangeHandler={onChangeHandler} placeholder="Enter your email"/>
             <ReuseableTextInput label="Password" name="password" type="password" onChangeHandler={onChangeHandler} placeholder="8-16 char, at least contain 1 capital and number" />
             <ReuseableTextInput label="Username" name="username" type="text" onChangeHandler={onChangeHandler} placeholder="Enter your username" />
-            <ReuseableTextInput label="Displayname" name="displayname" type="text" onChangeHandler={onChangeHandler} placeholder="Enter your displayname" />
+            <ReuseableTextInput label="DisplayName" name="displayname" type="text" onChangeHandler={onChangeHandler} placeholder="Enter your DisplayName" />
         </ReuseableForm>
     )
 }

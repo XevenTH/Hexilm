@@ -27,7 +27,7 @@ function Navbar() {
                                 onClick={toggleDropdown}
                             >
                                 {User ?
-                                    User?.displayname : "Displayname"}
+                                    User?.displayName : "DisplayName"}
                                 <div className="ml-2 w-6 h-6 bg-black rounded-full"></div>
                             </button>
                             {isOpen && (
