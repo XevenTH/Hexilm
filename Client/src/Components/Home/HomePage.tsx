@@ -41,7 +41,7 @@ export default observer(function Home() {
           <div className="flex justify-center mb-4 gap-2 font-semibold text-slate-200"></div>
           {ModalStore.Modal.isOpen && (
             <div className="flex justify-center items-center w-full h-[97vh]"> {/*tambah style untuk bikin ditengah modalnya */}
-              <div className="bg-white border shadow-lg rounded-md max-w-md p-9">
+              <div className="bg-white border shadow-lg rounded-md max-w-xs p-9 sm:max-w-md ">
                 <h3 className="text-center m-4 text-3xl font-bold">
                   {showLoginForm ? 'Login' : 'Register'}
                 </h3>

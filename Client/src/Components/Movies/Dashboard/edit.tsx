@@ -43,7 +43,7 @@ export default observer(function Edit() {
             <div className="flex items-center justify-center p-4">
                 <div className="mx-auto w-full max-w-[550px]">
                     <ReuseableForm submitHandler={submitHandler} formTitle="Save">
-                        <ReuseableTextInput onChangeHandler={onChangeHandler} label="Title" name="title" />
+                        <ReuseableTextInput onChangeHandler={onChangeHandler} label="Title" name="title" type="text" placeholder="Input movie's title" />
                     </ReuseableForm>
                 </div>
             </div>
