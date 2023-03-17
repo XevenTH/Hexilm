@@ -1,10 +1,10 @@
 using Application.MovieRoom.DTO;
-using AutoMapper;
+using Application.Profile.DTO;
 using Model;
 
 namespace Application.Core;
 
-public class AutoMapperProfiles : Profile
+public class AutoMapperProfiles : AutoMapper.Profile
 {
     public AutoMapperProfiles()
     {
@@ -12,8 +12,10 @@ public class AutoMapperProfiles : Profile
         
         CreateMap<Room, RoomDTO>();
 
+        CreateMap<UserApp, ProfileDTO>();
+
         CreateMap<UserRoom, AttendeesDTO>()
             .ForMember(u => u.Username, o => o.MapFrom(a => a.User.UserName))
-            .ForMember(u => u.Displayname, o => o.MapFrom(a => a.User.Displayname));
+            .ForMember(u => u.DisplayName, o => o.MapFrom(a => a.User.DisplayName));
     }
 }
