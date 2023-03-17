@@ -3,21 +3,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Model;
-using Persistence;
 
 namespace API.Controllers;
 
-[AllowAnonymous]
+[Authorize(Roles = "admin")]
 public class AuthController : BaseApiController
 {
     private readonly UserManager<UserApp> _manager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly DataContext _context;
 
-    public AuthController(UserManager<UserApp> manager, RoleManager<IdentityRole> roleManager, DataContext context)
+    public AuthController(UserManager<UserApp> manager, RoleManager<IdentityRole> roleManager)
     {
         _roleManager = roleManager;
-        _context = context;
         _manager = manager;
     }
 
@@ -28,7 +25,7 @@ public class AuthController : BaseApiController
 
         if (result.Succeeded) return Ok(CreateResponseAuth(StatusCodes.Status200OK, $"Successfully Create {requestAuth.RoleName} Role"));
 
-        return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Something Wrong While Createing {requestAuth.RoleName} Role"));
+        return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Something Wrong While Creating {requestAuth.RoleName} Role"));
     }
 
     [HttpDelete("deleteRole")]
@@ -66,7 +63,7 @@ public class AuthController : BaseApiController
     {
         UserApp user = await _manager.FindByEmailAsync(requestAuth.Email);
 
-        if (user == null) return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, $"Can't Find User With Email {requestAuth.Email}")); ;
+        if (user == null) return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, $"Can't Find User With Email {requestAuth.Email}"));
 
         var userRoleCheck = await _manager.IsInRoleAsync(user, "admin");
 
@@ -85,7 +82,7 @@ public class AuthController : BaseApiController
         }
         else
         {
-            return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Can't Add {requestAuth.RoleName} Role, User Only have One role"));
+            return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Can't Add {requestAuth.RoleName} Role, User Can Only have One role"));
         }
     }
 }

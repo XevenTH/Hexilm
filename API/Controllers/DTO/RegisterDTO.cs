@@ -13,7 +13,7 @@ public class RegisterDTO
     public string Username { get; set; }
 
     [Required]
-    public string Displayname { get; set; }
+    public string DisplayName { get; set; }
 
     [JsonPropertyName("Password")]
     [Required(ErrorMessage = "Password harus diisi.")]
