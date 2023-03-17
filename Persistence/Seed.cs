@@ -12,19 +12,19 @@ public class Seed
             List<UserApp> users = new List<UserApp>
             {
                 new UserApp {
-                    Displayname = "Joko",
+                    DisplayName = "Joko",
                     UserName = "joko",
                     Email = "joko@gmail.com"
                 },
 
                 new UserApp {
-                    Displayname = "Wati",
+                    DisplayName = "Wati",
                     UserName = "wati",
                     Email = "wati@gmail.com"
                 },
 
                 new UserApp {
-                    Displayname = "Budi",
+                    DisplayName = "Budi",
                     UserName = "budi",
                     Email = "budi@gmail.com"
                 },
