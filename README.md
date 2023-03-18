@@ -19,8 +19,23 @@ Merupakan project ASP.NET Core yang digunakan untuk menerima request serta membe
 1. Git Clone/Fork project ini.
 2. https://dotnet.microsoft.com/en-us/download. Download versi terakhir dari .NET.
 3. Masuk ke root folder.
-4. Buka terminal ketikan dotnet clean, dotnet build, dotnet restore.
+4. Buka terminal ketikan 
+   ```
+   1. dotnet clean 
+   2. dotnet build 
+   3. dotnet restore
+   ```
 5. Masuk ke folder./API. Lalu ketikan dotnet watch run.
 6. Maka akan terbuka swagger UI untuk list API.
 ### Linux
-1. 
+1. Ikut langkah - langkah di website https://www.linode.com/docs/guides/tutorial-host-asp-net-core-on-linux/.
+2. Pastikan saat command "sudo apt install dotnet-sdk-5.0" gunakan "sudo apt install dotnet-sdk-7.0".
+3. Masuk ke root folder.
+4. Buka terminal ketikan 
+   ```
+   1. dotnet clean 
+   2. dotnet build 
+   3. dotnet restore
+   ```
+5. Masuk ke folder./API. Lalu ketikan dotnet watch run.
+6. Maka akan terbuka swagger UI untuk list API.
