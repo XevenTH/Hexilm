@@ -9,14 +9,15 @@ function Navbar() {
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
+        
     };
 
     return (
-        <nav  className="relative z-10 backdrop-blur-lg">
+        <nav className="relative z-10 backdrop-blur-lg">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
-                        <a href="#" className="bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 bg-clip-text text-transparent text-2xl font-bold drop-shadow-md">
+                        <a href="/movies" className="bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 bg-clip-text text-transparent text-2xl font-bold drop-shadow-md">
                             CoolMovie
                         </a>
                     </div>
@@ -27,11 +28,11 @@ function Navbar() {
                                 onClick={toggleDropdown}
                             >
                                 {User ?
-                                    User?.displayname : "Displayname"}
+                                    User?.displayName : "DisplayName"}
                                 <div className="ml-2 w-6 h-6 bg-black rounded-full"></div>
                             </button>
                             {isOpen && (
-                                <div className="absolute right-0 w-56 mt-2 origin-top-right bg-slate-100 rounded-md shadow-lg z-10 text" onClick={() => setIsOpen(false)}>
+                                <div className="absolute right-0 w-56 mt-2 origin-top-right bg-slate-100 rounded-md shadow-lg z-10" onClick={() => setIsOpen(false)}>
                                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                         <a href="#" className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-slate-300 hover:text-gray-900 z-10" role="menuitem">
                                             Profile
@@ -70,6 +71,10 @@ function Navbar() {
             <div className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden`} id="mobile-menu">
                 <div className="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg z-10 text" onClick={() => setIsOpen(false)}>
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                        <div className='inline-flex px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10'>
+                            <div className="mr-2 w-6 h-6 bg-black rounded-full"></div>
+                            {User ? User?.displayName : "DisplayName"}
+                        </div>
                         <a href="#" className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10" role="menuitem">
                             Profile
                         </a>

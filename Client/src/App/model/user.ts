@@ -1,6 +1,6 @@
 export interface User {
     id: string
-    displayname: string,
+    displayName: string,
     username: string,
     token: string
 }
@@ -8,21 +8,21 @@ export interface User {
 export interface Credentials {
     email: string,
     password: string
-    displayname: string,
+    displayName: string,
     username: string,
 }
 
 export class IntialUserCredentials implements Credentials {
     email = "";
     password = "";
-    displayname = "";
+    displayName = "";
     username = "";
 
     constructor(registerData?: Credentials) {
         if (registerData) {
             this.email = registerData.email;
             this.password = registerData.password;
-            this.displayname = registerData.displayname;
+            this.displayName = registerData.displayName;
             this.username = registerData.username;
         }
     }

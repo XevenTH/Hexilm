@@ -1,4 +1,5 @@
 using Application.Movies;
+using Application.Movies.DTO;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FluentValidation.Results;
@@ -10,15 +11,15 @@ namespace API.Controllers;
 
 public class MovieController : BaseApiController
 {
-    private readonly IValidator<Movie> _validator;
-    public MovieController(IValidator<Movie> validator)
+    private readonly IValidator<MovieDTO> _validator;
+    public MovieController(IValidator<MovieDTO> validator)
     {
         _validator = validator;
 
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Movie>>> GetMovies()
+    public async Task<ActionResult<List<MovieDTO>>> GetMovies()
     {
         var result = await Mediator.Send(new List.Query());
 
@@ -26,7 +27,7 @@ public class MovieController : BaseApiController
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Movie>> GetMovieById(Guid id)
+    public async Task<ActionResult<MovieDTO>> GetMovieById(Guid id)
     {
         var result = await Mediator.Send(new Application.Movies.Single.Query { Id = id });
 
@@ -35,7 +36,7 @@ public class MovieController : BaseApiController
 
     [Authorize(Roles = "admin")]
     [HttpPost]
-    public async Task<ActionResult<Movie>> CreateMovie([FromBody] Movie requestMovie)
+    public async Task<ActionResult<MovieDTO>> CreateMovie([FromBody] MovieDTO requestMovie)
     {
         ValidationResult validateResult = await _validator.ValidateAsync(requestMovie);
         if (!validateResult.IsValid)
@@ -50,7 +51,7 @@ public class MovieController : BaseApiController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] Movie movie)
+    public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] MovieDTO movie)
     {
         movie.Id = id;
         var result = await Mediator.Send(new Update.Command { Movie = movie });

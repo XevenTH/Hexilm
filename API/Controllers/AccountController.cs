@@ -59,7 +59,7 @@ public class AccountController : ControllerBase
 
         UserApp newUser = new UserApp
         {
-            Displayname = user.Displayname,
+            DisplayName = user.DisplayName,
             Email = user.Email,
             UserName = user.Username,
         };
@@ -84,7 +84,7 @@ public class AccountController : ControllerBase
         var roleChecker = await _manager.IsInRoleAsync(user, "admin");
 
         return Ok(new UserAdminDTO {
-            Displayname = user.Displayname,
+            DisplayName = user.DisplayName,
             Username = user.UserName,
             IsAdmin = roleChecker,
             Token = await _tokenFactory.CreateToken(user),
@@ -95,7 +95,7 @@ public class AccountController : ControllerBase
     {
         return new UserDTO
         {
-            Displayname = user.Displayname,
+            DisplayName = user.DisplayName,
             Username = user.UserName,
             Token = await _tokenFactory.CreateToken(user),
         };
