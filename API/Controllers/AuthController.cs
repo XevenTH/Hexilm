@@ -21,6 +21,10 @@ public class AuthController : BaseApiController
     [HttpPost("createRole")]
     public async Task<IActionResult> CreateRole([FromBody] AuthDTO requestAuth)
     {
+        var roleChecker = await  _roleManager.RoleExistsAsync(requestAuth.RoleName);
+        
+        if(roleChecker) return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Role With Name {requestAuth.RoleName} Is Already Exist!!"));
+        
         IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(requestAuth.RoleName));
 
         if (result.Succeeded) return Ok(CreateResponseAuth(StatusCodes.Status200OK, $"Successfully Create {requestAuth.RoleName} Role"));
