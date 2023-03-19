@@ -16,7 +16,7 @@ Merupakan project ASP.NET Core yang digunakan untuk menerima request serta membe
 ## Instalasi dan Setup .NET
 &nbsp;&nbsp;&nbsp;&nbsp; Karena project ini menggunakan C#, API harus berjalan pada .NET Environtment. Silahkan mendownload sesuai step dan OS seperti yabg ada di bawah ini.
 ### Windows
-1. Git Clone/Fork project ini.
+1. Lakukan Fork Pada project ini.
 2. https://dotnet.microsoft.com/en-us/download. Download versi terakhir dari .NET.
 3. Masuk ke root folder.
 4. Buka terminal ketikan 
