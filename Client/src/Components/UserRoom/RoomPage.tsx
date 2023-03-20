@@ -12,8 +12,10 @@ export default function RoomPage() {
   }, [])
 
   return (
-    <div className="grid md:grid-cols-3">
-      <RoomList />
-    </div>
+    <>
+      <div className="grid grid-cols-3 gap-4">
+        <RoomList />
+      </div>
+    </>
   )
 }

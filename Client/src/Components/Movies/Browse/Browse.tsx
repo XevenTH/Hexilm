@@ -19,7 +19,7 @@ export default function Browse() {
   ]
 
   return (
-    <div className="relative h-screen overflow-y-hidden -mt-16 ">
+    <div className="relative min-h-screen overflow-y-hidden ">
       {images.map((image, index) => (
         <img
           key={index}
@@ -31,7 +31,7 @@ export default function Browse() {
         />
       ))}
       <div className="absolute inset-0 bg-black opacity-70 bg-cover"></div>
-      <div className="max-w-7xl mx-auto h-full flex flex-col justify-center relative z-9">
+      <div className="max-w-7xl mx-auto h-full flex flex-col justify-center relative z-9 min-h-screen">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             <span className="block">
@@ -46,7 +46,10 @@ export default function Browse() {
             and timeless classics
           </p>
           <div className="mt-6">
-          <Link to={"/movies"} className="duration-300 inline-block shadow-lg hover:shadow-none bg-fuchsia-600 py-3 px-8 rounded-lg text-lg font-medium text-white hover:bg-purple-600 cursor-pointer z-20">
+            <Link
+              to={'/movies'}
+              className="duration-300 inline-block shadow-lg hover:shadow-none bg-fuchsia-600 py-3 px-8 rounded-lg text-lg font-medium text-white hover:bg-purple-600 cursor-pointer z-20"
+            >
               Go Watch!!
             </Link>
           </div>
