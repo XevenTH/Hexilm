@@ -1,15 +1,15 @@
-import './css/Sidebar.css'
-import React, { useState } from 'react'
-import dataLinks from './dataLinks'
+import "./css/Sidebar.css";
+import React, { useState } from "react";
+import dataLinks from "./dataLinks";
 
 export default function Sidebar() {
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0);
 
   const handlePageChange = (index: number) => {
-    setCurrentPage(index)
-  }
+    setCurrentPage(index);
+  };
 
-  const pageLinks = dataLinks()
+  const pageLinks = dataLinks();
 
   return (
     <>
@@ -23,6 +23,7 @@ export default function Sidebar() {
                 href="#"
                 onClick={() => handlePageChange(i)}
                 className="hover:bg-gray-900 w-full py-2 pl-3 flex items-center"
+                key={i}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -30,22 +31,22 @@ export default function Sidebar() {
                   height="16"
                   fill="currentColor"
                   className={`bi ${data.icon} mr-2 ${
-                    currentPage === i && 'text-red-600'
+                    currentPage === i && "text-red-600"
                   }`}
                   viewBox="0 0 16 16"
                 >
                   {data.path}
-                </svg>{' '}
+                </svg>{" "}
                 <p className="titleUrl">{data.name} </p>
                 {currentPage === i && (
                   <div className="ml-auto w-1 h-5 rounded-l-lg bg-red-600" />
                 )}
               </a>
-            )
+            );
           })}
         </div>
       </div>
       <div className={`content`}>{pageLinks[currentPage].page}</div>
     </>
-  )
+  );
 }
