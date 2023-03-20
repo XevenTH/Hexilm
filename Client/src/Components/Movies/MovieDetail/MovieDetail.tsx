@@ -14,7 +14,6 @@ export default observer(function MovieDetail() {
     ApiAgent.movieApi
       .getMovie(id!)
       .then((mov) => {
-        console.log(mov);
         setMovie(mov);
       })
       .catch((err) => console.log(err))
@@ -32,7 +31,7 @@ export default observer(function MovieDetail() {
       <img
         src="https://images.unsplash.com/photo-1494972688394-4cc796f9e4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8d2FyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
         alt="cover"
-        className="h-[240px] lg:h-[400px] w-full object-cover relative -z-[3]"
+        className="h-[240px] lg:h-[400px] w-full object-cover relative -z-[3] filter brightness-75"
       />
 
       <div className="flex md:p-8 rounded-tl-xl rounded-tr-xl bg-[#181823] -mt-5 min-h-screen shadow-xl">
@@ -47,7 +46,7 @@ export default observer(function MovieDetail() {
           </h1>
 
           <h3 className="text-md text-gray-500 font-bold">SYNOPSIS</h3>
-          <p className="text-md text-gray-200 max-w-lg">
+          <p className="text-md text-gray-200">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo
             suscipit fugit ad similique iusto, omnis officiis atque, repellat,
             dolor sapiente et qui voluptas earum quia in. Pariatur soluta

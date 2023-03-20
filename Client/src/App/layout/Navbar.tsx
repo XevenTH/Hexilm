@@ -136,11 +136,11 @@ function Navbar() {
               Profile
             </a>
             <button
-              className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+              className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
               role="menuitem"
               onClick={() => logout()}
             >
-              Logout
+              Logoutt
             </button>
           </div>
         </div>
