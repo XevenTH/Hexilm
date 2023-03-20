@@ -1,7 +1,6 @@
 using Application.Movies.DTO;
 using Application.Profile;
 using Application.Profile.DTO;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -6,7 +6,7 @@ using Model;
 
 namespace API.Controllers;
 
-[AllowAnonymous]
+[Authorize(Roles = "admin")]
 public class AuthController : BaseApiController
 {
     private readonly UserManager<UserApp> _manager;
