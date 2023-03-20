@@ -1,7 +1,0 @@
-.content {
-  transition: margin-left 0.3s;
-}
-
-.content.shift {
-  margin-left: 200px; /* ganti dengan lebar sidebar Anda */
-}
