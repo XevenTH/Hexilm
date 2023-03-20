@@ -18,10 +18,10 @@ public class ProfileController : BaseApiController
         return GetResult(result);
     }
 
-    [HttpPost("updateProfile")]
-    public async Task<IActionResult> UpdateProfile([FromBody] ProfileDTO requestProfileDto)
+    [HttpPut("updateProfile")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDTO requestProfileDto)
     {
-        var result = await Mediator.Send(new Update.Command { ProfileDto = requestProfileDto });
+        var result = await Mediator.Send(new Update.Command { RequestProfile = requestProfileDto });
 
         return GetResult(result);
     }
@@ -29,7 +29,7 @@ public class ProfileController : BaseApiController
     [HttpPost("favoriteMovieAction")]
     public async Task<IActionResult> FavoriteMovieAction([FromBody] FavoriteMovieDTO requestMovie)
     {
-        var result = await Mediator.Send(new FavoriteMovieAction.Command { MovieId = requestMovie.Id });
+        var result = await Mediator.Send(new FavoriteMovieAction.Command { RequestFavoriteMovie = requestMovie });
 
         return GetResult(result);
     }

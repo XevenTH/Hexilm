@@ -45,11 +45,12 @@ public class MovieController : BaseApiController
             return ValidationProblem();
         }
 
-        var result = await Mediator.Send(new Create.Command { Movie = requestMovie });
+        var result = await Mediator.Send(new Create.Command { MovieDTO = requestMovie });
 
         return GetResult(result);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] MovieDTO movie)
     {
@@ -59,6 +60,7 @@ public class MovieController : BaseApiController
         return GetResult(result);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMovie(Guid id)
     {
