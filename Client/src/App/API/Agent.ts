@@ -41,7 +41,7 @@ const accountApi = {
 }
 
 const userRoomAPi = {
-  getRoomList: () => request.get<UserRoom[]>("/room"),
+  getRoomList: () => request.get<UserRoom[]>("/room/getmovielist"),
 }
 
 const ApiAgent = {
