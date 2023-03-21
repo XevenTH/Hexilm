@@ -12,7 +12,7 @@ public class GetProfile
 {
     public class Query : IRequest<ResultValidator<ProfileDTO>> 
     {
-        public string Id { get; set; }
+        public string Username { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, ResultValidator<ProfileDTO>>
@@ -31,7 +31,7 @@ public class GetProfile
         {
             var user = await _context.Users
             .ProjectTo<ProfileDTO>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(x => x.Id == request.Id);
+            .FirstOrDefaultAsync(x => x.UserName == request.Username);
 
             if(user == null) return ResultValidator<ProfileDTO>.Error("Can't Find User");
 

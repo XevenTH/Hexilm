@@ -9,10 +9,10 @@ namespace API.Controllers;
 [AllowAnonymous]
 public class ProfileController : BaseApiController
 {
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ProfileDTO>> Profile(string id)
+    [HttpGet("{username}")]
+    public async Task<ActionResult<ProfileDTO>> Profile(string username)
     {
-        var result = await Mediator.Send(new GetProfile.Query { Id = id });
+        var result = await Mediator.Send(new GetProfile.Query { Username = username });
 
         return GetResult(result);
     }
