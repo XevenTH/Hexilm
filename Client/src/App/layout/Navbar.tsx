@@ -1,10 +1,12 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { UseStore } from "../Stores/BaseStore"
 
 function Navbar() {
   const {
     UserStore: { User, logout },
   } = UseStore()
+  const navigate = useNavigate();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -18,12 +20,11 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <a
-              href="/movies"
-              className="bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 bg-clip-text text-transparent text-2xl font-bold drop-shadow-md"
+            <button
+              className="bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 bg-clip-text text-transparent text-2xl font-bold drop-shadow-md" onClick={() => navigate("/movies")}
             >
               CoolMovie
-            </a>
+            </button>
           </div>
           <div className="hidden sm:block">
             <div className="relative">
