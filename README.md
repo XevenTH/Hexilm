@@ -28,10 +28,11 @@ Merupakan project ASP.NET Core yang digunakan untuk menerima request serta membe
 5. Masuk ke folder./API. Lalu ketikan dotnet watch run.
 6. Maka akan terbuka swagger UI untuk list API.
 ### Linux
-1. Ikut langkah - langkah di website https://www.linode.com/docs/guides/tutorial-host-asp-net-core-on-linux/.
-2. Pastikan saat command "sudo apt install dotnet-sdk-5.0" gunakan "sudo apt install dotnet-sdk-7.0".
-3. Masuk ke root folder.
-4. Buka terminal ketikan 
+1. Lakukan Fork Pada project ini.
+2. Ikut langkah - langkah di website https://www.linode.com/docs/guides/tutorial-host-asp-net-core-on-linux/.
+3. Pastikan saat command "sudo apt install dotnet-sdk-5.0" gunakan "sudo apt install dotnet-sdk-7.0".
+4. Masuk ke root folder.
+5. Buka terminal ketikan 
    ```
    1. dotnet clean 
    2. dotnet build 
