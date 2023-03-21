@@ -1,38 +1,38 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Credentials, IntialUserLogin } from "../../model/user";
-import { UseStore } from "../../Stores/BaseStore";
-import ReuseableForm from "./ReuseableForm";
-import ReuseableTextInput from "./ReuseableTextInput";
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Credentials, IntialUserLogin } from "../../model/user"
+import { UseStore } from "../../Stores/BaseStore"
+import ReuseableForm from "./ReuseableForm"
+import ReuseableTextInput from "./ReuseableTextInput"
 
 export default function LoginForm() {
-  const { UserStore } = UseStore();
-  const [error, setError] = useState("");
+  const { UserStore } = UseStore()
+  const [error, setError] = useState("")
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const [loginData, setLoginData] = useState<
     Pick<Credentials, "email" | "password">
-  >(new IntialUserLogin());
+  >(new IntialUserLogin())
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setLoginData({ ...loginData, [name]: value });
-  };
+    const { name, value } = e.target
+    setLoginData({ ...loginData, [name]: value })
+  }
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     UserStore.login(loginData)
       .then(() => navigate("/movies"))
       .catch((err) => {
         if (err instanceof Error) {
-          setError(err.message);
+          setError(err.message)
           setTimeout(() => {
-            setError("");
-          }, 2000);
+            setError("")
+          }, 2000)
         }
-      });
-  };
+      })
+  }
 
   return (
     // tambah attribute type
@@ -59,5 +59,5 @@ export default function LoginForm() {
         placeholder="Your password"
       />
     </ReuseableForm>
-  );
+  )
 }

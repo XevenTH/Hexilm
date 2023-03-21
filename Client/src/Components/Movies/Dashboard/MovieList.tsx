@@ -1,16 +1,16 @@
-import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
-import { Movie } from "../../../App/model/movie";
-import { UseStore } from "../../../App/Stores/BaseStore";
+import { observer } from "mobx-react-lite"
+import { Link } from "react-router-dom"
+import { Movie } from "../../../App/model/movie"
+import { UseStore } from "../../../App/Stores/BaseStore"
 
 interface Props {
-  movie: Movie;
+  movie: Movie
 }
 
 export default observer(function MovieList({ movie }: Props) {
   const {
     MovieStore: { deleteMovie, selectedMovieHandler },
-  } = UseStore();
+  } = UseStore()
 
   return (
     <Link to={`/movie/${movie.id}`}>
@@ -29,5 +29,5 @@ export default observer(function MovieList({ movie }: Props) {
         </button>
       </div>
     </Link>
-  );
-});
+  )
+})

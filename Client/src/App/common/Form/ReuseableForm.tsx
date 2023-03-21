@@ -1,10 +1,10 @@
-import React from "react";
+import React from "react"
 
 interface Props {
-  submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
-  children?: JSX.Element | JSX.Element[];
-  formTitle?: string; // tambahkan prop formTitle
-  error?: string;
+  submitHandler: (e: React.FormEvent<HTMLFormElement>) => void
+  children?: JSX.Element | JSX.Element[]
+  formTitle?: string // tambahkan prop formTitle
+  error?: string
 }
 
 export default function ReuseableForm({
@@ -24,5 +24,5 @@ export default function ReuseableForm({
         </button>
       </div>
     </form>
-  );
+  )
 }

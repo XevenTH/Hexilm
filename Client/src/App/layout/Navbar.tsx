@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { UseStore } from "../Stores/BaseStore";
+import { useState } from "react"
+import { UseStore } from "../Stores/BaseStore"
 
 function Navbar() {
   const {
     UserStore: { User, logout },
-  } = UseStore();
+  } = UseStore()
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+    setIsOpen(!isOpen)
+  }
 
   return (
     <nav className="relative z-10 backdrop-blur-lg bg-[#181823]">
@@ -56,8 +56,8 @@ function Navbar() {
                       className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-slate-300 hover:text-gray-900 z-10"
                       role="menuitem"
                       onClick={(event) => {
-                        event.preventDefault();
-                        logout();
+                        event.preventDefault()
+                        logout()
                       }}
                     >
                       Logout
@@ -146,7 +146,7 @@ function Navbar() {
         </div>
       </div>
     </nav>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar

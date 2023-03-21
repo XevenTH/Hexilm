@@ -1,15 +1,15 @@
-import "./css/Sidebar.css";
-import React, { useState } from "react";
-import dataLinks from "./dataLinks";
+import "./css/Sidebar.css"
+import React, { useState } from "react"
+import dataLinks from "./dataLinks"
 
 export default function Sidebar() {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0)
 
   const handlePageChange = (index: number) => {
-    setCurrentPage(index);
-  };
+    setCurrentPage(index)
+  }
 
-  const pageLinks = dataLinks();
+  const pageLinks = dataLinks()
 
   return (
     <>
@@ -42,11 +42,11 @@ export default function Sidebar() {
                   <div className="ml-auto w-1 h-5 rounded-l-lg bg-red-600" />
                 )}
               </a>
-            );
+            )
           })}
         </div>
       </div>
       <div className={`content`}>{pageLinks[currentPage].page}</div>
     </>
-  );
+  )
 }

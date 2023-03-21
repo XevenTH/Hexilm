@@ -1,30 +1,30 @@
-import { observer } from "mobx-react-lite";
-import { useParams } from "react-router-dom";
-import ApiAgent from "../../../App/API/Agent";
-import { useEffect, useState } from "react";
-import { Movie } from "../../../App/model/movie";
+import { observer } from "mobx-react-lite"
+import { useParams } from "react-router-dom"
+import ApiAgent from "../../../App/API/Agent"
+import { useEffect, useState } from "react"
+import { Movie } from "../../../App/model/movie"
 
 export default observer(function MovieDetail() {
-  const { id } = useParams();
-  const [loading, setloading] = useState(true);
+  const { id } = useParams()
+  const [loading, setloading] = useState(true)
 
-  const [movie, setMovie] = useState<Movie | null>(null);
+  const [movie, setMovie] = useState<Movie | null>(null)
 
   useEffect(() => {
     ApiAgent.movieApi
       .getMovie(id!)
       .then((mov) => {
-        setMovie(mov);
+        setMovie(mov)
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        setloading(false);
-      });
-  }, []);
+        setloading(false)
+      })
+  }, [])
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p>Loading...</p>
 
-  if (!movie) return <p>404 Not Found</p>;
+  if (!movie) return <p>404 Not Found</p>
 
   return (
     <div>
@@ -55,8 +55,8 @@ export default observer(function MovieDetail() {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
 
 // {
 //     "id": "1bf60c1a-dbf4-4da1-aa79-f7b7fca2581e",

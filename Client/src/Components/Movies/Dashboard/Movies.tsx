@@ -1,33 +1,33 @@
-import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
-import { UseStore } from "../../../App/Stores/BaseStore";
-import Edit from "./edit";
-import MovieDetails from "./MovieDetails";
-import MovieList from "./MovieList";
+import { observer } from "mobx-react-lite"
+import { useEffect } from "react"
+import { UseStore } from "../../../App/Stores/BaseStore"
+import Edit from "./edit"
+import MovieDetails from "./MovieDetails"
+import MovieList from "./MovieList"
 
 export default observer(function Movies() {
-  const { MovieStore } = UseStore();
+  const { MovieStore } = UseStore()
   const {
     movieList: movie,
     isOpenDetails,
     isOpenForm,
     CloseDetailsResetMovie,
-  } = MovieStore;
+  } = MovieStore
 
   useEffect(() => {
-    MovieStore.getMovie();
-  }, []);
+    MovieStore.getMovie()
+  }, [])
 
   useEffect(() => {
-    document.body.style.background = "#181823";
-    document.body.style.minHeight = "100vh";
+    document.body.style.background = "#181823"
+    document.body.style.minHeight = "100vh"
 
     // Cleanup function to reset the styles on unmount
     return () => {
-      document.body.style.background = "";
-      document.body.style.minHeight = "";
-    };
-  }, []);
+      document.body.style.background = ""
+      document.body.style.minHeight = ""
+    }
+  }, [])
 
   return (
     <>
@@ -49,5 +49,5 @@ export default observer(function Movies() {
         {isOpenForm && <Edit />}
       </div>
     </>
-  );
-});
+  )
+})

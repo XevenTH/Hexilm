@@ -1,10 +1,10 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
-import Browse from "../../Components/Movies/Browse/Browse";
-import Dashboard from "../../Components/Movies/Dashboard/Dashboard";
-import MovieDetail from "../../Components/Movies/MovieDetail/MovieDetail";
-import RoomPage from "../../Components/UserRoom/RoomPage";
-import App from "../layout/App";
-import AuthRoute from "./AuthRoute";
+import { createBrowserRouter, RouteObject } from "react-router-dom"
+import Browse from "../../Components/Movies/Browse/Browse"
+import Dashboard from "../../Components/Movies/Dashboard/Dashboard"
+import MovieDetail from "../../Components/Movies/MovieDetail/MovieDetail"
+import RoomPage from "../../Components/UserRoom/RoomPage"
+import App from "../layout/App"
+import AuthRoute from "./AuthRoute"
 
 const router: RouteObject[] = [
   {
@@ -22,6 +22,6 @@ const router: RouteObject[] = [
       },
     ],
   },
-];
+]
 
-export const browserRoute = createBrowserRouter(router);
+export const browserRoute = createBrowserRouter(router)
