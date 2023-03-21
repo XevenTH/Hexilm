@@ -95,6 +95,7 @@ public class AccountController : ControllerBase
     {
         return new UserDTO
         {
+            Id = user.Id,
             DisplayName = user.DisplayName,
             Username = user.UserName,
             Token = await _tokenFactory.CreateToken(user),
