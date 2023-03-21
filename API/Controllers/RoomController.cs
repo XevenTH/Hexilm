@@ -16,7 +16,7 @@ public class RoomController : BaseApiController
         _validator = validator;
     }
 
-    [HttpGet]
+    [HttpGet("getMovieList")]
     public async Task<ActionResult<List<RoomDTO>>> GetAllRoom()
     {
         var result = await Mediator.Send(new List.Query());
@@ -32,7 +32,7 @@ public class RoomController : BaseApiController
         return GetResult(result);
     }
 
-    [HttpPost]
+    [HttpPost("createMovie")]
     public async Task<ActionResult<RoomDTO>> CreateRoom([FromBody] RequestRoomDTO room)
     {
         ValidationResult validateResult = await _validator.ValidateAsync(room);
