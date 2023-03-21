@@ -1,5 +1,6 @@
 using Application.Core;
 using Application.MovieRoom.DTO;
+using Application.Movies.DTO;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;

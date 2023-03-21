@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Application.Movies.DTO;
 
 namespace Application.Profile.DTO;
