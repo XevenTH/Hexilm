@@ -1,0 +1,46 @@
+.sidebar {
+  width: 60px; /* set width to the size of icon */
+  transition: width 0.2s; /* set transition effect */
+}
+
+.sidebar:hover {
+  width: 200px; /* set width to the size of full sidebar */
+}
+.openSidebar {
+  width: 200px;
+}
+.sidebar:hover .titleUrl {
+  opacity: 1;
+}
+.titleUrl {
+  transition: 0.1s;
+  position: relative;
+  opacity: 0;
+  margin-right: -70px;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.sidebar-icon {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar:hover {
+  width: 240px; /* set width to the size of full sidebar */
+}
+
+.content {
+  margin-left: 60px; /* set margin-left to the size of icon */
+  transition: margin-left 0.2s; /* set transition effect */
+}
+
+.sidebar:hover ~ .content {
+  margin-left: 240px; /* set margin-left to the size of full sidebar */
+}

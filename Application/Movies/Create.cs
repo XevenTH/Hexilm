@@ -1,4 +1,6 @@
 using Application.Core;
+using Application.Movies.DTO;
+using AutoMapper;
 using MediatR;
 using Model;
 using Persistence;
@@ -9,20 +11,25 @@ public class Create
 {
     public class Command : IRequest<ResultValidator<Unit>>
     {
-        public Movie Movie { get; set; }
+        public MovieDTO MovieDTO { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, ResultValidator<Unit>>
     {
         private readonly DataContext _context;
-        public Handler(DataContext context)
+        private readonly IMapper _mapper;
+
+        public Handler(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<ResultValidator<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            _context.Movies.Add(request.Movie);
+            var newMovie = _mapper.Map<Movie>(request.MovieDTO);
+            
+            _context.Movies.Add(newMovie);
 
             var result = await _context.SaveChangesAsync() > 0;
 

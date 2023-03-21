@@ -1,4 +1,5 @@
 using Application.MovieRoom.DTO;
+using Application.Movies.DTO;
 using Application.Profile.DTO;
 using Model;
 
@@ -8,11 +9,16 @@ public class AutoMapperProfiles : AutoMapper.Profile
 {
     public AutoMapperProfiles()
     {
-        CreateMap<Movie, Movie>();
+        CreateMap<Movie, MovieDTO>();
         
         CreateMap<Room, RoomDTO>();
 
-        CreateMap<UserApp, ProfileDTO>();
+        CreateMap<MovieDTO, Movie>();
+        
+        CreateMap<UpdateProfileDTO, UserApp>();
+        
+        CreateMap<UserApp, ProfileDTO>()
+            .ForMember(o => o.FavoriteMovies, o => o.MapFrom(u => u.FavoriteMovies.Select(fm => fm.Movie)));
 
         CreateMap<UserRoom, AttendeesDTO>()
             .ForMember(u => u.Username, o => o.MapFrom(a => a.User.UserName))

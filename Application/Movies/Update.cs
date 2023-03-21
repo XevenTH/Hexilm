@@ -1,4 +1,5 @@
 using Application.Core;
+using Application.Movies.DTO;
 using AutoMapper;
 using MediatR;
 using Model;
@@ -11,7 +12,7 @@ public class Update
     public class Command : IRequest<ResultValidator<Unit>>
     {
         public Guid Id { get; set; }
-        public Movie Movie { get; set; }
+        public MovieDTO Movie { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, ResultValidator<Unit>>

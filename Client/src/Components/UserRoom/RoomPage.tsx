@@ -19,12 +19,8 @@ export default function RoomPage() {
   }
 
   return (
-    <>
-      <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar}>
-        <div className="grid grid-cols-3 gap-4">
-          <RoomList />
-        </div>
-      </Sidebar>
-    </>
+    <div className="grid md:grid-cols-3">
+      <RoomList />
+    </div>
   )
 }
