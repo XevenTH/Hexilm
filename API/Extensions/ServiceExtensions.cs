@@ -36,7 +36,7 @@ public static class ServiceExtensions
 
         services.AddScoped<TokenFactory>();
         services.AddScoped<IUserAccessor, UserAccessor>();
-
+        
         return services;
     }
 }
