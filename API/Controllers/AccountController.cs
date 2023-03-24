@@ -12,7 +12,7 @@ namespace API.Controllers;
 
 [AllowAnonymous]
 [ApiController]
-[Route("Api/[Controller]")]
+[Route("Api/v2/[Controller]")]
 public class AccountController : ControllerBase
 {
     private readonly UserManager<UserApp> _manager;

@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class RoomController : BaseApiController
+public class RoomsController : BaseApiController
 {
     private readonly IValidator<RequestRoomDTO> _validator;
 
-    public RoomController(IValidator<RequestRoomDTO> validator)
+    public RoomsController(IValidator<RequestRoomDTO> validator)
     {
         _validator = validator;
     }
 
-    [HttpGet("getMovieList")]
+    [HttpGet]
     public async Task<ActionResult<List<RoomDTO>>> GetAllRoom()
     {
         var result = await Mediator.Send(new List.Query());
@@ -25,14 +25,22 @@ public class RoomController : BaseApiController
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<RoomDTO>> GetRoom(Guid id)
+    public async Task<ActionResult<RoomDTO>> GetRoom([FromRoute] Guid id)
     {
         var result = await Mediator.Send(new SingleMovie.Query { Id = id });
 
         return GetResult(result);
     }
 
-    [HttpPost("createMovie")]
+    [HttpPut("{id}/manage-attende")]
+    public async Task<IActionResult> UpdateAttendeesAction([FromRoute] Guid id)
+    {
+        var result = await Mediator.Send(new UpdateAttendeesAction.Command { Id = id });
+
+        return GetResult(result);
+    }
+
+    [HttpPost]
     public async Task<ActionResult<RoomDTO>> CreateRoom([FromBody] RequestRoomDTO room)
     {
         ValidationResult validateResult = await _validator.ValidateAsync(room);

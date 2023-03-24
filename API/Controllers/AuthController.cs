@@ -18,7 +18,7 @@ public class AuthController : BaseApiController
         _manager = manager;
     }
 
-    [HttpPost("createRole")]
+    [HttpPost]
     public async Task<IActionResult> CreateRole([FromBody] AuthDTO requestAuth)
     {
         var roleChecker = await  _roleManager.RoleExistsAsync(requestAuth.RoleName);
@@ -32,7 +32,7 @@ public class AuthController : BaseApiController
         return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Something Wrong While Creating {requestAuth.RoleName} Role"));
     }
 
-    [HttpDelete("deleteRole")]
+    [HttpDelete]
     public async Task<IActionResult> DeleteRole([FromBody] AuthDTO requestAuth)
     {
         var userInRoles = await _manager.GetUsersInRoleAsync("admin");
@@ -62,7 +62,7 @@ public class AuthController : BaseApiController
         return BadRequest();
     }
 
-    [HttpPost("addToRole")]
+    [HttpPost("add-user-role")]
     public async Task<IActionResult> AddRoleToUser([FromBody] AuthDTO requestAuth)
     {
         UserApp user = await _manager.FindByEmailAsync(requestAuth.Email);

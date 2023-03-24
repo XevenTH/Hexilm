@@ -17,7 +17,7 @@ public class ProfileController : BaseApiController
         return GetResult(result);
     }
 
-    [HttpPut("updateProfile")]
+    [HttpPut]
     public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDTO requestProfileDto)
     {
         var result = await Mediator.Send(new Update.Command { RequestProfile = requestProfileDto });
@@ -25,7 +25,7 @@ public class ProfileController : BaseApiController
         return GetResult(result);
     }
 
-    [HttpPost("favoriteMovieAction")]
+    [HttpPost("manage-favorite-movie")]
     public async Task<IActionResult> FavoriteMovieAction([FromBody] FavoriteMovieDTO requestMovie)
     {
         var result = await Mediator.Send(new FavoriteMovieAction.Command { RequestFavoriteMovie = requestMovie });

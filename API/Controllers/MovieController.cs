@@ -9,10 +9,10 @@ using Model;
 
 namespace API.Controllers;
 
-public class MovieController : BaseApiController
+public class MoviesController : BaseApiController
 {
     private readonly IValidator<MovieDTO> _validator;
-    public MovieController(IValidator<MovieDTO> validator)
+    public MoviesController(IValidator<MovieDTO> validator)
     {
         _validator = validator;
 
