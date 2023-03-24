@@ -4,7 +4,7 @@ import { User, Credentials } from "../model/user"
 import { UserRoom } from "../model/userRoom"
 import { storeContainer } from "../Stores/BaseStore"
 
-axios.defaults.baseURL = "http://localhost:5000/api"
+axios.defaults.baseURL = "http://localhost:5000/api/v2"
 
 axios.interceptors.request.use((opt) => {
   const token = storeContainer.CommonStore.token
@@ -25,11 +25,11 @@ const request = {
 }
 
 const movieApi = {
-  getMovieList: () => request.get<Movie[]>("/movie"),
-  getMovie: (id: string) => request.get<Movie | null>(`/movie/${id}`),
-  postMovie: (movie: Movie) => request.post<void>("/movie", movie),
-  editMovie: (movie: Movie) => request.put<void>(`/movie/${movie.id}`, movie),
-  deleteMovie: (id: string) => request.delete<void>(`/movie/${id}`),
+  getMovieList: () => request.get<Movie[]>("/movies"),
+  getMovie: (id: string) => request.get<Movie | null>(`/movies/${id}`),
+  postMovie: (movie: Movie) => request.post<void>("/movies", movie),
+  editMovie: (movie: Movie) => request.put<void>(`/movies/${movie.id}`, movie),
+  deleteMovie: (id: string) => request.delete<void>(`/movies/${id}`),
 }
 
 const accountApi = {
@@ -41,7 +41,7 @@ const accountApi = {
 }
 
 const userRoomAPi = {
-  getRoomList: () => request.get<UserRoom[]>("/room/getmovielist"),
+  getRoomList: () => request.get<UserRoom[]>("/rooms"),
 }
 
 const ApiAgent = {
