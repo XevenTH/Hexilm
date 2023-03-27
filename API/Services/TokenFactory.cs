@@ -26,8 +26,8 @@ public class TokenFactory
             new Claim("username", user.UserName),
         };
 
-        var Roles = await _manager.GetRolesAsync(user);
-        claims.AddRange(Roles.Select(role => new Claim(ClaimTypes.Role, role)));
+        var roles = (await _manager.GetRolesAsync(user)).DefaultIfEmpty("user");
+        claims.AddRange(roles.Select(x => new Claim("role", x)));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
         var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

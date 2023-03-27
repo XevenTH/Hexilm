@@ -60,6 +60,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// app.UseMiddleware<UserAuthMiddleware>();
+
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();

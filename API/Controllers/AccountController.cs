@@ -100,7 +100,7 @@ public class AccountController : ControllerBase
             Id = user.Id,
             DisplayName = user.DisplayName,
             Username = user.UserName,
-            Role = (roleList != null) ? roleList : "User",
+            Role = (roleList != null) ? roleList : "user",
             Token = await _tokenFactory.CreateToken(user),
         };
     }

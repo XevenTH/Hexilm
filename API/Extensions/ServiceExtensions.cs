@@ -7,6 +7,7 @@ using Application.Core;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SecurityInfrastructure;
 using Application.Interface;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace API.Extensions;
 
@@ -36,7 +37,8 @@ public static class ServiceExtensions
 
         services.AddScoped<TokenFactory>();
         services.AddScoped<IUserAccessor, UserAccessor>();
-        
+        // services.AddSingleton<UserAuthMiddleware>();
+
         return services;
     }
 }
