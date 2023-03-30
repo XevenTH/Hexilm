@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using SecurityInfrastructure;
 using Application.Interface;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using SecurityInfrastructure.CloudinarySecurity;
 
 namespace API.Extensions;
 
@@ -34,9 +35,11 @@ public static class ServiceExtensions
         services.AddMediatR(typeof(List.Handler));
         services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.Configure<CloudinaryConfiguration>(configuration.GetSection("Cloudinary"));
 
         services.AddScoped<TokenFactory>();
         services.AddScoped<IUserAccessor, UserAccessor>();
+        services.AddScoped<IPhotoAccessor, PhotoAccessor>();
         // services.AddSingleton<UserAuthMiddleware>();
 
         return services;
