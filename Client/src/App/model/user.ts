@@ -1,7 +1,10 @@
+import Photo from "./photo";
+
 export interface User {
     id: string
     displayName: string,
     username: string,
+    photo: string,
     token: string
 }
 
