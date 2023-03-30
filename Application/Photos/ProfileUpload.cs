@@ -31,7 +31,7 @@ public class ProfileUpload
         public async Task<ResultValidator<Photo>> Handle(Command request, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-                .Include(x => x.Photo)
+                .Include(x => x.Photos)
                 .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername(), cancellationToken);
 
             if (user == null) return ResultValidator<Photo>.Error("Can't Find User");
@@ -46,9 +46,9 @@ public class ProfileUpload
                 Url = uploadResult.Url,
             };
 
-            if (!user.Photo.Any(x => x.IsMain)) photo.IsMain = true;
+            if (!user.Photos.Any(x => x.IsMain)) photo.IsMain = true;
 
-            user.Photo.Add(photo);
+            user.Photos.Add(photo);
 
             var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 

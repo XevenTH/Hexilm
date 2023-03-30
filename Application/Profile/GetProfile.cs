@@ -30,7 +30,7 @@ public class GetProfile
         public async Task<ResultValidator<ProfileDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-                .Include(x => x.Photo)
+                .Include(x => x.Photos)
                 .ProjectTo<ProfileDTO>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.UserName == request.Username);
 

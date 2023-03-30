@@ -30,7 +30,7 @@ public class AccountController : ControllerBase
     public async Task<ActionResult<UserWithRoleDTO>> UserLogin([FromBody] LoginDTO loginData)
     {
         var user = await _manager.Users
-            .Include(x => x.Photo)
+            .Include(x => x.Photos)
             .FirstOrDefaultAsync(x => x.Email == loginData.Email);
 
         if (user == null) return NotFound();
@@ -74,7 +74,7 @@ public class AccountController : ControllerBase
             {
                 Id = newUser.Id,
                 DisplayName = newUser.DisplayName,
-                Username = newUser.UserName,
+                UserName = newUser.UserName,
                 Token = await _tokenFactory.CreateToken(newUser),
             });
         }
@@ -87,7 +87,7 @@ public class AccountController : ControllerBase
     public async Task<ActionResult<UserWithRoleDTO>> GetUser()
     {
         var user = await _manager.Users
-            .Include(x => x.Photo)
+            .Include(x => x.Photos)
             .FirstOrDefaultAsync(x => x.Id == User.FindFirstValue("id"));
         if (user == null) return NotFound();
 
@@ -104,7 +104,7 @@ public class AccountController : ControllerBase
             Id = user.Id,
             DisplayName = user.DisplayName,
             Username = user.UserName,
-            Photo = user?.Photo?.FirstOrDefault(x => x.IsMain)?.Url,
+            Photo = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
             Role = (roleList != null) ? roleList : "user",
             Token = await _tokenFactory.CreateToken(user),
         };

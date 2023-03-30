@@ -3,7 +3,7 @@ import Photo from "./photo";
 export interface User {
     id: string
     displayName: string,
-    username: string,
+    userName: string,
     photo: string,
     token: string
 }
@@ -12,21 +12,21 @@ export interface Credentials {
     email: string,
     password: string
     displayName: string,
-    username: string,
+    userName: string,
 }
 
 export class IntialUserCredentials implements Credentials {
     email = "";
     password = "";
     displayName = "";
-    username = "";
+    userName = "";
 
     constructor(registerData?: Credentials) {
         if (registerData) {
             this.email = registerData.email;
             this.password = registerData.password;
             this.displayName = registerData.displayName;
-            this.username = registerData.username;
+            this.userName = registerData.userName;
         }
     }
 }

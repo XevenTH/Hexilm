@@ -42,11 +42,15 @@ export default observer(function RoomList() {
           <div className="flex justify-center gap-4 my-2 p-4 items-center">
             {room.attendees.slice(0, 3).map((attendee) => (
               <div
-                key={attendee.username}
+                key={attendee.userName}
                 className="flex flex-col gap-1 items-center"
               >
-                <div className="bg-blue-300 rounded-full w-10 h-10" />
-                <div className="text-black">{attendee.displayName}</div>
+                {attendee.photo ?
+                  <img src={attendee.photo} className="rounded-full w-14 h-14" /> 
+                  :
+                  <div className="bg-blue-300 rounded-full w-14 h-14" />
+                }
+                <div className="text-white font-semibold">{attendee.displayName}</div>
               </div>
             ))}
             {room.attendees.length > 3 && (

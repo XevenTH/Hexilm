@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { UseStore } from '../../App/Stores/BaseStore'
 import RoomList from './RoomList'
-import Sidebar from '../../App/layout/Sidebar'
 
 export default function RoomPage() {
   const {
