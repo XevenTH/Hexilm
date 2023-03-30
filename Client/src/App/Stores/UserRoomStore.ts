@@ -14,7 +14,6 @@ export class UserRoomStore {
       var data = await ApiAgent.userRoomAPi.getRoomList()
 
       runInAction(() => {
-        console.log(data)
         this.userRooms = data
       })
     } catch (error) {

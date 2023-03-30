@@ -12,7 +12,7 @@ namespace API.Controllers;
 
 [AllowAnonymous]
 [ApiController]
-[Route("Api/[Controller]")]
+[Route("Api/v2/[Controller]")]
 public class AccountController : ControllerBase
 {
     private readonly UserManager<UserApp> _manager;
@@ -27,9 +27,11 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserDTO>> UserLogin([FromBody] LoginDTO loginData)
+    public async Task<ActionResult<UserWithRoleDTO>> UserLogin([FromBody] LoginDTO loginData)
     {
-        var user = await _manager.FindByEmailAsync(loginData.Email);
+        var user = await _manager.Users
+            .Include(x => x.Photo)
+            .FirstOrDefaultAsync(x => x.Email == loginData.Email);
 
         if (user == null) return NotFound();
 
@@ -37,7 +39,7 @@ public class AccountController : ControllerBase
 
         if (checker.Succeeded)
         {
-            return Ok(await CreateUserDTO(user));
+            return Ok(await CreateUserWithRoleInfoDTO(user));
         }
 
         return Unauthorized();
@@ -68,7 +70,13 @@ public class AccountController : ControllerBase
 
         if (result.Succeeded)
         {
-            return Ok(await CreateUserDTO(newUser));
+            return Ok(new UserDTO
+            {
+                Id = newUser.Id,
+                DisplayName = newUser.DisplayName,
+                Username = newUser.UserName,
+                Token = await _tokenFactory.CreateToken(newUser),
+            });
         }
 
         return StatusCode(StatusCodes.Status500InternalServerError);
@@ -76,27 +84,28 @@ public class AccountController : ControllerBase
 
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<UserAdminDTO>> GetUser()
+    public async Task<ActionResult<UserWithRoleDTO>> GetUser()
     {
-        var user = await _manager.Users.FirstOrDefaultAsync(x => x.Id == User.FindFirstValue("id"));
+        var user = await _manager.Users
+            .Include(x => x.Photo)
+            .FirstOrDefaultAsync(x => x.Id == User.FindFirstValue("id"));
         if (user == null) return NotFound();
 
-        var roleChecker = await _manager.IsInRoleAsync(user, "admin");
-
-        return Ok(new UserAdminDTO {
-            DisplayName = user.DisplayName,
-            Username = user.UserName,
-            IsAdmin = roleChecker,
-            Token = await _tokenFactory.CreateToken(user),
-        });
+        return Ok(await CreateUserWithRoleInfoDTO(user));
     }
 
-    private async Task<UserDTO> CreateUserDTO(UserApp user)
+    private async Task<UserWithRoleDTO> CreateUserWithRoleInfoDTO(UserApp user)
     {
-        return new UserDTO
+        var roles = await _manager.GetRolesAsync(user);
+        var roleList = roles.FirstOrDefault();
+
+        return new UserWithRoleDTO
         {
+            Id = user.Id,
             DisplayName = user.DisplayName,
             Username = user.UserName,
+            Photo = user?.Photo?.FirstOrDefault(x => x.IsMain)?.Url,
+            Role = (roleList != null) ? roleList : "user",
             Token = await _tokenFactory.CreateToken(user),
         };
     }

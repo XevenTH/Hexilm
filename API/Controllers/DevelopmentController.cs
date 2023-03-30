@@ -14,7 +14,7 @@ public class DevelopmentController : BaseApiController
         _manager = manager;
     }
 
-    [HttpDelete("deleteUser/{id}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(string id)
     {
         var user = await _manager.FindByIdAsync(id);
