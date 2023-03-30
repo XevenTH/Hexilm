@@ -30,8 +30,9 @@ public class GetProfile
         public async Task<ResultValidator<ProfileDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-            .ProjectTo<ProfileDTO>(_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(x => x.UserName == request.Username);
+                .Include(x => x.Photo)
+                .ProjectTo<ProfileDTO>(_mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync(x => x.UserName == request.Username);
 
             if(user == null) return ResultValidator<ProfileDTO>.Error("Can't Find User");
 
