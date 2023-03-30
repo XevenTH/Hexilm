@@ -19,13 +19,12 @@ public class AutoMapperProfiles : AutoMapper.Profile
         CreateMap<UpdateProfileDTO, UserApp>();
         
         CreateMap<UserApp, ProfileDTO>()
-            .ForMember(o => o.FavoriteMovies, o => o.MapFrom(u => u.FavoriteMovies.Select(fm => fm.Movie)))
-            .ForMember(o => o.Photo, o => o.MapFrom(u => u.Photo.FirstOrDefault(x => x.IsMain).Url));
+            .ForMember(o => o.FavoriteMovies, o => o.MapFrom(u => u.FavoriteMovies.Select(fm => fm.Movie)));
 
         CreateMap<UserRoom, AttendeesDTO>()
-            .ForMember(u => u.Username, o => o.MapFrom(a => a.User.UserName))
+            .ForMember(u => u.UserName, o => o.MapFrom(a => a.User.UserName))
             .ForMember(u => u.DisplayName, o => o.MapFrom(a => a.User.DisplayName))
-            .ForMember(o => o.Photo, o => o.MapFrom(u => u.User.Photo.FirstOrDefault(x => x.IsMain).Url));;
+            .ForMember(o => o.Photo, o => o.MapFrom(u => u.User.Photos.FirstOrDefault(x => x.IsMain).Url));;
         
     }
 }
