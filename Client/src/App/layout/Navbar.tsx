@@ -47,7 +47,7 @@ function Navbar() {
                     aria-labelledby="options-menu"
                   >
                     <a
-                      href="#"
+                      href={`/profile/${User?.username}`}
                       className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-slate-300 hover:text-gray-900 z-10"
                       role="menuitem"
                     >
@@ -130,7 +130,7 @@ function Navbar() {
               {User ? User?.displayName : "DisplayName"}
             </div>
             <a
-              href="#"
+              href={`/profile/${User?.username}`}
               className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10"
               role="menuitem"
             >
