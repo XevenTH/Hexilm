@@ -11,14 +11,8 @@ export default function RoomPage() {
     getRoomList()
   }, [])
 
-  const [isOpen, setIsOpen] = useState(false)
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen)
-  }
-
   return (
-    <div className="grid md:grid-cols-3">
+    <div>
       <RoomList />
     </div>
   )
