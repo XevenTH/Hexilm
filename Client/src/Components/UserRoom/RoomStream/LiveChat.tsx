@@ -107,13 +107,7 @@ export default function LiveChat(props: any) {
               key={attendee.username}
               className="flex flex-col mr-4 items-center text-sm"
             >
-              <div
-                className="bg-blue-300 rounded-full w-8 h-8 bg-cover"
-                style={{
-                  backgroundImage:
-                    'url(https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg)',
-                }}
-              />
+              <img className="rounded-full w-8 h-8 bg-cover" src={attendee.photo} alt="" />
               <div className="text-white">{attendee.displayName}</div>
             </div>
           ))}

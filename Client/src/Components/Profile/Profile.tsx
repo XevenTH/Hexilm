@@ -40,7 +40,7 @@ export default observer(function Profile() {
         <div className="bg-black/40 w-full flex justify-center md:items-baseline items-center md:pt-5">
           <div>
             <img
-              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
+              src={User?.photo}
               alt=""
               width={200}
               className="rounded-lg mb-5"

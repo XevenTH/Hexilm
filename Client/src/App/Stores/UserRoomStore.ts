@@ -1,9 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx"
 import ApiAgent from "../API/Agent"
-import { UserRoom } from "../model/userRoom"
+import { Room } from "../model/userRoom"
 
 export class UserRoomStore {
-  userRooms: UserRoom[] = []
+  userRooms: Room[] = []
 
   constructor() {
     makeAutoObservable(this)

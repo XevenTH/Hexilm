@@ -4,12 +4,12 @@ export interface Movie {
   picture: string
 }
 
-export default class NewMovie {
+export default class InitialMovie {
   id: string = ""
   title: string = ""
   picture: string = ""
 
-  constructor(value?: NewMovie) {
+  constructor(value?: InitialMovie) {
     if (value) {
       this.id = value.id
       this.title = value.title

@@ -2,7 +2,7 @@ import './Room.css'
 
 import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react'
-import { UserRoom } from '../../App/model/userRoom'
+import { Room } from '../../App/model/userRoom'
 import { UseStore } from '../../App/Stores/BaseStore'
 
 export default observer(function RoomList() {
@@ -23,7 +23,7 @@ export default observer(function RoomList() {
     }
   }, [])
 
-  const handleRoomClick = (room: UserRoom) => {
+  const handleRoomClick = (room: Room) => {
     const filteredRooms = userRooms.filter((r) => r.id === room.id)
     const roomData = JSON.stringify(filteredRooms[0])
     localStorage.setItem('dataRoom', roomData)
@@ -74,8 +74,12 @@ export default observer(function RoomList() {
                         key={attendee.userName}
                         className="flex flex-col gap-1 items-center"
                       >
-                        <div className="bg-blue-300 rounded-full w-10 h-10" />
-                        <div className="text-black">{attendee.displayName}</div>
+                        {attendee.photo ?
+                          <img src={attendee.photo} className="rounded-full w-14 h-14" />
+                          :
+                          <div className="bg-blue-300 rounded-full w-14 h-14" />
+                        }
+                        <div className="text-white font-semibold">{attendee.displayName}</div>
                       </div>
                     ))}
                     {room.attendees.length > 3 && (
