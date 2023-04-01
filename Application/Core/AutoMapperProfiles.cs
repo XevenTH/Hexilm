@@ -22,7 +22,9 @@ public class AutoMapperProfiles : AutoMapper.Profile
             .ForMember(o => o.FavoriteMovies, o => o.MapFrom(u => u.FavoriteMovies.Select(fm => fm.Movie)));
 
         CreateMap<UserRoom, AttendeesDTO>()
-            .ForMember(u => u.Username, o => o.MapFrom(a => a.User.UserName))
-            .ForMember(u => u.DisplayName, o => o.MapFrom(a => a.User.DisplayName));
+            .ForMember(u => u.UserName, o => o.MapFrom(a => a.User.UserName))
+            .ForMember(u => u.DisplayName, o => o.MapFrom(a => a.User.DisplayName))
+            .ForMember(o => o.Photo, o => o.MapFrom(u => u.User.Photos.FirstOrDefault(x => x.IsMain).Url));;
+        
     }
 }

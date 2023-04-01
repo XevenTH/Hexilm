@@ -39,9 +39,9 @@ public class FavoriteMovieAction
             
             if (movie == null) return ResultValidator<Unit>.Error("Can't Find The Movie");
 
-            var joinChecker = await _context.FavoriteMovies_Join.FindAsync(user.Id, movie.Id);
+            var joinTable = await _context.FavoriteMovies_Join.FindAsync(user.Id, movie.Id);
 
-            if (joinChecker == null)
+            if (joinTable == null)
             {
                 var newFavMovie = new FavoriteMovies
                 {
@@ -53,7 +53,7 @@ public class FavoriteMovieAction
             }
             else
             {
-                _context.FavoriteMovies_Join.Remove(joinChecker);
+                _context.FavoriteMovies_Join.Remove(joinTable);
             }
 
             var result = await _context.SaveChangesAsync() > 0;

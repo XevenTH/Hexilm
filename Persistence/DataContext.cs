@@ -12,6 +12,7 @@ public class DataContext : IdentityDbContext<UserApp>
 
     public DbSet<UserApp> User { get; set; }
     public DbSet<Room> Room { get; set; }
+    public DbSet<Photo> Photos { get; set; }
     public DbSet<UserRoom> UserRooms_Join { get; set; }
     public DbSet<FavoriteMovies> FavoriteMovies_Join { get; set; }
 
