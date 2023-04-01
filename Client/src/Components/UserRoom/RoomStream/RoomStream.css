@@ -1,0 +1,38 @@
+.heightCustome {
+  height: 380px;
+}
+
+.marginCustome {
+  width: 0px !important;
+}
+
+.closeRecommend::-webkit-scrollbar {
+  width: 0;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f100;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+/* Mozilla Firefox */
+::-moz-scrollbar {
+  width: 8px;
+}
+
+::-moz-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-moz-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
