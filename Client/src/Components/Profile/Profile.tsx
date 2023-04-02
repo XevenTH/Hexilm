@@ -1,10 +1,10 @@
-import './css/Profile.css'
+import "./css/Profile.css"
 
-import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react'
-import { UseStore } from '../../App/Stores/BaseStore'
-import dataLinks from './dataLinks'
-import BottomNav from './BottomNav'
+import { observer } from "mobx-react-lite"
+import { useEffect, useState } from "react"
+import { UseStore } from "../../App/Stores/BaseStore"
+import dataLinks from "./dataLinks"
+import BottomNav from "./BottomNav"
 
 export default observer(function Profile() {
   const {
@@ -20,13 +20,13 @@ export default observer(function Profile() {
   const pageLinks = dataLinks()
 
   useEffect(() => {
-    document.body.style.background = '#181823'
-    document.body.style.minHeight = '100vh'
+    document.body.style.background = "#181823"
+    document.body.style.minHeight = "100vh"
 
     // Cleanup function to reset the styles on unmount
     return () => {
-      document.body.style.background = ''
-      document.body.style.minHeight = ''
+      document.body.style.background = ""
+      document.body.style.minHeight = ""
     }
   }, [])
 
@@ -46,7 +46,7 @@ export default observer(function Profile() {
               className="rounded-lg mb-5"
             />
             <h2 className="text-white text-xl text-center mb-5">
-              {User ? User?.displayName : 'DisplayName'}
+              {User ? User?.displayName : "DisplayName"}
             </h2>
           </div>
         </div>
