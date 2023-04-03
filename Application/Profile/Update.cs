@@ -31,11 +31,13 @@ public class Update
         public async Task<ResultValidator<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-                .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+                .FirstOrDefaultAsync(x => x.Id == _userAccessor.GetId());
 
             if (user == null) return ResultValidator<Unit>.Error("Can't Find User");
 
             _mapper.Map(request.RequestProfile, user);
+
+            if(request.RequestProfile.UserName.ToUpper() != user.NormalizedUserName) user.NormalizedUserName = request.RequestProfile.UserName.ToUpper();
 
             var result = await _context.SaveChangesAsync() > 0;
 
