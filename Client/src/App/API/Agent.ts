@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios"
 import { Movie } from "../model/movie"
+import { InitialEditProfile, Profile } from "../model/profile"
 import { User, Credentials } from "../model/user"
 import { UserRoom } from "../model/userRoom"
 import { storeContainer } from "../Stores/BaseStore"
@@ -44,10 +45,17 @@ const userRoomAPi = {
   getRoomList: () => request.get<UserRoom[]>("/rooms"),
 }
 
+const profileApi = {
+  getProfile: (username: string) => request.get<Profile>(`/profile/${username}`),
+  editProfile: (editProfile: InitialEditProfile) =>
+  request.put<void>("/profile", editProfile),
+}
+
 const ApiAgent = {
   movieApi,
   accountApi,
   userRoomAPi,
+  profileApi
 }
 
 export default ApiAgent

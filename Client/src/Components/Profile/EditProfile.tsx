@@ -1,9 +1,51 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import ImageCrop from '../../App/layout/ReactImgCrop/App'
+import { UseStore } from '../../App/Stores/BaseStore'
 import './css/EditProfile.css'
+import Profile from './Profile'
+import { observer } from 'mobx-react-lite'
+import { InitialEditProfile } from '../../App/model/profile'
 
-export default function EditProfile() {
+export default observer(function EditProfile() {
+  const {
+    UserStore: { User },
+    ProfileStore: { editProfile, getProfile, profile },
+  } = UseStore()
+  
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [edit, setEdit] = useState({ displayName: '', userName: '', bio: '' })
+
+  const onChangeHandler = (event: any) => {
+    const { name, value } = event.target
+    setEdit((prevEdit) => ({ ...prevEdit, [name]: value }))
+    if (name === 'displayName') {
+      edit.displayName = value
+    } else if (name === 'userName') {
+      edit.userName = value
+    } else if (name === 'bio') {
+      edit.bio = value
+    }
+  }
+
+  function handleSaveChanges() {
+    const updatedEdit = {
+      displayName: edit.displayName || profile?.displayName || '',
+      userName: edit.userName || profile?.userName || '',
+      bio: edit.bio || profile?.bio || '',
+    }
+    editProfile(updatedEdit)
+  }
+
+  useEffect(() => {
+    try {
+      if (User?.username) {
+        getProfile(User?.username)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+
   const formText = (
     <>
       <div className="grid grid-cols-1 place-items-center text-white/80">
@@ -22,15 +64,17 @@ export default function EditProfile() {
         </div>
 
         <div className="mb-5">
-          <label htmlFor="displayNamep" className="text-white/70">
+          <label htmlFor="displayName" className="text-white/70">
             Name
           </label>
           <div>
             <input
+              name="displayName"
               id="displayName"
               type="text"
               className="w-52 focus:outline-none bg-inherit border-white/70 border-b"
               autoComplete="off"
+              onChange={onChangeHandler}
             />
           </div>
         </div>
@@ -40,10 +84,27 @@ export default function EditProfile() {
           </label>
           <div>
             <input
+              name="userName"
               id="username"
               type="text"
               className="w-52 focus:outline-none bg-inherit border-white/70 border-b"
               autoComplete="off"
+              onChange={onChangeHandler}
+            />
+          </div>
+        </div>
+        <div className="mb-5">
+          <label htmlFor="bio" className="text-white/70">
+            Bio
+          </label>
+          <div>
+            <input
+              name="bio"
+              id="bio"
+              type="text"
+              className="w-52 focus:outline-none bg-inherit border-white/70 border-b"
+              autoComplete="off"
+              onChange={onChangeHandler}
             />
           </div>
         </div>
@@ -51,24 +112,11 @@ export default function EditProfile() {
         <button
           type="submit"
           className="duration-200 bg-gray-700 hover:bg-gray-800 hover:text-white text-center rounded-lg p-1 w-32"
+          onClick={handleSaveChanges}
         >
           Edit Profile
         </button>
       </div>
-    </>
-  )
-
-  const backFromChangeToPhoto = (
-    <>
-      <div>
-        <button
-          className="bg-red-600 text-gray-900 p-1 px-2 rounded-lg cursor-pointer"
-          onClick={() => setChangeToPhoto(changeToPhoto)}
-        >
-          Cancel
-        </button>
-      </div>
-      <ImageCrop />
     </>
   )
 
@@ -86,9 +134,21 @@ export default function EditProfile() {
     console.log(selectedFile)
   }
 
-  return (
-    <form onSubmit={handleSubmit} className="form px-5">
-      {changeToPhoto}
-    </form>
+  const backFromChangeToPhoto = (
+    <>
+      <div className="px-2">
+        <button
+          className="bg-red-600 text-gray-900 p-1 px-2 rounded-lg cursor-pointer"
+          onClick={() => setChangeToPhoto(changeToPhoto)}
+        >
+          Cancel
+        </button>
+      </div>
+      <form onSubmit={handleSubmit} className="form px-5">
+        <ImageCrop />
+      </form>
+    </>
   )
-}
+
+  return <>{changeToPhoto}</>
+})

@@ -9,7 +9,19 @@ import BottomNav from './BottomNav'
 export default observer(function Profile() {
   const {
     UserStore: { User },
+    UserStore: {}, ProfileStore: {getProfile, profile}
   } = UseStore()
+
+  useEffect(() => {
+    try {
+      if (User?.username) {
+        getProfile(User?.username)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
+  },[]);
 
   const [currentPage, setCurrentPage] = useState(0)
 
@@ -46,7 +58,7 @@ export default observer(function Profile() {
               className="rounded-lg mb-5"
             />
             <h2 className="text-white text-xl text-center mb-5">
-              {User ? User?.displayName : 'DisplayName'}
+              {profile ? profile?.displayName : 'DisplayName'}
             </h2>
           </div>
         </div>

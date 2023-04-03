@@ -71,7 +71,7 @@ export default observer(function RoomList() {
                   <div className="flex justify-center gap-4 my-2 p-4 items-center">
                     {room.attendees.slice(0, 3).map((attendee) => (
                       <div
-                        key={attendee.userName}
+                        key={attendee.username}
                         className="flex flex-col gap-1 items-center"
                       >
                         <div className="bg-blue-300 rounded-full w-10 h-10" />

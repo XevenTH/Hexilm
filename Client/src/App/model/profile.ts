@@ -11,3 +11,18 @@ export interface Profile {
     }
   ];
 }
+
+export class InitialEditProfile {
+  displayName= "";
+  userName= "";
+  bio= "";
+  
+  constructor(request?: InitialEditProfile) {
+    if (request) {
+      this.displayName = request.displayName;
+    this.userName = request.userName;
+    this.bio = request.bio;
+    }    
+  }
+}
+
