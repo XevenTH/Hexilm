@@ -5,7 +5,6 @@ import { storeContainer } from "./BaseStore"
 
 export default class CommonStore {
   User: User | null = null
-  isLoading: Boolean = true
 
   constructor() {
     makeAutoObservable(this)
@@ -48,18 +47,17 @@ export default class CommonStore {
 
   getUser = async () => {
     try {
-      this.isLoading = true
       const user = await ApiAgent.accountApi.getUser()
 
       runInAction(() => {
         this.User = user
       })
     } catch (error) {
+      console.log(error)
+
       runInAction(() => {
         console.log(error)
       })
-    } finally {
-      this.isLoading = false
     }
   }
 }

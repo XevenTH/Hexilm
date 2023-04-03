@@ -23,7 +23,7 @@ export default function LoginForm() {
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     UserStore.login(loginData)
-      .then(() => navigate("/movies"))
+      .then(() => navigate("/"))
       .catch((err) => {
         if (err instanceof Error) {
           setError(err.message)
