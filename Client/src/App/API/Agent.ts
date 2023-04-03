@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios"
 import { Movie } from "../model/movie"
 import { InitialEditProfile, Profile } from "../model/profile"
 import { User, Credentials } from "../model/user"
-import { UserRoom } from "../model/userRoom"
+import { Room } from "../model/userRoom"
 import { storeContainer } from "../Stores/BaseStore"
 
 axios.defaults.baseURL = "http://localhost:5000/api/v2"
@@ -42,7 +42,7 @@ const accountApi = {
 }
 
 const userRoomAPi = {
-  getRoomList: () => request.get<UserRoom[]>("/rooms"),
+  getRoomList: () => request.get<Room[]>("/rooms"),
 }
 
 const profileApi = {

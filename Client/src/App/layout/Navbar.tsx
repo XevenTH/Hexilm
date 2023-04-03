@@ -1,12 +1,12 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { UseStore } from "../Stores/BaseStore"
 
 function Navbar() {
   const {
     UserStore: { User, logout },
   } = UseStore()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -21,11 +21,12 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <button
-              className="bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 bg-clip-text text-transparent text-2xl font-bold drop-shadow-md" onClick={() => navigate("/movies")}
+            <Link
+              to={"/"}
+              className="bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 bg-clip-text text-transparent text-2xl font-bold drop-shadow-md"
             >
               CoolMovie
-            </button>
+            </Link>
           </div>
           <div className="hidden sm:block">
             <div className="relative">
@@ -34,7 +35,7 @@ function Navbar() {
                 onClick={toggleDropdown}
               >
                 {User ? User?.displayName : "DisplayName"}
-                <div className="ml-2 w-6 h-6 bg-black rounded-full"></div>
+                <img src={User?.photo} className="ml-2 w-8 h-8 rounded-full" />
               </button>
               {isOpen && (
                 <div
@@ -47,14 +48,14 @@ function Navbar() {
                     aria-orientation="vertical"
                     aria-labelledby="options-menu"
                   >
-                    <a
-                      href={`/profile/${User?.username}`}
+                    <Link
+                      to={`/profile/${User?.userName}`}
                       className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-slate-300 hover:text-gray-900 z-10"
                       role="menuitem"
                     >
                       Profile
-                    </a>
-                    <a
+                    </Link>
+                    <button
                       className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-slate-300 hover:text-gray-900 z-10"
                       role="menuitem"
                       onClick={(event) => {
@@ -63,7 +64,7 @@ function Navbar() {
                       }}
                     >
                       Logout
-                    </a>
+                    </button>
                   </div>
                 </div>
               )}
@@ -127,16 +128,16 @@ function Navbar() {
             aria-labelledby="options-menu"
           >
             <div className="inline-flex px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10">
-              <div className="mr-2 w-6 h-6 bg-black rounded-full"></div>
               {User ? User?.displayName : "DisplayName"}
+              <img src={User?.photo} className="mr-2 w-6 h-6 rounded-full" />
             </div>
-            <a
-              href={`/profile/${User?.username}`}
+            <Link
+              to={`/profile/${User?.userName}`}
               className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10"
               role="menuitem"
             >
               Profile
-            </a>
+            </Link>
             <button
               className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-left"
               role="menuitem"

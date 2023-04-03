@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite"
 import { useState } from "react"
 import ReuseableForm from "../../../App/common/Form/ReuseableForm"
 import ReuseableTextInput from "../../../App/common/Form/ReuseableTextInput"
-import NewMovie, { Movie } from "../../../App/model/movie"
+import InitialMovie, { Movie } from "../../../App/model/movie"
 import { UseStore } from "../../../App/Stores/BaseStore"
 
 export default observer(function Edit() {
@@ -14,7 +14,7 @@ export default observer(function Edit() {
     CreateNewMovie,
   } = MovieStore
 
-  const [formValue, setFormValue] = useState<Movie>(new NewMovie(selectedMovie))
+  const [formValue, setFormValue] = useState<Movie>(new InitialMovie(selectedMovie))
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()

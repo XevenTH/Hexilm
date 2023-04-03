@@ -6,27 +6,11 @@ import { useEffect, useRef, useState } from 'react'
 import Recommend from './Recommend'
 import LiveChat from './LiveChat'
 import Stream from './Stream'
+import { InitialRoom, Room } from '../../../App/model/userRoom'
 
 export default observer(function RoomStream() {
-  interface Room {
-    id: string
-    title: string
-    movie: {
-      id: string
-      title: string
-      description: string
-      picture: string
-    }
-    attendees: any[]
-  }
-
   const [isLoading, setIsLoading] = useState(true)
-  const [filterRoom, setFilterRoom] = useState<Room>({
-    id: '',
-    title: '',
-    movie: { id: '', title: '', description: '', picture: '' },
-    attendees: [],
-  })
+  const [filterRoom, setFilterRoom] = useState<Room>(new InitialRoom())
   const [commentsState, setCommentsState] = useState([
     { user: '', comment: '' },
   ])

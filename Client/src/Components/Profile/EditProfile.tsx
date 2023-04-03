@@ -38,8 +38,8 @@ export default observer(function EditProfile() {
 
   useEffect(() => {
     try {
-      if (User?.username) {
-        getProfile(User?.username)
+      if (User?.userName) {
+        getProfile(User?.userName)
       }
     } catch (error) {
       console.log(error)
@@ -123,7 +123,7 @@ export default observer(function EditProfile() {
   const [changeToPhoto, setChangeToPhoto] = useState(formText)
 
   const handleFileInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSelectedFile(event.target.files ? event.target.files[0] : null)
   }

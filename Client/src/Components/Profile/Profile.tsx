@@ -1,10 +1,10 @@
-import './css/Profile.css'
+import "./css/Profile.css"
 
-import { observer } from 'mobx-react-lite'
-import { useEffect, useState } from 'react'
-import { UseStore } from '../../App/Stores/BaseStore'
-import dataLinks from './dataLinks'
-import BottomNav from './BottomNav'
+import { observer } from "mobx-react-lite"
+import { useEffect, useState } from "react"
+import { UseStore } from "../../App/Stores/BaseStore"
+import dataLinks from "./dataLinks"
+import BottomNav from "./BottomNav"
 
 export default observer(function Profile() {
   const {
@@ -14,8 +14,8 @@ export default observer(function Profile() {
 
   useEffect(() => {
     try {
-      if (User?.username) {
-        getProfile(User?.username)
+      if (User?.userName) {
+        getProfile(User?.userName)
       }
     } catch (error) {
       console.log(error);
@@ -32,13 +32,13 @@ export default observer(function Profile() {
   const pageLinks = dataLinks()
 
   useEffect(() => {
-    document.body.style.background = '#181823'
-    document.body.style.minHeight = '100vh'
+    document.body.style.background = "#181823"
+    document.body.style.minHeight = "100vh"
 
     // Cleanup function to reset the styles on unmount
     return () => {
-      document.body.style.background = ''
-      document.body.style.minHeight = ''
+      document.body.style.background = ""
+      document.body.style.minHeight = ""
     }
   }, [])
 
@@ -52,7 +52,7 @@ export default observer(function Profile() {
         <div className="bg-black/40 w-full flex justify-center md:items-baseline items-center md:pt-5">
           <div>
             <img
-              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
+              src={User?.photo}
               alt=""
               width={200}
               className="rounded-lg mb-5"

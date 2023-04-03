@@ -1,31 +1,27 @@
-import { observer } from 'mobx-react-lite'
-import { useEffect } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
-import HomePage from '../../Components/Home/HomePage'
-import { UseStore } from '../Stores/BaseStore'
-import './css/App.css'
-import Navbar from './Navbar'
+import { observer } from "mobx-react-lite"
+import { useState, useEffect } from "react"
+import { Outlet } from "react-router-dom"
+import Loading from "../common/UI/Loading"
+import { UseStore } from "../Stores/BaseStore"
+import "./css/App.css"
 
 function App() {
   const { UserStore, CommonStore } = UseStore()
-  const location = useLocation()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (CommonStore.token) UserStore.getUser()
+    const checkAuth = async () => {
+      if (CommonStore.token) {
+        await UserStore.getUser()
+      }
+      setTimeout(() => {
+        setLoading(false)
+      }, 2000)
+    }
+    checkAuth()
   }, [UserStore])
 
-  return (
-    <>
-      {location.pathname !== '/' && UserStore.IsLogging ? (
-        <div>
-          <Navbar />
-          <Outlet />
-        </div>
-      ) : (
-        <HomePage />
-      )}
-    </>
-  )
+  return loading ? <Loading /> : <Outlet />
 }
 
 export default observer(App)
