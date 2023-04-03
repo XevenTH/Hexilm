@@ -17,4 +17,9 @@ public class UserAccessor : IUserAccessor
     {
         return _contextAccessor.HttpContext.User.FindFirstValue("username");
     }
+
+    public string GetId()
+    {
+        return _contextAccessor.HttpContext.User.FindFirstValue("id");
+    }
 }
