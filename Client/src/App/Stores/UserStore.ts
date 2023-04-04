@@ -53,6 +53,8 @@ export default class CommonStore {
         this.User = user
       })
     } catch (error) {
+      console.log(error)
+
       runInAction(() => {
         console.log(error)
       })

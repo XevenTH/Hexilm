@@ -15,7 +15,10 @@ public class DataContext : IdentityDbContext<UserApp>
     public DbSet<Photo> Photos { get; set; }
     public DbSet<UserRoom> UserRooms_Join { get; set; }
     public DbSet<FavoriteMovies> FavoriteMovies_Join { get; set; }
-
+    public DbSet<Actor> Actors { get; set; }
+    public DbSet<Director> Directors { get; set; }
+    public DbSet<Category> Category { get; set; }
+    public DbSet<MovieCategory> MovieCategories_join { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,5 +47,17 @@ public class DataContext : IdentityDbContext<UserApp>
             .HasOne(m => m.Movie)
             .WithMany(u => u.UserFavorite)
             .HasForeignKey(m => m.MovieId);
+
+        modelBuilder.Entity<MovieCategory>().HasKey(mc => new { mc.MovieId, mc.CategoryId });
+
+        modelBuilder.Entity<MovieCategory>()
+            .HasOne(m => m.Movie)
+            .WithMany(c => c.MovieCategory)
+            .HasForeignKey(m => m.MovieId);
+
+        modelBuilder.Entity<MovieCategory>()
+            .HasOne(m => m.Category)
+            .WithMany(c => c.MovieCategory)
+            .HasForeignKey(m => m.CategoryId);
     }
 }

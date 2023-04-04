@@ -145,6 +145,63 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Model.Actor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("MovieId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhotoId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.HasIndex("PhotoId");
+
+                    b.ToTable("Actors");
+                });
+
+            modelBuilder.Entity("Model.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Model.Director", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhotoId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
+
+                    b.ToTable("Directors");
+                });
+
             modelBuilder.Entity("Model.FavoriteMovies", b =>
                 {
                     b.Property<string>("UserAppId")
@@ -172,6 +229,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("DirectorId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Picture")
                         .HasColumnType("TEXT");
 
@@ -180,7 +240,24 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DirectorId");
+
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("Model.MovieCategory", b =>
+                {
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MovieId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("MovieCategories_join");
                 });
 
             modelBuilder.Entity("Model.Photo", b =>
@@ -359,6 +436,28 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Model.Actor", b =>
+                {
+                    b.HasOne("Model.Movie", null)
+                        .WithMany("Actors")
+                        .HasForeignKey("MovieId");
+
+                    b.HasOne("Model.Photo", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId");
+
+                    b.Navigation("Photo");
+                });
+
+            modelBuilder.Entity("Model.Director", b =>
+                {
+                    b.HasOne("Model.Photo", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId");
+
+                    b.Navigation("Photo");
+                });
+
             modelBuilder.Entity("Model.FavoriteMovies", b =>
                 {
                     b.HasOne("Model.Movie", "Movie")
@@ -376,6 +475,34 @@ namespace Persistence.Migrations
                     b.Navigation("Movie");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Model.Movie", b =>
+                {
+                    b.HasOne("Model.Director", "Director")
+                        .WithMany("Movies")
+                        .HasForeignKey("DirectorId");
+
+                    b.Navigation("Director");
+                });
+
+            modelBuilder.Entity("Model.MovieCategory", b =>
+                {
+                    b.HasOne("Model.Category", "Category")
+                        .WithMany("MovieCategory")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Movie", "Movie")
+                        .WithMany("MovieCategory")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("Model.Photo", b =>
@@ -413,8 +540,22 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Model.Category", b =>
+                {
+                    b.Navigation("MovieCategory");
+                });
+
+            modelBuilder.Entity("Model.Director", b =>
+                {
+                    b.Navigation("Movies");
+                });
+
             modelBuilder.Entity("Model.Movie", b =>
                 {
+                    b.Navigation("Actors");
+
+                    b.Navigation("MovieCategory");
+
                     b.Navigation("UserFavorite");
                 });
 

@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx"
 import uuid from "react-uuid"
 import ApiAgent from "../API/Agent"
-import NewMovie, { Movie } from "../model/movie"
+import InitialMovie, { Movie } from "../model/movie"
 
 export default class MovieStore {
   movieList: Movie[] = []
@@ -44,7 +44,7 @@ export default class MovieStore {
 
   CreateNewMovie = async (movie: Movie) => {
     try {
-      let newMovie = new NewMovie(movie)
+      let newMovie = new InitialMovie(movie)
       newMovie.id = uuid()
       await ApiAgent.movieApi.postMovie(newMovie)
 

@@ -1,0 +1,8 @@
+.form {
+    display: flex;
+    flex-direction: column;
+  }
+  .form > * {
+    display: block;
+    margin-bottom: 10px;
+  }
