@@ -40,3 +40,5 @@ Merupakan project ASP.NET Core yang digunakan untuk menerima request serta membe
    ```
 5. Masuk ke folder./API. Lalu ketikan dotnet watch run.
 6. Maka akan terbuka swagger UI untuk list API.
+### MacOS
+&nbsp;&nbsp;&nbsp;&nbsp; Searching....
