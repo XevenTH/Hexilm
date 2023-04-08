@@ -30,25 +30,25 @@ public class ProfileMain
             var user = await _context.Users
                 .Include(x => x.Photos)
                 .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername(), cancellationToken);
-            if(user == null) return ResultValidator<Unit>.Error("Can't Find The User");
+            if(user == null) return ResultValidator<Unit>.Error("Can't Find The User", 404);
 
             var mainPhoto = user.Photos.FirstOrDefault(x => x.IsMain);
-            if(mainPhoto == null) return ResultValidator<Unit>.Error("Can't Find The Main Photo");
+            if(mainPhoto == null) return ResultValidator<Unit>.Error("Can't Find The Main Photo", 404);
 
             mainPhoto.IsMain = false;
             
             var photo = user.Photos.FirstOrDefault(x => x.Id == request.PublicId);
-            if(photo == null) return ResultValidator<Unit>.Error("Can't Find The Image");
+            if(photo == null) return ResultValidator<Unit>.Error("Can't Find The Image", 404);
             
-            if (photo.IsMain) return ResultValidator<Unit>.Error("Photo Is Already The Main Photo");
+            if (photo.IsMain) return ResultValidator<Unit>.Error("Photo Is Already The Main Photo", 400);
 
             photo.IsMain = true;
 
             var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
             return result
-                ? ResultValidator<Unit>.Success(Unit.Value)
-                : ResultValidator<Unit>.Error("Error While Saving Change");
+                ? ResultValidator<Unit>.Success(Unit.Value, 200)
+                : ResultValidator<Unit>.Error("Error While Saving Change", 400);
         }
     }
 }

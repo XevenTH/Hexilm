@@ -4,7 +4,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Model;
 using Persistence;
 
 namespace Application.Movies;
@@ -29,8 +28,9 @@ public class List
             var movies = await _context.Movies
                 .ProjectTo<MovieDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync();
+            if(movies is null) return ResultValidator<List<MovieDTO>>.Error("Can't FInd Movies", 404);
 
-            return ResultValidator<List<MovieDTO>>.Success(movies);
+            return ResultValidator<List<MovieDTO>>.Success(movies, 200);
         }
     }
 }

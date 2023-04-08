@@ -1,6 +1,5 @@
 using Application.Core;
 using Application.MovieRoom.DTO;
-using Application.Movies.DTO;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -31,9 +30,9 @@ public class List
                 .ProjectTo<RoomDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            if(roomList == null) return ResultValidator<List<RoomDTO>>.Error("Can't Get List of Room");
+            if(roomList == null) return ResultValidator<List<RoomDTO>>.Error("Can't Get List of Room", 404);
 
-            return ResultValidator<List<RoomDTO>>.Success(roomList);
+            return ResultValidator<List<RoomDTO>>.Success(roomList, 200);
         }
     }
 }

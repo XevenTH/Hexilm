@@ -34,9 +34,9 @@ public class GetProfile
                 .ProjectTo<ProfileDTO>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.UserName == request.Username);
 
-            if(user == null) return ResultValidator<ProfileDTO>.Error("Can't Find User");
+            if(user == null) return ResultValidator<ProfileDTO>.Error("Can't Find User", 404);
 
-            return ResultValidator<ProfileDTO>.Success(user);
+            return ResultValidator<ProfileDTO>.Success(user, 200);
         }
     }
 }

@@ -4,7 +4,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Model;
 using Persistence;
 
 namespace Application.Movies;
@@ -33,9 +32,9 @@ public class Single
                 .ProjectTo<MovieDTO>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-            if(movie == null) return ResultValidator<MovieDTO>.Error("Can't Find Movie");
+            if(movie == null) return ResultValidator<MovieDTO>.Error("Can't Find Movie", 404);
 
-            return ResultValidator<MovieDTO>.Success(movie);
+            return ResultValidator<MovieDTO>.Success(movie, 200);
         }
     }
 }

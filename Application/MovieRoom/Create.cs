@@ -32,10 +32,10 @@ public class Create
         public async Task<ResultValidator<RoomDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
             var user = await _context.User.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
-            if(user == null) return ResultValidator<RoomDTO>.Error("User Unable to Create Room");
+            if(user == null) return ResultValidator<RoomDTO>.Error("User Unable to Create Room", 404);
 
             var movie = await _context.Movies.FirstOrDefaultAsync(x => x.Id.ToString() == request.Room.MovieId);
-            if(movie == null) return ResultValidator<RoomDTO>.Error("Movie Not Found");
+            if(movie == null) return ResultValidator<RoomDTO>.Error("Movie Not Found", 404);
 
             Room newRoom = new Room {
                 Id = request.Room.Id,
@@ -53,9 +53,9 @@ public class Create
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if(result != true) return ResultValidator<RoomDTO>.Error("Error While Creating The Room");
+            if(result != true) return ResultValidator<RoomDTO>.Error("Error While Creating The Room", 400);
 
-            return ResultValidator<RoomDTO>.Success(_mapper.Map<RoomDTO>(newRoom));
+            return ResultValidator<RoomDTO>.Success(_mapper.Map<RoomDTO>(newRoom), 200);
         }
     }
 }
