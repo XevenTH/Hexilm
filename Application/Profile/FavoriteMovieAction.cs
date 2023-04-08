@@ -32,12 +32,12 @@ public class FavoriteMovieAction
                 .Include(x => x.FavoriteMovies)
                 .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
 
-            if (user == null) return ResultValidator<Unit>.Error("Can't Find The User");
+            if (user == null) return ResultValidator<Unit>.Error("Can't Find The User", 404);
 
             var movie = await _context.Movies
                 .FirstOrDefaultAsync(x => x.Id == request.RequestFavoriteMovie.Id);
             
-            if (movie == null) return ResultValidator<Unit>.Error("Can't Find The Movie");
+            if (movie == null) return ResultValidator<Unit>.Error("Can't Find The Movie", 404);
 
             var joinTable = await _context.FavoriteMovies_Join.FindAsync(user.Id, movie.Id);
 
@@ -58,9 +58,9 @@ public class FavoriteMovieAction
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (result == false) return ResultValidator<Unit>.Error("Error While Saving Changes");
+            if (result == false) return ResultValidator<Unit>.Error("Error While Saving Changes", 400);
 
-            return ResultValidator<Unit>.Success(Unit.Value);
+            return ResultValidator<Unit>.Success(Unit.Value, 200);
         }
     }
 }

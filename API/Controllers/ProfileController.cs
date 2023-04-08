@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[AllowAnonymous]
 public class ProfileController : BaseApiController
 {
     [HttpGet("{username}")]

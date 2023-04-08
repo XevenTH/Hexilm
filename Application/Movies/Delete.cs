@@ -24,15 +24,15 @@ public class Delete
         {
             Movie movie = await _context.Movies.FindAsync(request.Id);
 
-            if(movie == null) return ResultValidator<Unit>.Error("Can't Find Movie");
+            if(movie == null) return ResultValidator<Unit>.Error("Can't Find Movie", 404);
 
             _context.Remove(movie);
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if(result != true) return ResultValidator<Unit>.Error("Error Deleting The Movie");
+            if(result != true) return ResultValidator<Unit>.Error("Error Deleting The Movie", 400);
 
-            return ResultValidator<Unit>.Success(Unit.Value);
+            return ResultValidator<Unit>.Success(Unit.Value, 200);
         }
     }
 }

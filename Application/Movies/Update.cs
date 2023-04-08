@@ -2,7 +2,6 @@ using Application.Core;
 using Application.Movies.DTO;
 using AutoMapper;
 using MediatR;
-using Model;
 using Persistence;
 
 namespace Application.Movies;
@@ -29,14 +28,14 @@ public class Update
         public async Task<ResultValidator<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var movie = await _context.Movies.FindAsync(request.Movie.Id);
-            if(movie == null) return ResultValidator<Unit>.Error("Can't Find Movie");
+            if(movie == null) return ResultValidator<Unit>.Error("Can't Find Movie", 404);
 
             _mapper.Map(request.Movie, movie);
 
             var result = await _context.SaveChangesAsync() > 0;
-            if(result == false) return ResultValidator<Unit>.Error("Error While Updating The Movie");
+            if(result == false) return ResultValidator<Unit>.Error("Error While Updating The Movie", 400);
 
-            return ResultValidator<Unit>.Success(Unit.Value);
+            return ResultValidator<Unit>.Success(Unit.Value, 200);
         }
     }
 }

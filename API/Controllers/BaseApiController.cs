@@ -14,10 +14,10 @@ public class BaseApiController : ControllerBase
 
     protected ActionResult GetResult<T>(ResultValidator<T> result)
     {
-        if (result.IsSuccess && result.Value != null) return Ok(result.Value);
-        if (!result.IsSuccess && result.Value == null) return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, result.Message));
+        if (result.IsSuccess && result.Value != null && result.StatusCode == 200) return Ok(result.Value);
+        if (!result.IsSuccess && result.Value == null && result.StatusCode == 404) return NotFound(CreateResponseAuth(Response.StatusCode, result.Message));
 
-        return BadRequest();
+        return BadRequest(CreateResponseAuth(Response.StatusCode, result.Message));
     }
 
     protected object CreateResponseAuth(int code, string message)

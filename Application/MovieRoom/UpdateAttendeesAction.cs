@@ -31,12 +31,12 @@ public class UpdateAttendeesAction
                 .Include(x => x.Attendees)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-            if (room == null) return ResultValidator<Unit>.Error("Can't Find Room");
+            if (room == null) return ResultValidator<Unit>.Error("Can't Find Room", 404);
 
             var user = await _context.Users
                 .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername()); 
 
-            if (user == null) return ResultValidator<Unit>.Error("Can't Find User");
+            if (user == null) return ResultValidator<Unit>.Error("Can't Find User", 404);
             
             var userInRoom = room.Attendees.FirstOrDefault(x => x.User.UserName == _userAccessor.GetUsername());
 
@@ -57,8 +57,8 @@ public class UpdateAttendeesAction
 
             var result = await _context.SaveChangesAsync() > 0;
             
-            return result ? ResultValidator<Unit>.Success(Unit.Value) 
-                : ResultValidator<Unit>.Error("Something When Wrong....");
+            return result ? ResultValidator<Unit>.Success(Unit.Value, 200) 
+                : ResultValidator<Unit>.Error("Something When Wrong....", 400);
         }
     }
 }

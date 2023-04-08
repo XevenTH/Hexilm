@@ -32,9 +32,9 @@ public class SingleMovie
                 .ProjectTo<RoomDTO>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-            if(room == null) return ResultValidator<RoomDTO>.Error("Can't Find Room");
+            if(room == null) return ResultValidator<RoomDTO>.Error("Can't Find Room", 404);
 
-            return ResultValidator<RoomDTO>.Success(room);
+            return ResultValidator<RoomDTO>.Success(room, 200);
         }
     }
 }

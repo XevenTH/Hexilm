@@ -33,9 +33,9 @@ public class Create
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if(result != true) return ResultValidator<Unit>.Error("Error Creating The Movie");
+            if(result != true) return ResultValidator<Unit>.Error("Error Creating The Movie", 400);
 
-            return ResultValidator<Unit>.Success(Unit.Value);
+            return ResultValidator<Unit>.Success(Unit.Value, 200);
         }
     }
 }
