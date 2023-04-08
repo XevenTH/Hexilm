@@ -1,9 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import ImageCrop from '../../App/layout/ReactImgCrop/App'
-import './css/EditProfile.css'
+import React, { useState, useEffect } from "react"
+import ImageCrop from "../../App/layout/ReactImgCrop/App"
+import { UseStore } from "../../App/Stores/BaseStore"
+import "./css/EditProfile.css"
 
 export default function EditProfile() {
+  const {
+    UserStore: { User },
+  } = UseStore()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [name, setName] = useState(User?.displayName || "")
+  const [username, setUsername] = useState(User?.userName || "")
+
+  //Disini state udh berubah tapi di inputnya belum
+  console.log(name)
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
+    setName(e.target.value)
+  }
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value)
+  }
+
   const formText = (
     <>
       <div className="grid grid-cols-1 place-items-center text-white/80">
@@ -22,8 +41,8 @@ export default function EditProfile() {
         </div>
 
         <div className="mb-5">
-          <label htmlFor="displayNamep" className="text-white/70">
-            Name
+          <label htmlFor="displayName" className="text-white/70">
+            Namee
           </label>
           <div>
             <input
@@ -31,6 +50,8 @@ export default function EditProfile() {
               type="text"
               className="w-52 focus:outline-none bg-inherit border-white/70 border-b"
               autoComplete="off"
+              value={name}
+              onChange={handleNameChange}
             />
           </div>
         </div>
@@ -44,6 +65,8 @@ export default function EditProfile() {
               type="text"
               className="w-52 focus:outline-none bg-inherit border-white/70 border-b"
               autoComplete="off"
+              value={username}
+              onChange={handleUsernameChange}
             />
           </div>
         </div>
@@ -75,7 +98,7 @@ export default function EditProfile() {
   const [changeToPhoto, setChangeToPhoto] = useState(formText)
 
   const handleFileInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSelectedFile(event.target.files ? event.target.files[0] : null)
   }
@@ -84,6 +107,8 @@ export default function EditProfile() {
     event.preventDefault()
     // Lakukan sesuatu dengan file yang dipilih
     console.log(selectedFile)
+    alert(name)
+    alert(username)
   }
 
   return (
