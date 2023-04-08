@@ -45,7 +45,8 @@ public class Create
 
             UserRoom attendee = new UserRoom {
                 User = user,
-                Room = newRoom
+                Room = newRoom,
+                IsHost = true,
             };
 
             newRoom.Attendees.Add(attendee);
