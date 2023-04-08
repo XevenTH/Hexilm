@@ -14,6 +14,8 @@ function Navbar() {
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
   }
+  console.log("User :",User);
+  
 
   return (
     <nav className="relative z-10 backdrop-blur-lg bg-[#181823]">

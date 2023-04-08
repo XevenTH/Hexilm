@@ -26,7 +26,7 @@ export default function Recommend(props: any) {
       <ul>
         {Array.from({ length: 20 }).map((_, index) => {
           return (
-            <li className="p-2 hover:bg-gray-900 flex items-center justify-center">
+            <li key={index} className="p-2 hover:bg-gray-900 flex items-center justify-center">
               <img
                 src="https://media.tenor.com/NICoVNbKVGYAAAAM/profile-picture.gif"
                 alt=""

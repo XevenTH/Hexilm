@@ -16,8 +16,8 @@ export default observer(function RoomStream() {
   ])
 
   const commentRef = useRef<HTMLDivElement>(null)
-  const [closeRecommend, setCloseRecommend] = useState(!true)
-  const [closeLiveChat, setCloseLiveChat] = useState(!true)
+  const [closeRecommend, setCloseRecommend] = useState(false)
+  const [closeLiveChat, setCloseLiveChat] = useState(false)
 
   useEffect(() => {
     document.body.style.background = '#181823'
