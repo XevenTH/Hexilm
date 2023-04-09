@@ -24,7 +24,6 @@ export default observer(function RoomList() {
       document.body.style.minHeight = ""
     }
   }, [])
-  console.log("userRooms :",userRooms);
   
 
   const handleRoomClick = (room: Room) => {

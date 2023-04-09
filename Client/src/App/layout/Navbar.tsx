@@ -14,7 +14,6 @@ function Navbar() {
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
   }
-  console.log("User :",User);
   
 
   return (

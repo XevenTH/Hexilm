@@ -4,7 +4,7 @@ export default function Stream(props: any) {
     <div className="w-full overflow-y-scroll">
       <iframe
         className={`w-full h-${
-          closeLiveChat === true && closeRecommend === true ? 'full' : '3/4'
+          closeLiveChat === false && closeRecommend === false ? '3/4' : 'full'
         } border-white/20`}
         src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         title="YouTube video player"
