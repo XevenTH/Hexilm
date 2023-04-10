@@ -24,6 +24,7 @@ export default observer(function RoomList() {
       document.body.style.minHeight = ""
     }
   }, [])
+  
 
   const handleRoomClick = (room: Room) => {
     const filteredRooms = userRooms.filter((r) => r.id === room.id)

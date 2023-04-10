@@ -24,7 +24,9 @@ public class AutoMapperProfiles : AutoMapper.Profile
         CreateMap<UserRoom, AttendeesDTO>()
             .ForMember(u => u.UserName, o => o.MapFrom(a => a.User.UserName))
             .ForMember(u => u.DisplayName, o => o.MapFrom(a => a.User.DisplayName))
-            .ForMember(o => o.Photo, o => o.MapFrom(u => u.User.Photos.FirstOrDefault(x => x.IsMain).Url));;
-        
+            .ForMember(o => o.Photo, o => o.MapFrom(u => u.User.Photos.FirstOrDefault(x => x.IsMain).Url))
+            .ForMember(i => i.IsHost, o => o.MapFrom(u => u.IsHost));
+
+
     }
 }

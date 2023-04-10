@@ -4,7 +4,7 @@ import EditProfile from './EditProfile'
 
 export default function dataLinks() {
   const {
-    ProfileStore: { Profile },
+    ProfileStore: { profile },
   } = UseStore()
 
   return [
@@ -17,7 +17,7 @@ export default function dataLinks() {
             Your Favorite Movie
           </h3>
           <ul className="grid md:grid-cols-3 gap-3 ml-3">
-            {Profile?.favoriteMovies.map((x) => (
+            {profile?.favoriteMovies.map((x) => (
               <li key={x.id}>
                 <MovieList movie={x} />
               </li>

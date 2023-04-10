@@ -33,7 +33,7 @@ public class Update
             var user = await _context.Users
                 .FirstOrDefaultAsync(x => x.Id == _userAccessor.GetId());
 
-            if (user == null) return ResultValidator<Unit>.Error("Can't Find User");
+            if (user == null) return ResultValidator<Unit>.Error("Can't Find User", 404);
 
             _mapper.Map(request.RequestProfile, user);
 
@@ -41,9 +41,9 @@ public class Update
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (result == false) return ResultValidator<Unit>.Error("Error While Saving Changes");
+            if (result == false) return ResultValidator<Unit>.Error("Error While Saving Changes", 400);
 
-            return ResultValidator<Unit>.Success(Unit.Value);
+            return ResultValidator<Unit>.Success(Unit.Value, 200);
         }
     }
 }

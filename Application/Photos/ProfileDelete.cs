@@ -29,21 +29,21 @@ public class ProfileDelete
             var photo = await _context.Photos
                 .FirstOrDefaultAsync(x => x.Id == request.PublicId, cancellationToken);
             
-            if(photo == null) return ResultValidator<Unit>.Error("Can't Find The Photo");
+            if(photo == null) return ResultValidator<Unit>.Error("Can't Find The Photo", 404);
 
-            if(photo.IsMain) return ResultValidator<Unit>.Error("Can't Delete Main Photo");
+            if(photo.IsMain) return ResultValidator<Unit>.Error("Can't Delete Main Photo", 404);
 
             var resultDelete = await _photoAccessor.DeletePhoto(request.PublicId);
 
-            if(resultDelete == null) return ResultValidator<Unit>.Error("Error While Saving Change In Cloud");
+            if(resultDelete == null) return ResultValidator<Unit>.Error("Error While Saving Change In Cloud", 400);
             
             _context.Photos.Remove(photo);
 
             var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
             return result
-                ? ResultValidator<Unit>.Success(Unit.Value)
-                : ResultValidator<Unit>.Error("Error While Saving Change In Database");
+                ? ResultValidator<Unit>.Success(Unit.Value, 200)
+                : ResultValidator<Unit>.Error("Error While Saving Change In Database", 400);
         }
     }
 }

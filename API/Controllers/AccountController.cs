@@ -103,7 +103,7 @@ public class AccountController : ControllerBase
         {
             Id = user.Id,
             DisplayName = user.DisplayName,
-            Username = user.UserName,
+            UserName = user.UserName,
             Photo = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
             Role = (roleList != null) ? roleList : "user",
             Token = await _tokenFactory.CreateToken(user),

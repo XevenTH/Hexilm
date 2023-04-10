@@ -34,11 +34,11 @@ public class ProfileUpload
                 .Include(x => x.Photos)
                 .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername(), cancellationToken);
 
-            if (user == null) return ResultValidator<Photo>.Error("Can't Find User");
+            if (user == null) return ResultValidator<Photo>.Error("Can't Find User", 404);
 
             var uploadResult = await _photoAccessor.UploadPhoto(request.File);
             
-            if(uploadResult == null) return ResultValidator<Photo>.Error("Please Input The Photo File");
+            if(uploadResult == null) return ResultValidator<Photo>.Error("Please Input The Photo File", 404);
 
             var photo = new Photo()
             {
@@ -53,8 +53,8 @@ public class ProfileUpload
             var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
             return result 
-                ? ResultValidator<Photo>.Success(photo) 
-                : ResultValidator<Photo>.Error("There Is Problem While Saving Photo");
+                ? ResultValidator<Photo>.Success(photo, 200) 
+                : ResultValidator<Photo>.Error("There Is Problem While Saving Photo", 400);
         }
     }
 }
