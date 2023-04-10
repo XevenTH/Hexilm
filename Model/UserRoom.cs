@@ -6,4 +6,5 @@ public class UserRoom
     public UserApp User { get; set; }
     public Guid RoomId { get; set; }
     public Room Room { get; set; }
+    public bool IsHost { get; set; }
 }

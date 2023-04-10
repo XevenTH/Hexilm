@@ -7,7 +7,7 @@ public class Seed
 {
     public static async Task Seeding(DataContext context, UserManager<UserApp> manager)
     {
-        if (!context.User.Any() || !context.Movies.Any() || !context.Room.Any())
+        if (!context.User.Any() || !context.Movies.Any() || !context.Room.Any() || !context.Directors.Any() || !context.Actors.Any())
         {
             List<UserApp> users = new List<UserApp>
             {
@@ -35,43 +35,120 @@ public class Seed
                 await manager.CreateAsync(user, "Passw0rd");
             }
 
-            if(context.Movies.Any()) return;
+            List<Director> Directors = new List<Director>
+            {
+                new Director{
+                    Name = "Anthony Russo",
+                },
+                new Director{
+                    Name = "James Gunn",
+                },
+                new Director{
+                    Name = "Michael Chaves",
+                },
+                new Director{
+                    Name = "Makoto Shinkai",
+                },
+                new Director{
+                    Name = "Jon Watts",
+                },
+            };
+
+            List<Actor> Actors = new List<Actor>
+            {
+                // Captain America: Civil War 
+                new Actor{
+                    Name = "Chris Evans"
+                },
+                new Actor{
+                    Name = "Robert Downey Jr."
+                },
+                // The Suicide Squad (2021)
+                new Actor{
+                    Name = "Margot Robbie"
+                },
+                new Actor{
+                    Name = "Jared Leto"
+                },
+                // The Conjuring: The Devil Made Me Do It
+                new Actor{
+                    Name = "Vera Farmiga"
+                },
+                new Actor{
+                    Name = "Patrick Wilson"
+                },
+                // Suzume no Tojimari
+                new Actor{
+                    Name = "Nanoka Hara"
+                },
+                new Actor{
+                    Name = "Hokuto Matsumura"
+                },
+                // Kimi No Nawa
+                new Actor{
+                    Name = "Ryunosuke Kamiki"
+                },
+                new Actor{
+                    Name = "Mone Kamishiraishi"
+                },
+                // Spider-Man: Far from Home
+                new Actor{
+                    Name = "Tom Holland"
+                },
+                new Actor{
+                    Name = "Zendaya"
+                },
+            };
+
+            if (context.Movies.Any()) return;
 
             List<Movie> movies = new List<Movie>
             {
                 new Movie {
-                    Title = "Marvel",
-                    Description = "This is Marvel Movie Description",
-                    Picture = ""
+                    Title = "Captain America: Civil War",
+                    Description = "This is Captain America: Civil War Movie Description",
+                    Picture = "",
+                    Director = Directors[0],
+                    Actors = new List<Actor>{Actors[0],Actors[1]}
                 },
                 new Movie {
-                    Title = "DC",
-                    Description = "This is DC Movie Description",
-                    Picture = ""
+                    Title = "The Suicide Squad (2021)",
+                    Description = "This is The Suicide Squad (2021) Movie Description",
+                    Picture = "",
+                    Director = Directors[1],
+                    Actors = new List<Actor>{Actors[2],Actors[3]}
                 },
                 new Movie {
-                    Title = "The Conjuring",
-                    Description = "This is The Conjuring Movie Description",
-                    Picture = ""
+                    Title = "The Conjuring: The Devil Made Me Do It",
+                    Description = "This is The Conjuring: The Devil Made Me Do It Movie Description",
+                    Picture = "",
+                    Director = Directors[2],
+                    Actors = new List<Actor>{Actors[4],Actors[5]}
                 },
                 new Movie {
                     Title = "Suzume no Tojimari",
                     Description = "This is Suzume no Tojimari Movie Description",
-                    Picture = ""
+                    Picture = "",
+                    Director = Directors[3],
+                    Actors = new List<Actor>{Actors[6],Actors[7]}
                 },
                 new Movie {
                     Title = "Kimi No Nawa",
                     Description = "This is Kimi No Nawa Movie Description",
-                    Picture = ""
+                    Picture = "",
+                    Director = Directors[3],
+                    Actors = new List<Actor>{Actors[8],Actors[9]}
                 },
                 new Movie {
-                    Title = "Spider-Man: Homecoming",
-                    Description = "This is Spider-Man: Homecoming Movie Description",
-                    Picture = ""
+                    Title = "Spider-Man: Far from Home",
+                    Description = "This is Spider-Man: Far from Home Movie Description",
+                    Picture = "",
+                    Director = Directors[4],
+                    Actors = new List<Actor>{Actors[10],Actors[11]}
                 }
             };
 
-            if(context.Room.Any()) return;
+            if (context.Room.Any()) return;
 
             List<Room> rooms = new List<Room>
             {
@@ -81,7 +158,8 @@ public class Seed
                     Attendees = new List<UserRoom>
                     {
                         new UserRoom {
-                            User = users[0]
+                            User = users[0],
+                            IsHost = true
                         },
                     }
                 },
@@ -91,7 +169,8 @@ public class Seed
                     Attendees = new List<UserRoom>
                     {
                         new UserRoom {
-                            User = users[0]
+                            User = users[0],
+                            IsHost = true
                         },
                         new UserRoom {
                             User = users[1]
@@ -107,7 +186,8 @@ public class Seed
                     Attendees = new List<UserRoom>
                     {
                         new UserRoom {
-                            User = users[1]
+                            User = users[1],
+                            IsHost = true
                         },
                     }
                 },
@@ -117,7 +197,8 @@ public class Seed
                     Attendees = new List<UserRoom>
                     {
                         new UserRoom {
-                            User = users[2]
+                            User = users[2],
+                            IsHost = true
                         },
                         new UserRoom {
                             User = users[1]
@@ -126,6 +207,8 @@ public class Seed
                 }
             };
 
+            await context.Directors.AddRangeAsync(Directors);
+            await context.Actors.AddRangeAsync(Actors);
             await context.Movies.AddRangeAsync(movies);
             await context.Room.AddRangeAsync(rooms);
             await context.SaveChangesAsync();

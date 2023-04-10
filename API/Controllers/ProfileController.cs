@@ -23,7 +23,7 @@ public class ProfileController : BaseApiController
 
         return GetResult(result);
     }
-
+    
     [HttpPost("manage-favorite-movie")]
     public async Task<IActionResult> FavoriteMovieAction([FromBody] FavoriteMovieDTO requestMovie)
     {
