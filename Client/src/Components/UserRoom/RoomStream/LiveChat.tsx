@@ -104,7 +104,7 @@ export default function LiveChat(props: any) {
         >
           {filterRoom.attendees.slice(0, 3).map((attendee: any) => (
             <div
-              key={attendee.username}
+              key={attendee.userName}
               className="flex flex-col mr-4 items-center text-sm"
             >
               <img className="rounded-full w-8 h-8 bg-cover" src={attendee.photo} alt="" />
