@@ -1,5 +1,5 @@
 export default function Stream(props: any) {
-  const { closeLiveChat, filterRoom, closeRecommend } = props
+  const { closeLiveChat = !true, filterRoom, closeRecommend = !true } = props
   return (
     <div className="w-full overflow-y-scroll">
       <iframe
@@ -12,7 +12,7 @@ export default function Stream(props: any) {
         allowFullScreen
       ></iframe>
       <div className="w-full p-5">
-        <h1 className="text-white text-6xl mb-5">{filterRoom.title}</h1>
+        <h1 className="text-gray-200 font-medium text-4xl mb-5">{filterRoom.title}</h1>
         <div className="flex items-center text-white mb-5">
           <div>
             <img
