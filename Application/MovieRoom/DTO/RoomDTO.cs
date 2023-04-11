@@ -1,5 +1,4 @@
 using Application.Movies.DTO;
-using Model;
 
 namespace Application.MovieRoom.DTO;
 
