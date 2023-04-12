@@ -2,18 +2,13 @@ import "./Room.css"
 
 import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
-import { Room } from "../../App/model/userRoom"
 import { UseStore } from "../../App/Stores/BaseStore"
-import { useNavigate } from "react-router-dom"
 
 export default observer(function RoomList() {
   const {
     UserRoomStore: { userRooms },
   } = UseStore()
-
   const [isLoading, setIsLoading] = useState(true)
-  const [isRoomClicked, setIsRoomClicked] = useState(false)
-  const navigate = useNavigate()
 
   useEffect(() => {
     document.body.style.background = "#181823"
@@ -24,22 +19,9 @@ export default observer(function RoomList() {
       document.body.style.minHeight = ""
     }
   }, [])
-  
-
-  const handleRoomClick = (room: Room) => {
-    const filteredRooms = userRooms.filter((r) => r.id === room.id)
-    const roomData = JSON.stringify(filteredRooms[0])
-    localStorage.setItem("dataRoom", roomData)
-    setIsRoomClicked(true)
-    navigate("/room")
-  }
 
   return (
     <>
-      {isRoomClicked ? (
-        <></>
-      ) : (
-        <>
           {isLoading ? (
             <div className="min-h-screen flex justify-center items-center">
               <div className="loader">
@@ -51,12 +33,10 @@ export default observer(function RoomList() {
           ) : (
             <div className="grid md:grid-cols-3">
               {userRooms.map((room) => (
-                <div
+                <a
+                href={`/room/${room.id}`}
                   className="duration-200 max-w-lg bg-gray-800 max-h-96 m-4 rounded-lg drop-shadow-lg cursor-pointer"
                   key={room.id}
-                  onClick={() => {
-                    handleRoomClick(room)
-                  }}
                 >
                   <div className="relative px-2 flex items-center bg-white/25 z-10 rounded-t-lg">
                     {room.title}{" "}
@@ -96,12 +76,10 @@ export default observer(function RoomList() {
                       </div>
                     )}
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           )}
         </>
-      )}
-    </>
   )
 })

@@ -42,15 +42,12 @@ export default observer(function MovieDetail() {
         />
         <div className="px-5 text-neutral-200">
           <h1 className="text-3xl text-neutral-100 my-5 font-semibold">
-            The War
+            {movie.title}
           </h1>
 
           <h3 className="text-md text-gray-500 font-bold">SYNOPSIS</h3>
           <p className="text-md text-gray-200">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo
-            suscipit fugit ad similique iusto, omnis officiis atque, repellat,
-            dolor sapiente et qui voluptas earum quia in. Pariatur soluta
-            consectetur quod.
+            {movie.description}
           </p>
         </div>
       </div>
