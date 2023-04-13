@@ -73,7 +73,6 @@ export default class MovieStore {
 
   selectedMovieHandler = (id: string) => {
     let movie = this.movieList.find((x) => x.id === id)
-    // console.log(movie);
     this.selectedMovie = movie
     this.isOpenDetails = true
     this.isOpenForm = false

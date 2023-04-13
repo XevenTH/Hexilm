@@ -24,7 +24,6 @@ export class UserRoomStore {
 
   selectedRoomHandler = (id: string) => {
     let room = this.userRooms.find((x) => x.id === id)
-    // console.log(movie);
     this.selectedUserRoom = room
   }
 }
