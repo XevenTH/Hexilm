@@ -33,7 +33,6 @@ export default observer(function RoomStream() {
       }
       })
       .catch((err) => console.log(err))
-      .finally(() => {})
   }, [])
 
   useEffect(() => {

@@ -1,12 +1,11 @@
-import { useState } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import { UseStore } from "../Stores/BaseStore"
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { UseStore } from '../Stores/BaseStore'
 
 function Navbar() {
   const {
     UserStore: { User, logout },
   } = UseStore()
-  const navigate = useNavigate()
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -14,15 +13,21 @@ function Navbar() {
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
   }
-  
+
+  const LogoutButton = (event: any) => {
+    event.preventDefault()
+    if (window.confirm('Apakah Anda yakin ingin logout?')) {
+      logout()
+    }
+  }
 
   return (
-    <nav className="relative z-10 backdrop-blur-lg bg-[#181823]">
+    <nav className="relative z-20 backdrop-blur-lg bg-[#181823]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link
-              to={"/"}
+              to={'/'}
               className="bg-gradient-to-r from-sky-400 via-purple-500 to-fuchsia-600 bg-clip-text text-transparent text-2xl font-bold drop-shadow-md"
             >
               CoolMovie
@@ -34,7 +39,7 @@ function Navbar() {
                 className="inline-flex items-center justify-center w-full px-4 py-2 text-md font-medium text-gray-700 bg-slate-100 rounded-md hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-300"
                 onClick={toggleDropdown}
               >
-                {User ? User?.displayName : "DisplayName"}
+                {User ? User?.displayName : 'DisplayName'}
                 <img src={User?.photo} className="ml-2 w-8 h-8 rounded-full" />
               </button>
               {isOpen && (
@@ -55,16 +60,14 @@ function Navbar() {
                     >
                       Profile
                     </Link>
-                    <button
+                    <Link
+                      to={'/'}
                       className="block px-4 py-2 text-md font-semibold text-gray-700 hover:bg-slate-300 hover:text-gray-900 z-10"
                       role="menuitem"
-                      onClick={(event) => {
-                        event.preventDefault()
-                        logout()
-                      }}
+                      onClick={LogoutButton}
                     >
                       Logout
-                    </button>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -81,7 +84,7 @@ function Navbar() {
               <span className="sr-only">Open main menu</span>
               {/* Icon when menu is closed. */}
               <svg
-                className={`${isMenuOpen ? "hidden" : "block"} h-6 w-6`}
+                className={`${isMenuOpen ? 'hidden' : 'block'} h-6 w-6`}
                 stroke="currentColor"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -95,7 +98,7 @@ function Navbar() {
               </svg>
               {/* Icon when menu is open. */}
               <svg
-                className={`${isMenuOpen ? "block" : "hidden"} h-6 w-6`}
+                className={`${isMenuOpen ? 'block' : 'hidden'} h-6 w-6`}
                 stroke="currentColor"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -114,7 +117,7 @@ function Navbar() {
 
       {/* Mobile menu, toggle classes based on menu state. */}
       <div
-        className={`${isMenuOpen ? "block" : "hidden"} sm:hidden`}
+        className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden`}
         id="mobile-menu"
       >
         <div
@@ -128,7 +131,7 @@ function Navbar() {
             aria-labelledby="options-menu"
           >
             <div className="inline-flex px-4 py-2 text-md font-semibold text-gray-700 hover:bg-gray-100 hover:text-gray-900 z-10">
-              {User ? User?.displayName : "DisplayName"}
+              {User ? User?.displayName : 'DisplayName'}
               <img src={User?.photo} className="mr-2 w-6 h-6 rounded-full" />
             </div>
             <Link

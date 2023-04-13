@@ -14,9 +14,7 @@ function App() {
       if (CommonStore.token) {
         await UserStore.getUser()
       }
-      setTimeout(() => {
         setLoading(false)
-      }, 2000)
     }
     checkAuth()
   }, [UserStore])

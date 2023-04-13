@@ -1,29 +1,50 @@
-import "./css/Profile.css"
+import './css/Profile.css'
 
-import { observer } from "mobx-react-lite"
-import { useEffect, useState } from "react"
-import { UseStore } from "../../App/Stores/BaseStore"
-import dataLinks from "./dataLinks"
-import BottomNav from "./BottomNav"
+import { observer } from 'mobx-react-lite'
+import { useEffect, useState } from 'react'
+import { UseStore } from '../../App/Stores/BaseStore'
+import dataLinks from './dataLinks'
+import MobileNav from './BottomNav'
 
 export default observer(function Profile() {
   const {
     UserStore: { User },
-    UserStore: {}, ProfileStore: {getProfile, profile}
+    UserStore: {},
+    ProfileStore: { getProfile, profile },
   } = UseStore()
+  const [currentPage, setCurrentPage] = useState(
+    Number(localStorage.getItem('fastPage')) || 0,
+  )
+  const [user, setUser] = useState(User)
 
   useEffect(() => {
     try {
+      localStorage.removeItem('fastPage')
       if (User?.userName) {
         getProfile(User?.userName)
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-    
-  },[]);
+  }, [])
+  useEffect(() => {
+    if (User?.userName) {
+      getProfile(User?.userName)
+      setUser(User)
+    }
+  }, [User])
 
-  const [currentPage, setCurrentPage] = useState(0)
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.setItem('fastPage', currentPage.toString())
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [currentPage])
 
   const handlePageChange = (index: number) => {
     setCurrentPage(index)
@@ -32,33 +53,33 @@ export default observer(function Profile() {
   const pageLinks = dataLinks()
 
   useEffect(() => {
-    document.body.style.background = "#181823"
-    document.body.style.minHeight = "100vh"
+    document.body.style.background = '#181823'
+    document.body.style.minHeight = '100vh'
 
     // Cleanup function to reset the styles on unmount
     return () => {
-      document.body.style.background = ""
-      document.body.style.minHeight = ""
+      document.body.style.background = ''
+      document.body.style.minHeight = ''
     }
   }, [])
 
   return (
     <>
       <div className="grid md:grid-cols-4 min-h-screen">
-        <BottomNav
+        <MobileNav
           currentPage={currentPage}
           handlePageChange={setCurrentPage}
         />
         <div className="bg-black/40 w-full flex justify-center md:items-baseline items-center md:pt-5">
           <div>
             <img
-              src={User?.photo}
+              src={user?.photo}
               alt=""
               width={200}
               className="rounded-lg mb-5"
             />
             <h2 className="text-white text-xl text-center mb-5">
-              {profile ? profile?.displayName : 'DisplayName'}
+              {user ? user?.displayName : 'DisplayName'}
             </h2>
           </div>
         </div>

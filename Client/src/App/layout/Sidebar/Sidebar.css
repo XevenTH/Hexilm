@@ -19,11 +19,11 @@
   margin-right: -70px;
 }
 .sidebar {
+  padding-top: 60px;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  z-index: 1000;
 }
 
 .sidebar-icon {

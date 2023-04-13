@@ -8,7 +8,7 @@ interface BottomNavProps {
   handlePageChange: (index: number) => void
 }
 
-export default function BottomNav(props: BottomNavProps) {
+export default function MobileNav(props: BottomNavProps) {
   const [currentPage, setCurrentPage] = useState(props.currentPage)
 
   const handlePageChange = (index: number) => {

@@ -3,8 +3,8 @@ export default function Stream(props: any) {
   return (
     <div className="w-full overflow-y-scroll">
       <iframe
-        className={`w-full h-${
-          closeLiveChat && closeRecommend ? "full": '3/4'
+        className={`w-full h-full ${
+          closeLiveChat == false || closeRecommend == false ? 'h-3/4': ''
         } border-white/20`}
         src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         title="YouTube video player"

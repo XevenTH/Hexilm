@@ -2,16 +2,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import ImageCrop from '../../App/layout/ReactImgCrop/App'
 import { UseStore } from '../../App/Stores/BaseStore'
 import './css/EditProfile.css'
-import Profile from './Profile'
 import { observer } from 'mobx-react-lite'
-import { InitialEditProfile } from '../../App/model/profile'
 
 export default observer(function EditProfile() {
   const {
     UserStore: { User },
     ProfileStore: { editProfile, getProfile, profile },
   } = UseStore()
-  
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [edit, setEdit] = useState({ displayName: '', userName: '', bio: '' })
 
@@ -21,10 +19,10 @@ export default observer(function EditProfile() {
     if (name === 'displayName') {
       edit.displayName = value
     } else if (name === 'userName') {
-      edit.userName = value
+      /\s/.test(value) ? alert('Username cannot contain spaces!') : edit.userName = value.trim()
     } else if (name === 'bio') {
       edit.bio = value
-    }
+    } 
   }
 
   function handleSaveChanges() {
@@ -33,7 +31,8 @@ export default observer(function EditProfile() {
       userName: edit.userName || profile?.userName || '',
       bio: edit.bio || profile?.bio || '',
     }
-    editProfile(updatedEdit)
+    editProfile(updatedEdit) 
+    window.location.reload()   
   }
 
   useEffect(() => {
@@ -50,7 +49,7 @@ export default observer(function EditProfile() {
     <>
       <div className="grid grid-cols-1 place-items-center text-white/80">
         <img
-          src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
+          src={User?.photo}
           alt=""
           width={80}
           className="rounded-lg cursor-pointer hover:opacity-90 mb-2"
@@ -89,9 +88,15 @@ export default observer(function EditProfile() {
               type="text"
               className="w-52 focus:outline-none bg-inherit border-white/70 border-b"
               autoComplete="off"
+              onKeyDown={(event) => {
+                if (event.key === " ") {
+                  event.preventDefault();
+                }
+              }}
               onChange={onChangeHandler}
             />
           </div>
+          <p className='text-sm opacity-50'>No spaces allowed in username!</p>
         </div>
         <div className="mb-5">
           <label htmlFor="bio" className="text-white/70">
@@ -123,7 +128,7 @@ export default observer(function EditProfile() {
   const [changeToPhoto, setChangeToPhoto] = useState(formText)
 
   const handleFileInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSelectedFile(event.target.files ? event.target.files[0] : null)
   }
