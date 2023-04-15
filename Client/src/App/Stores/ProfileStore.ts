@@ -1,15 +1,16 @@
 import { makeAutoObservable, runInAction } from "mobx"
 import ApiAgent from "../API/Agent"
 import { InitialEditProfile, Profile } from "../model/profile"
+import { storeContainer } from "./BaseStore";
 
 export default class ProfileStore {
-  profile: Profile | null = null;
+  profile: Profile | undefined = undefined;
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  getProfile = async (username:string) => {
+  getProfile = async (username: string) => {
     try {
       const data = await ApiAgent.profileApi.getProfile(username);
       runInAction(() => {
@@ -19,18 +20,20 @@ export default class ProfileStore {
       console.log(error)
     }
   }
-  editProfile = async (profile: InitialEditProfile) => {
-    if (!profile) {
-      console.log("Please provide a valid profile object.");
-      return;
-    }
-    await ApiAgent.profileApi.editProfile(profile);
+
+  editProfile = async (editData: InitialEditProfile) => {
     try {
-      await runInAction(async() => {
-        
-      });
+      await ApiAgent.profileApi.editProfile(editData)
+
+      runInAction(() => {
+        if (!this.profile) return;
+        if (!storeContainer.UserStore.User) return;
+
+        Object.assign(this.profile, editData)
+        Object.assign(storeContainer.UserStore.User, editData)
+      })
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 }
