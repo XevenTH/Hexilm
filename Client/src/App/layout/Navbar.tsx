@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { UseStore } from '../Stores/BaseStore'
@@ -155,4 +156,4 @@ function Navbar() {
   )
 }
 
-export default Navbar
+export default observer(Navbar)
