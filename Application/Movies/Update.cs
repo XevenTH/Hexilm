@@ -11,7 +11,7 @@ public class Update
     public class Command : IRequest<ResultValidator<Unit>>
     {
         public Guid Id { get; set; }
-        public MovieDTO Movie { get; set; }
+        public MiniMovieDto Movie { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, ResultValidator<Unit>>
@@ -27,13 +27,13 @@ public class Update
 
         public async Task<ResultValidator<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var movie = await _context.Movies.FindAsync(request.Movie.Id);
+            var movie = await _context.Movies.FindAsync(request.Movie.Id, cancellationToken);
             if(movie == null) return ResultValidator<Unit>.Error("Can't Find Movie", 404);
 
             _mapper.Map(request.Movie, movie);
 
-            var result = await _context.SaveChangesAsync() > 0;
-            if(result == false) return ResultValidator<Unit>.Error("Error While Updating The Movie", 400);
+            var result = await _context.SaveChangesAsync(cancellationToken);
+            if(result <= 0) return ResultValidator<Unit>.Error("Error While Updating The Movie", 400);
 
             return ResultValidator<Unit>.Success(Unit.Value, 200);
         }

@@ -30,7 +30,7 @@ public class Single
         {
             var movie = await _context.Movies
                 .ProjectTo<MovieDTO>(_mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync(x => x.Id == request.Id);
+                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if(movie == null) return ResultValidator<MovieDTO>.Error("Can't Find Movie", 404);
 

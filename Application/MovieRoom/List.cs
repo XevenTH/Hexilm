@@ -28,9 +28,7 @@ public class List
             var roomList = await _context.Room
                 .Include(x => x.Attendees)
                 .ProjectTo<RoomDTO>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-
-            if(roomList == null) return ResultValidator<List<RoomDTO>>.Error("Can't Get List of Room", 404);
+                .ToListAsync(cancellationToken);
 
             return ResultValidator<List<RoomDTO>>.Success(roomList, 200);
         }
