@@ -4,7 +4,7 @@ import { User, Credentials } from "../model/user"
 import { storeContainer } from "./BaseStore"
 
 export default class CommonStore {
-  User: User | null = null
+  User: User | undefined = undefined
 
   constructor() {
     makeAutoObservable(this)
@@ -41,7 +41,7 @@ export default class CommonStore {
   }
 
   logout = () => {
-    this.User = null
+    this.User = undefined
     storeContainer.CommonStore.setToken(null)
   }
 
