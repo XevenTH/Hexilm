@@ -1,18 +1,31 @@
-import { useRouteError } from "react-router-dom";
+import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
 
 type ErrorRoute = {
-    status: number,
-    statusText:string,
+  status: number
+  statusText: string
 }
 
 function ErrorBoundary() {
-    let error = useRouteError() as ErrorRoute;
+  let error = useRouteError() as ErrorRoute
 
+  let content
 
-    return <div className="w-screen h-screen flex flex-col justify-center items-center bg-[#181823]">
+  if (isRouteErrorResponse(error)) {
+    content = (
+      <>
         <p className="text-5xl text-slate-400 font-bold mb-5">{error.status}</p>
         <p className="text-lg text-slate-400 ">{error.statusText}</p>
-    </div>;
+      </>
+    )
+  } else {
+    content = <p>Something went wrong</p>
   }
 
-  export default ErrorBoundary
+  return (
+    <div className="w-screen h-screen flex flex-col justify-center items-center bg-[#181823]">
+      {content}
+    </div>
+  )
+}
+
+export default ErrorBoundary
