@@ -10,6 +10,7 @@ export default observer(function MovieDetail() {
   const {
     selectedMovieHandler,
     selectedMovie: movie,
+    isLoadingMovie
   } = MovieStore
 
 
@@ -21,9 +22,9 @@ export default observer(function MovieDetail() {
 
   }, [id])
 
-  if(!movie) return <div className="w-full h-screen text-white bg-[#181823] p-5">
-    <p>Movie not found :(</p>
-  </div>
+  if(isLoadingMovie) return <p>Loading...</p>
+
+  if(!movie) throw new Response("Not Found", { status: 404, statusText: "Movie not found"});
   
   return (
     <>
