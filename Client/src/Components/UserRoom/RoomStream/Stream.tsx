@@ -1,10 +1,10 @@
 export default function Stream(props: any) {
-  const { closeLiveChat = !true, filterRoom, closeRecommend = !true } = props
+  const { closeLiveChat, filterRoom, closeRecommend } = props
   return (
     <div className="w-full overflow-y-scroll">
       <iframe
-        className={`w-full h-${
-          closeLiveChat === false && closeRecommend === false ? '3/4' : 'full'
+        className={`w-full h-full ${
+          closeLiveChat == false || closeRecommend == false ? 'h-3/4': ''
         } border-white/20`}
         src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         title="YouTube video player"
@@ -12,7 +12,7 @@ export default function Stream(props: any) {
         allowFullScreen
       ></iframe>
       <div className="w-full p-5">
-        <h1 className="text-gray-200 font-medium text-4xl mb-5">{filterRoom.title}</h1>
+        <h1 className="text-gray-200 font-medium text-4xl mb-5">{filterRoom.movie.title}</h1>
         <div className="flex items-center text-white mb-5">
           <div>
             <img
@@ -38,9 +38,7 @@ export default function Stream(props: any) {
         </div>
         <div className="bg-gray-700 rounded-lg w-full p-5 text-white">
           <p>
-            Description, Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Velit quod cumque rem at optio numquam rerum asperiores
-            dolorem corrupti ducimus?
+            {filterRoom.movie.description}
           </p>
         </div>
       </div>

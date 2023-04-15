@@ -22,15 +22,15 @@ public class Delete
 
         public async Task<ResultValidator<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            Movie movie = await _context.Movies.FindAsync(request.Id);
+            Movie movie = await _context.Movies.FindAsync(request.Id, cancellationToken);
 
             if(movie == null) return ResultValidator<Unit>.Error("Can't Find Movie", 404);
 
             _context.Remove(movie);
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _context.SaveChangesAsync(cancellationToken);
 
-            if(result != true) return ResultValidator<Unit>.Error("Error Deleting The Movie", 400);
+            if(result <= 0) return ResultValidator<Unit>.Error("Error Deleting The Movie", 400);
 
             return ResultValidator<Unit>.Success(Unit.Value, 200);
         }

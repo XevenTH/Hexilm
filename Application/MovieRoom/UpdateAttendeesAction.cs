@@ -45,7 +45,8 @@ public class UpdateAttendeesAction
                 var newAttendees = new UserRoom
                 {
                     User = user,
-                    Room = room
+                    Room = room,
+                    IsHost = false
                 };
                 
                 room.Attendees.Add(newAttendees);

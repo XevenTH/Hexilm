@@ -27,8 +27,7 @@ public class List
         {
             var movies = await _context.Movies
                 .ProjectTo<MovieDTO>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-            if(movies is null) return ResultValidator<List<MovieDTO>>.Error("Can't FInd Movies", 404);
+                .ToListAsync(cancellationToken);
 
             return ResultValidator<List<MovieDTO>>.Success(movies, 200);
         }

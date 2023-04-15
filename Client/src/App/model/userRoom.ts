@@ -6,7 +6,7 @@ export interface Room {
   id: string
   title: string
   movie: Movie
-  attendees: Pick<User, "displayName" | "username" | "photo">[]
+  attendees: Pick<User, "displayName" | "userName" | "photo">[]
 }
 
 export class InitialRoom implements Room {

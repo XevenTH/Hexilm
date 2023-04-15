@@ -1,56 +1,39 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { observer } from 'mobx-react-lite'
+import React, { useState } from 'react'
 import ImageCrop from '../../App/layout/ReactImgCrop/App'
+import { InitialEditProfile, Profile } from '../../App/model/profile'
 import { UseStore } from '../../App/Stores/BaseStore'
 import './css/EditProfile.css'
-import Profile from './Profile'
-import { observer } from 'mobx-react-lite'
-import { InitialEditProfile } from '../../App/model/profile'
 
 export default observer(function EditProfile() {
-  const {
-    UserStore: { User },
-    ProfileStore: { editProfile, getProfile, profile },
-  } = UseStore()
-  
+  const { ProfileStore: { editProfile, profile } } = UseStore()
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [edit, setEdit] = useState({ displayName: '', userName: '', bio: '' })
+  const [editData, setEditData] = useState<Pick<Profile, "displayName" | "userName" | "bio" >>(new InitialEditProfile(profile))
 
-  const onChangeHandler = (event: any) => {
+  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    setEdit((prevEdit) => ({ ...prevEdit, [name]: value }))
+    setEditData((prevEdit) => ({ ...prevEdit, [name]: value }))
     if (name === 'displayName') {
-      edit.displayName = value
+      editData.displayName = value
     } else if (name === 'userName') {
-      edit.userName = value
+      editData.userName = value
     } else if (name === 'bio') {
-      edit.bio = value
+      editData.bio = value
     }
   }
 
-  function handleSaveChanges() {
-    const updatedEdit = {
-      displayName: edit.displayName || profile?.displayName || '',
-      userName: edit.userName || profile?.userName || '',
-      bio: edit.bio || profile?.bio || '',
-    }
-    editProfile(updatedEdit)
+  function handleSaveChanges(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    editProfile(editData)
+    // window.location.reload()  
   }
-
-  useEffect(() => {
-    try {
-      if (User?.userName) {
-        getProfile(User?.userName)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
 
   const formText = (
     <>
-      <div className="grid grid-cols-1 place-items-center text-white/80">
+      <form className="grid grid-cols-1 place-items-center text-white/80" onSubmit={handleSaveChanges}>
         <img
-          src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
+          src={profile?.photos.find(x => x.isMain)?.url}
           alt=""
           width={80}
           className="rounded-lg cursor-pointer hover:opacity-90 mb-2"
@@ -69,12 +52,12 @@ export default observer(function EditProfile() {
           </label>
           <div>
             <input
+              onChange={onChangeHandler}
               name="displayName"
-              id="displayName"
               type="text"
+              defaultValue={editData.displayName}
               className="w-52 focus:outline-none bg-inherit border-white/70 border-b"
               autoComplete="off"
-              onChange={onChangeHandler}
             />
           </div>
         </div>
@@ -84,14 +67,20 @@ export default observer(function EditProfile() {
           </label>
           <div>
             <input
+              onChange={onChangeHandler}
               name="userName"
-              id="username"
               type="text"
+              defaultValue={editData.userName}
               className="w-52 focus:outline-none bg-inherit border-white/70 border-b"
               autoComplete="off"
-              onChange={onChangeHandler}
+              onKeyDown={(event) => {
+                if (event.key === " ") {
+                  event.preventDefault();
+                }
+              }}
             />
           </div>
+          <p className='text-sm opacity-50'>No spaces allowed in username!</p>
         </div>
         <div className="mb-5">
           <label htmlFor="bio" className="text-white/70">
@@ -99,31 +88,29 @@ export default observer(function EditProfile() {
           </label>
           <div>
             <input
+              onChange={onChangeHandler}
               name="bio"
-              id="bio"
               type="text"
+              defaultValue={editData.bio}
               className="w-52 focus:outline-none bg-inherit border-white/70 border-b"
               autoComplete="off"
-              onChange={onChangeHandler}
             />
           </div>
         </div>
-
         <button
           type="submit"
           className="duration-200 bg-gray-700 hover:bg-gray-800 hover:text-white text-center rounded-lg p-1 w-32"
-          onClick={handleSaveChanges}
         >
           Edit Profile
         </button>
-      </div>
+      </form>
     </>
   )
 
   const [changeToPhoto, setChangeToPhoto] = useState(formText)
 
   const handleFileInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSelectedFile(event.target.files ? event.target.files[0] : null)
   }

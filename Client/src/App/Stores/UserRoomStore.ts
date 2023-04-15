@@ -4,6 +4,7 @@ import { Room } from "../model/userRoom"
 
 export class UserRoomStore {
   userRooms: Room[] = []
+  selectedUserRoom: Room | undefined = undefined
 
   constructor() {
     makeAutoObservable(this)
@@ -19,5 +20,10 @@ export class UserRoomStore {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  selectedRoomHandler = (id: string) => {
+    let room = this.userRooms.find((x) => x.id === id)
+    this.selectedUserRoom = room
   }
 }

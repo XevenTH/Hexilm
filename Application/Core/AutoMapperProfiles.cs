@@ -10,11 +10,13 @@ public class AutoMapperProfiles : AutoMapper.Profile
     public AutoMapperProfiles()
     {
         CreateMap<Movie, MovieDTO>();
+        CreateMap<Director, DirectorDTO>();
         
+        CreateMap<MovieDTO, Movie>();
+        CreateMap<Movie, MiniMovieDto>();
+
         CreateMap<Room, RoomDTO>()
             .ForMember(m => m.Movie, o => o.MapFrom(rm => rm.Movie));
-
-        CreateMap<MovieDTO, Movie>();
         
         CreateMap<UpdateProfileDTO, UserApp>();
         
@@ -26,7 +28,5 @@ public class AutoMapperProfiles : AutoMapper.Profile
             .ForMember(u => u.DisplayName, o => o.MapFrom(a => a.User.DisplayName))
             .ForMember(o => o.Photo, o => o.MapFrom(u => u.User.Photos.FirstOrDefault(x => x.IsMain).Url))
             .ForMember(i => i.IsHost, o => o.MapFrom(u => u.IsHost));
-
-
     }
 }

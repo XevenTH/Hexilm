@@ -11,7 +11,7 @@ public class Create
 {
     public class Command : IRequest<ResultValidator<Unit>>
     {
-        public MovieDTO MovieDTO { get; set; }
+        public MiniMovieDto MovieDTO { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, ResultValidator<Unit>>
@@ -31,9 +31,9 @@ public class Create
             
             _context.Movies.Add(newMovie);
 
-            var result = await _context.SaveChangesAsync() > 0;
+            var result = await _context.SaveChangesAsync(cancellationToken);
 
-            if(result != true) return ResultValidator<Unit>.Error("Error Creating The Movie", 400);
+            if(result <= 0) return ResultValidator<Unit>.Error("Error Creating The Movie", 400);
 
             return ResultValidator<Unit>.Success(Unit.Value, 200);
         }

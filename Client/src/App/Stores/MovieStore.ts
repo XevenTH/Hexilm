@@ -1,19 +1,21 @@
-import { makeAutoObservable, runInAction } from "mobx"
-import uuid from "react-uuid"
-import ApiAgent from "../API/Agent"
-import InitialMovie, { Movie } from "../model/movie"
+import { makeAutoObservable, runInAction } from 'mobx'
+import uuid from 'react-uuid'
+import ApiAgent from '../API/Agent'
+import InitialMovie, { Movie } from '../model/movie'
 
 export default class MovieStore {
   movieList: Movie[] = []
   selectedMovie: Movie | undefined = undefined
   isOpenDetails: boolean = false
   isOpenForm: boolean = false
+  isLoadingMovie: boolean = true
 
   constructor() {
     makeAutoObservable(this)
   }
 
   getMovie = async () => {
+    this.isLoadingMovie = true
     try {
       let result = await ApiAgent.movieApi.getMovieList()
       runInAction(() => {
@@ -22,6 +24,10 @@ export default class MovieStore {
     } catch (error) {
       runInAction(() => {
         console.log(error)
+      })
+    } finally {
+      runInAction(() => {
+        this.isLoadingMovie = false
       })
     }
   }
@@ -71,12 +77,20 @@ export default class MovieStore {
     }
   }
 
-  selectedMovieHandler = (id: string) => {
+  selectedMovieHandler = async (id: string) => {
+    this.isLoadingMovie = true
+
+    if (!this.movieList.length) {
+      await this.getMovie()
+    }
     let movie = this.movieList.find((x) => x.id === id)
-    // console.log(movie);
+
+    if (!movie) throw new Error('not found')
+
     this.selectedMovie = movie
     this.isOpenDetails = true
     this.isOpenForm = false
+    this.isLoadingMovie = false
   }
 
   CloseDetailsResetMovie = (state: boolean) => {

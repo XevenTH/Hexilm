@@ -43,6 +43,7 @@ const accountApi = {
 
 const userRoomAPi = {
   getRoomList: () => request.get<Room[]>("/rooms"),
+  getRoom: (id: string) => request.get<Room | null>(`/rooms/${id}`),
 }
 
 const profileApi = {
