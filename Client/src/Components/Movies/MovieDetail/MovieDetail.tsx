@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 
 export default observer(function MovieDetail() {
-  const { id } = useParams()
+  const { id } = useParams()  
 
   const { MovieStore } = UseStore()
   const {
@@ -12,17 +12,18 @@ export default observer(function MovieDetail() {
     selectedMovie: movie,
   } = MovieStore
 
-  useEffect(()=>{
-    selectedMovieHandler(id!)
-  })
 
   useEffect(() => {
+  selectedMovieHandler(id!)
     window.scrollTo({
       top:0
     })
 
   }, [id])
-  
+
+  if(!movie) return <div className="w-full h-screen text-white bg-[#181823] p-5">
+    <p>Movie not found :(</p>
+  </div>
   
   return (
     <>

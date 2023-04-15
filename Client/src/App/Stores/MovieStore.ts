@@ -71,8 +71,13 @@ export default class MovieStore {
     }
   }
 
-  selectedMovieHandler = (id: string) => {
+  selectedMovieHandler = async (id: string) => {
+    
+    if(!this.movieList.length) {
+      await this.getMovie()
+    }
     let movie = this.movieList.find((x) => x.id === id)
+    
     this.selectedMovie = movie
     this.isOpenDetails = true
     this.isOpenForm = false
