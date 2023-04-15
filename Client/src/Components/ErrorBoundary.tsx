@@ -8,22 +8,10 @@ type ErrorRoute = {
 function ErrorBoundary() {
   let error = useRouteError() as ErrorRoute
 
-  let content
-
-  if (isRouteErrorResponse(error)) {
-    content = (
-      <>
-        <p className="text-5xl text-slate-400 font-bold mb-5">{error.status}</p>
-        <p className="text-lg text-slate-400 ">{error.statusText}</p>
-      </>
-    )
-  } else {
-    content = <p>Something went wrong</p>
-  }
-
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center bg-[#181823]">
-      {content}
+      <p className="text-5xl text-slate-400 font-bold mb-5">{error.status}</p>
+      <p className="text-lg text-slate-400 ">{error.statusText}</p>
     </div>
   )
 }

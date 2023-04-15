@@ -1,31 +1,36 @@
-import { observer } from "mobx-react-lite"
-import { UseStore } from "../../../App/Stores/BaseStore"
-import { useParams } from "react-router-dom"
-import { useEffect } from "react"
+import { observer } from 'mobx-react-lite'
+import { UseStore } from '../../../App/Stores/BaseStore'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 export default observer(function MovieDetail() {
-  const { id } = useParams()  
+  const { id } = useParams()
+  const [error, setError] = useState(false)
 
   const { MovieStore } = UseStore()
   const {
-    selectedMovieHandler,
     selectedMovie: movie,
-    isLoadingMovie
+    isLoadingMovie,
+    selectedMovieHandler,
   } = MovieStore
 
-
   useEffect(() => {
-  selectedMovieHandler(id!)
-    window.scrollTo({
-      top:0
+    selectedMovieHandler(id!).catch(() => {
+      setError(true)
     })
-
+    window.scrollTo({
+      top: 0,
+    })
   }, [id])
 
-  if(isLoadingMovie) return <p>Loading...</p>
+  if (isLoadingMovie) return <p>Loading...</p>
+  if (error) {
+    throw new Response('Not found', {
+      status: 404,
+      statusText: 'Movie not found',
+    })
+  }
 
-  if(!movie) throw new Response("Not Found", { status: 404, statusText: "Movie not found"});
-  
   return (
     <>
       {movie && (
@@ -48,9 +53,7 @@ export default observer(function MovieDetail() {
               </h1>
 
               <h3 className="text-md text-gray-500 font-bold">SYNOPSIS</h3>
-              <p className="text-md text-gray-200">
-                {movie.description}
-              </p>
+              <p className="text-md text-gray-200">{movie.description}</p>
             </div>
           </div>
         </div>

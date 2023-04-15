@@ -24,7 +24,10 @@ const router: RouteObject[] = [
           { path: 'browse', element: <Browse /> },
           // {/movieRoom} sudah dijadikan component di file sidebar.tsx
           { path: 'room/:id', element: <RoomStream /> },
-          { path: 'movie/:id', element: <MovieDetail /> },
+          {
+            path: 'movie/:id',
+            element: <MovieDetail />,
+          },
           { path: 'profile/:username', element: <Profile /> },
         ],
       },
