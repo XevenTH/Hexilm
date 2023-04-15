@@ -15,6 +15,14 @@ export default observer(function MovieDetail() {
   useEffect(()=>{
     selectedMovieHandler(id!)
   })
+
+  useEffect(() => {
+    window.scrollTo({
+      top:0
+    })
+
+  }, [id])
+  
   
   return (
     <>
