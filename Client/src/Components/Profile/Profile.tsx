@@ -5,34 +5,26 @@ import { useEffect, useState } from 'react'
 import { UseStore } from '../../App/Stores/BaseStore'
 import dataLinks from './dataLinks'
 import MobileNav from './BottomNav'
+import { useParams } from 'react-router-dom'
 
 export default observer(function Profile() {
-  const {
-    UserStore: { User },
-    UserStore: {},
-    ProfileStore: { getProfile, profile },
-  } = UseStore()
+  const { ProfileStore: { getProfile, profile } } = UseStore()
+  const { username } = useParams<{ username: string }>()
+
   const [currentPage, setCurrentPage] = useState(
     Number(localStorage.getItem('fastPage')) || 0,
   )
-  const [user, setUser] = useState(User)
 
   useEffect(() => {
     try {
       localStorage.removeItem('fastPage')
-      if (User?.userName) {
-        getProfile(User?.userName)
+      if (username) {
+        getProfile(username)
       }
     } catch (error) {
       console.log(error)
     }
   }, [])
-  useEffect(() => {
-    if (User?.userName) {
-      getProfile(User?.userName)
-      setUser(User)
-    }
-  }, [User])
 
   useEffect(() => {
     const handleBeforeUnload = () => {
@@ -73,13 +65,13 @@ export default observer(function Profile() {
         <div className="bg-black/40 w-full flex justify-center md:items-baseline items-center md:pt-5">
           <div>
             <img
-              src={user?.photo}
+              src={profile?.photos.find(x => x.isMain)?.url}
               alt=""
               width={200}
               className="rounded-lg mb-5"
             />
             <h2 className="text-white text-xl text-center mb-5">
-              {user ? user?.displayName : 'DisplayName'}
+              {profile ? profile?.displayName : 'DisplayName'}
             </h2>
           </div>
         </div>
