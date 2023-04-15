@@ -10,8 +10,8 @@ namespace API.Controllers;
 
 public class MoviesController : BaseApiController
 {
-    private readonly IValidator<MovieDTO> _validator;
-    public MoviesController(IValidator<MovieDTO> validator)
+    private readonly IValidator<MiniMovieDto> _validator;
+    public MoviesController(IValidator<MiniMovieDto> validator)
     {
         _validator = validator;
 
@@ -37,12 +37,12 @@ public class MoviesController : BaseApiController
     [HttpPost]
     public async Task<ActionResult<MovieDTO>> CreateMovie([FromBody] MiniMovieDto miniMovie)
     {
-        // ValidationResult validateResult = await _validator.ValidateAsync(requestMovie);
-        // if (!validateResult.IsValid)
-        // {
-        //     validateResult.AddToModelState(this.ModelState);
-        //     return ValidationProblem();
-        // }
+        ValidationResult validateResult = await _validator.ValidateAsync(miniMovie);
+        if (!validateResult.IsValid)
+        {
+            validateResult.AddToModelState(this.ModelState);
+            return ValidationProblem();
+        }
 
         var result = await Mediator.Send(new Create.Command { MovieDTO = miniMovie });
 
