@@ -9,11 +9,13 @@ import AuthRoute from "./AuthRoute"
 import UnauthRoute from "./UnauthRoute"
 import Login from "../../Components/Auth/Login"
 import Register from "../../Components/Auth/Register"
+import ErrorBoundary from "../../Components/ErrorBoundary"
 
 const router: RouteObject[] = [
   {
     path: "/",
     element: <App />,
+    errorElement:<ErrorBoundary />,
     children: [
       {
         element: <AuthRoute />,
