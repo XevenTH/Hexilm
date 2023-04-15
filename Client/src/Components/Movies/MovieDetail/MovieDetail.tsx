@@ -4,17 +4,27 @@ import { useParams } from "react-router-dom"
 import { useEffect } from "react"
 
 export default observer(function MovieDetail() {
-  const { id } = useParams()
+  const { id } = useParams()  
 
   const { MovieStore } = UseStore()
   const {
     selectedMovieHandler,
     selectedMovie: movie,
+    isLoadingMovie
   } = MovieStore
 
-  useEffect(()=>{
-    selectedMovieHandler(id!)
-  })
+
+  useEffect(() => {
+  selectedMovieHandler(id!)
+    window.scrollTo({
+      top:0
+    })
+
+  }, [id])
+
+  if(isLoadingMovie) return <p>Loading...</p>
+
+  if(!movie) throw new Response("Not Found", { status: 404, statusText: "Movie not found"});
   
   return (
     <>

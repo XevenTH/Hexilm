@@ -8,12 +8,14 @@ export default class MovieStore {
   selectedMovie: Movie | undefined = undefined
   isOpenDetails: boolean = false
   isOpenForm: boolean = false
+  isLoadingMovie: boolean = true
 
   constructor() {
     makeAutoObservable(this)
   }
 
   getMovie = async () => {
+    this.isLoadingMovie = true
     try {
       let result = await ApiAgent.movieApi.getMovieList()
       runInAction(() => {
@@ -22,6 +24,10 @@ export default class MovieStore {
     } catch (error) {
       runInAction(() => {
         console.log(error)
+      })
+    } finally {
+      runInAction(() => {
+      this.isLoadingMovie = false
       })
     }
   }
@@ -71,8 +77,13 @@ export default class MovieStore {
     }
   }
 
-  selectedMovieHandler = (id: string) => {
+  selectedMovieHandler = async (id: string) => {
+    
+    if(!this.movieList.length) {
+      await this.getMovie()
+    }
     let movie = this.movieList.find((x) => x.id === id)
+    
     this.selectedMovie = movie
     this.isOpenDetails = true
     this.isOpenForm = false
