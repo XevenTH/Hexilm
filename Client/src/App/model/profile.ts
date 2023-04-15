@@ -15,7 +15,7 @@ export class Profile implements Profile {
   }
 }
 
-export class InitialEditProfile {
+export class InitialEditProfile implements Pick<Profile, "displayName" | "userName" | "bio" > {
   displayName: string = '';
   userName: string = '';
   bio: string = '';
