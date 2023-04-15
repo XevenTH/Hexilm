@@ -35,25 +35,24 @@ public class MoviesController : BaseApiController
 
     [Authorize(Roles = "admin")]
     [HttpPost]
-    public async Task<ActionResult<MovieDTO>> CreateMovie([FromBody] MovieDTO requestMovie)
+    public async Task<ActionResult<MovieDTO>> CreateMovie([FromBody] MiniMovieDto miniMovie)
     {
-        ValidationResult validateResult = await _validator.ValidateAsync(requestMovie);
-        if (!validateResult.IsValid)
-        {
-            validateResult.AddToModelState(this.ModelState);
-            return ValidationProblem();
-        }
+        // ValidationResult validateResult = await _validator.ValidateAsync(requestMovie);
+        // if (!validateResult.IsValid)
+        // {
+        //     validateResult.AddToModelState(this.ModelState);
+        //     return ValidationProblem();
+        // }
 
-        var result = await Mediator.Send(new Create.Command { MovieDTO = requestMovie });
+        var result = await Mediator.Send(new Create.Command { MovieDTO = miniMovie });
 
         return GetResult(result);
     }
 
     [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] MovieDTO movie)
+    public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] MiniMovieDto movie)
     {
-        movie.Id = id;
         var result = await Mediator.Send(new Update.Command { Movie = movie });
 
         return GetResult(result);
