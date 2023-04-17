@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using API.Controllers.DTO;
 using API.Services;
+using Application.Interface;
 using Controllers.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,10 @@ public class AccountController : ControllerBase
     private readonly SignInManager<UserApp> _signInManager;
     private readonly TokenFactory _tokenFactory;
 
-    public AccountController(UserManager<UserApp> manager, SignInManager<UserApp> signInManager, TokenFactory tokenFactory)
+    public AccountController(
+        UserManager<UserApp> manager, 
+        SignInManager<UserApp> signInManager, 
+        TokenFactory tokenFactory)
     {
         _manager = manager;
         _signInManager = signInManager;

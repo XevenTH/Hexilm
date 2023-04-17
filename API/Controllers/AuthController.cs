@@ -6,8 +6,8 @@ using Model;
 
 namespace API.Controllers;
 
-// [Authorize(Roles = "admin")]
-[AllowAnonymous]
+[Authorize(Roles = "admin")]
+// [AllowAnonymous]
 public class AuthController : BaseApiController
 {
     private readonly UserManager<UserApp> _manager;
@@ -24,13 +24,13 @@ public class AuthController : BaseApiController
     {
         var roleChecker = await  _roleManager.RoleExistsAsync(requestAuth.RoleName);
         
-        if(roleChecker) return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Role With Name {requestAuth.RoleName} Is Already Exist!!"));
+        if(roleChecker) return BadRequest(CreateResponse(StatusCodes.Status400BadRequest, $"Role With Name {requestAuth.RoleName} Is Already Exist!!"));
         
         IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(requestAuth.RoleName));
 
-        if (result.Succeeded) return Ok(CreateResponseAuth(StatusCodes.Status200OK, $"Successfully Create {requestAuth.RoleName} Role"));
+        if (result.Succeeded) return Ok(CreateResponse(StatusCodes.Status200OK, $"Successfully Create {requestAuth.RoleName} Role"));
 
-        return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Something Wrong While Creating {requestAuth.RoleName} Role"));
+        return BadRequest(CreateResponse(StatusCodes.Status400BadRequest, $"Something Wrong While Creating {requestAuth.RoleName} Role"));
     }
 
     [HttpDelete]
@@ -53,11 +53,11 @@ public class AuthController : BaseApiController
         {
             IdentityResult result = await _roleManager.DeleteAsync(role);
 
-            if (result.Succeeded) return Ok(CreateResponseAuth(StatusCodes.Status200OK, $"Successfully Delete {requestAuth.RoleName} Role"));
+            if (result.Succeeded) return Ok(CreateResponse(StatusCodes.Status200OK, $"Successfully Delete {requestAuth.RoleName} Role"));
         }
         else
         {
-            return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, $"Can't Find {requestAuth.RoleName} Role"));
+            return NotFound(CreateResponse(StatusCodes.Status404NotFound, $"Can't Find {requestAuth.RoleName} Role"));
         }
 
         return BadRequest();
@@ -68,7 +68,7 @@ public class AuthController : BaseApiController
     {
         UserApp user = await _manager.FindByEmailAsync(requestAuth.Email);
 
-        if (user == null) return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, $"Can't Find User With Email {requestAuth.Email}"));
+        if (user == null) return NotFound(CreateResponse(StatusCodes.Status404NotFound, $"Can't Find User With Email {requestAuth.Email}"));
 
         var userRoleCheck = await _manager.IsInRoleAsync(user, "admin");
 
@@ -78,16 +78,16 @@ public class AuthController : BaseApiController
 
             if (result.Succeeded)
             {
-                return Ok(CreateResponseAuth(StatusCodes.Status200OK, $"Successfully Add {requestAuth.Email} To {requestAuth.RoleName}"));
+                return Ok(CreateResponse(StatusCodes.Status200OK, $"Successfully Add {requestAuth.Email} To {requestAuth.RoleName}"));
             }
             else
             {
-                return NotFound(CreateResponseAuth(StatusCodes.Status404NotFound, $"Can't Find {requestAuth.RoleName} Role"));
+                return NotFound(CreateResponse(StatusCodes.Status404NotFound, $"Can't Find {requestAuth.RoleName} Role"));
             }
         }
         else
         {
-            return BadRequest(CreateResponseAuth(StatusCodes.Status400BadRequest, $"Can't Add {requestAuth.RoleName} Role, User Can Only have One role"));
+            return BadRequest(CreateResponse(StatusCodes.Status400BadRequest, $"Can't Add {requestAuth.RoleName} Role, User Can Only have One role"));
         }
     }
 }
