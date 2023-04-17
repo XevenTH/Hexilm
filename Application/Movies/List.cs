@@ -26,6 +26,7 @@ public class List
         public async Task<ResultValidator<List<MovieDTO>>> Handle(Query request, CancellationToken cancellationToken)
         {
             var movies = await _context.Movies
+                .Include(x => x.Photos)
                 .ProjectTo<MovieDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 

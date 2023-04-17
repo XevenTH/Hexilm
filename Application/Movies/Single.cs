@@ -10,8 +10,8 @@ namespace Application.Movies;
 
 public class Single
 {
-    public class Query : IRequest<ResultValidator<MovieDTO>> 
-    { 
+    public class Query : IRequest<ResultValidator<MovieDTO>>
+    {
         public Guid Id { get; set; }
     }
 
@@ -29,10 +29,11 @@ public class Single
         public async Task<ResultValidator<MovieDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
             var movie = await _context.Movies
+                .Include(x => x.Photos)
                 .ProjectTo<MovieDTO>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            if(movie == null) return ResultValidator<MovieDTO>.Error("Can't Find Movie", 404);
+            if (movie == null) return ResultValidator<MovieDTO>.Error("Can't Find Movie", 404);
 
             return ResultValidator<MovieDTO>.Success(movie, 200);
         }
