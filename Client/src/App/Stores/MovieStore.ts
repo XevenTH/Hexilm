@@ -90,7 +90,11 @@ export default class MovieStore {
     this.selectedMovie = movie
     this.isOpenDetails = true
     this.isOpenForm = false
-    this.isLoadingMovie = false
+
+    //Add timeout so no glitch
+    setTimeout(() => {
+      this.isLoadingMovie = false
+    }, 1000)
   }
 
   CloseDetailsResetMovie = (state: boolean) => {
