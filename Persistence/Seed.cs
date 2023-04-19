@@ -107,42 +107,36 @@ public class Seed
                 new Movie {
                     Title = "Captain America: Civil War",
                     Description = "This is Captain America: Civil War Movie Description",
-                    Picture = "",
                     Director = Directors[0],
                     Actors = new List<Actor>{Actors[0],Actors[1]}
                 },
                 new Movie {
                     Title = "The Suicide Squad (2021)",
                     Description = "This is The Suicide Squad (2021) Movie Description",
-                    Picture = "",
                     Director = Directors[1],
                     Actors = new List<Actor>{Actors[2],Actors[3]}
                 },
                 new Movie {
                     Title = "The Conjuring: The Devil Made Me Do It",
                     Description = "This is The Conjuring: The Devil Made Me Do It Movie Description",
-                    Picture = "",
                     Director = Directors[2],
                     Actors = new List<Actor>{Actors[4],Actors[5]}
                 },
                 new Movie {
                     Title = "Suzume no Tojimari",
                     Description = "This is Suzume no Tojimari Movie Description",
-                    Picture = "",
                     Director = Directors[3],
                     Actors = new List<Actor>{Actors[6],Actors[7]}
                 },
                 new Movie {
                     Title = "Kimi No Nawa",
                     Description = "This is Kimi No Nawa Movie Description",
-                    Picture = "",
                     Director = Directors[3],
                     Actors = new List<Actor>{Actors[8],Actors[9]}
                 },
                 new Movie {
                     Title = "Spider-Man: Far from Home",
                     Description = "This is Spider-Man: Far from Home Movie Description",
-                    Picture = "",
                     Director = Directors[4],
                     Actors = new List<Actor>{Actors[10],Actors[11]}
                 }

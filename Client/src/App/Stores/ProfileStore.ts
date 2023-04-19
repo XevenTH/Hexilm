@@ -11,11 +11,16 @@ export default class ProfileStore {
   }
 
   getProfile = async (username: string) => {
+    if (this.profile) {
+      return this.profile;
+    }
+
     try {
       const data = await ApiAgent.profileApi.getProfile(username);
       runInAction(() => {
         this.profile = data;
       });
+      return this.profile;
     } catch (error) {
       console.log(error)
     }

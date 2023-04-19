@@ -9,7 +9,8 @@ public class AutoMapperProfiles : AutoMapper.Profile
 {
     public AutoMapperProfiles()
     {
-        CreateMap<Movie, MovieDTO>();
+        CreateMap<Movie, MovieDTO>()
+            .ForMember(m => m.Picture, o => o.MapFrom(x => x.Photos.FirstOrDefault(x => x.IsMain).Url));
         CreateMap<Director, DirectorDTO>();
         
         CreateMap<MovieDTO, Movie>();
