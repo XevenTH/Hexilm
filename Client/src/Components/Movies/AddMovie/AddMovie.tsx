@@ -23,13 +23,22 @@ function AddMovie() {
           <label className="text-xs text-slate-400" htmlFor="title">
             Image
           </label>
-          <img
+
+          <label
+            htmlFor="inputFile"
+            className="w-full aspect-video rounded-xl border border-dashed border-gray-400 cursor-pointer"
+          >
+            <div className="flex flex-col items-center justify-center h-full">
+              <img src="/pict.svg" className="w-10 h-10 " />
+              <p className="text-xs text-slate-500 ">Upload here</p>
+            </div>
+          </label>
+
+          <input type="file" id="inputFile" hidden accept=".jpg, .png, .jpeg" />
+
+          {/* <img
             src="https://lh3.googleusercontent.com/izxUXJyYCMOHL_TK5NswWUhzFoa3fL_j1grWgMfnvz0bIOX52rq3VsmdiJXItzSk1yPS8C1W4S2fZ7pl9Zu11-a_q_pirWCPUeo=w1200-h630-rj-pp-e365"
             className="w-full h-full rounded-lg"
-          />
-          {/* <input
-            id="title"
-            className="c p-2 text-sm text-slate-300 bg-transparent outline-none ring-[1px] ring-slate-600 rounded-lg focus:ring-cyan-600"
           /> */}
         </div>
         <div className="col-span-12 flex flex-col space-y-2">
@@ -47,7 +56,7 @@ function AddMovie() {
           </label>
           <textarea
             id="description"
-            className="col-span-12 p-2 text-sm text-slate-300 bg-transparent outline-none ring-[1px] ring-slate-600 rounded-lg focus:ring-cyan-600"
+            className="col-span-12 h-28 p-2 text-sm text-slate-300 bg-transparent outline-none ring-[1px] ring-slate-600 rounded-lg focus:ring-cyan-600"
           />
         </div>
 
