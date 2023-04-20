@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState } from 'react'
 import ImageCrop from '../../App/layout/ReactImgCrop/App'
 import { InitialEditProfile, Profile } from '../../App/model/profile'
 import { UseStore } from '../../App/Stores/BaseStore'
@@ -26,9 +26,8 @@ export default observer(function EditProfile() {
 
   const handleSaveChanges = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Edited', editData)
-    // editProfile(editData)
-    // window.location.reload()
+    editProfile(editData)
+    window.location.reload()
   }
 
   const formText = (
