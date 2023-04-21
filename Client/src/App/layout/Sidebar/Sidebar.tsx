@@ -4,7 +4,7 @@ import dataLinks from './dataLinks'
 
 export default function Sidebar() {
   const [currentPage, setCurrentPage] = useState(
-    Number(localStorage.getItem('fastPage')) || 0,
+    Number(localStorage.getItem('fastPage')) || 0
   )
 
   const handlePageChange = (index: number) => {
@@ -23,7 +23,7 @@ export default function Sidebar() {
     }
   }, [currentPage])
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.removeItem('fastPage')
   })
 

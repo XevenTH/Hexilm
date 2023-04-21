@@ -8,11 +8,13 @@ import MobileNav from './BottomNav'
 import { useParams } from 'react-router-dom'
 
 export default observer(function Profile() {
-  const { ProfileStore: { getProfile, profile } } = UseStore()
+  const {
+    ProfileStore: { getProfile, profile },
+  } = UseStore()
   const { username } = useParams<{ username: string }>()
 
   const [currentPage, setCurrentPage] = useState(
-    Number(localStorage.getItem('fastPage')) || 0,
+    Number(localStorage.getItem('fastPage')) || 0
   )
 
   useEffect(() => {
@@ -65,7 +67,7 @@ export default observer(function Profile() {
         <div className="bg-black/40 w-full flex justify-center md:items-baseline items-center md:pt-5">
           <div>
             <img
-              src={profile?.photos.find(x => x.isMain)?.url}
+              src={profile?.photos.find((x) => x.isMain)?.url}
               alt=""
               width={200}
               className="rounded-lg mb-5"

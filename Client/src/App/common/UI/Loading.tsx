@@ -1,6 +1,14 @@
-function Loading() {
+type Props = {
+  dark?: boolean
+}
+
+function Loading({ dark }: Props) {
   return (
-    <div className="w-screen h-screen flex items-center justify-center text-neutral-900 ">
+    <div
+      className={`w-screen h-screen flex items-center justify-center ${
+        dark ? 'bg-[#181823] text-neutral-200' : 'bg-white text-neutral-900'
+      }  `}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

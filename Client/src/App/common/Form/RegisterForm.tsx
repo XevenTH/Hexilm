@@ -1,9 +1,9 @@
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { IntialUserCredentials, Credentials } from "../../model/user"
-import { UseStore } from "../../Stores/BaseStore"
-import ReuseableForm from "./ReuseableForm"
-import ReuseableTextInput from "./ReuseableTextInput"
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { IntialUserCredentials, Credentials } from '../../model/user'
+import { UseStore } from '../../Stores/BaseStore'
+import ReuseableForm from './ReuseableForm'
+import ReuseableTextInput from './ReuseableTextInput'
 
 export default function RegisterForm() {
   const { UserStore } = UseStore()
@@ -20,7 +20,7 @@ export default function RegisterForm() {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    UserStore.register(registerData).then(() => navigate("/movies"))
+    UserStore.register(registerData).then(() => navigate('/'))
   }
 
   return (
