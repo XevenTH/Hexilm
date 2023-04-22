@@ -87,13 +87,17 @@ export default class MovieStore {
 
     if (!movie) throw new Error('not found')
 
-    this.selectedMovie = movie
-    this.isOpenDetails = true
-    this.isOpenForm = false
-
+    runInAction(() => {
+      this.selectedMovie = movie
+      this.isOpenDetails = true
+      this.isOpenForm = false
+    })
+    
     //Add timeout so no glitch
     setTimeout(() => {
-      this.isLoadingMovie = false
+      runInAction(() => {
+        this.isLoadingMovie = false
+      })
     }, 1000)
   }
 
