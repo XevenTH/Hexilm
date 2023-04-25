@@ -10,8 +10,8 @@ namespace API.Controllers;
 
 public class MoviesController : BaseApiController
 {
-    private readonly IValidator<MiniMovieDto> _validator;
-    public MoviesController(IValidator<MiniMovieDto> validator)
+    private readonly IValidator<MiniMovieDTO> _validator;
+    public MoviesController(IValidator<MiniMovieDTO> validator)
     {
         _validator = validator;
 
@@ -35,7 +35,7 @@ public class MoviesController : BaseApiController
 
     [Authorize(Roles = "admin")]
     [HttpPost]
-    public async Task<ActionResult<MovieDTO>> CreateMovie([FromBody] MiniMovieDto miniMovie)
+    public async Task<ActionResult<MovieDTO>> CreateMovie([FromBody] MiniMovieDTO miniMovie)
     {
         ValidationResult validateResult = await _validator.ValidateAsync(miniMovie);
         if (!validateResult.IsValid)
@@ -51,7 +51,7 @@ public class MoviesController : BaseApiController
 
     [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] MiniMovieDto movie)
+    public async Task<IActionResult> UpdateMovie(Guid id, [FromBody] RequestUpdateDTO movie)
     {
         var result = await Mediator.Send(new Update.Command { Movie = movie });
 
