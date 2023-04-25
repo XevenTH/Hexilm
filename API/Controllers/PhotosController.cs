@@ -1,128 +1,50 @@
+using API.Controllers.Attributes;
 using API.Controllers.DTO;
-using Application.Interface;
+using Application.Core.Parameters;
 using Application.Photos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Model;
-using Persistence;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace API.Controllers;
 
+[Authorize]
 public class PhotosController : BaseApiController
 {
-    private readonly DataContext _context;
-    private readonly IPhotoAccessor _photoAccessor;
-    private readonly IUserAccessor _userAccessor;
-
-    public PhotosController(
-        DataContext context,
-        IPhotoAccessor photoAccessor,
-        IUserAccessor userAccessor)
+    [HttpPost("upload")]
+    public async Task<ActionResult<PhotoResponder>> PostPhotoProfile([FromForm] PhotoUploadModel file, [FromQuery][BindRequired] string mode)
     {
-        _context = context;
-        _photoAccessor = photoAccessor;
-        _userAccessor = userAccessor;
-    }
+        if (file == null || file.File == null || file.File.Length == 0) return BadRequest(CreateResponse(400, "Please Proveide Photo Image"));
 
-    [HttpPost("profile-upload")]
-    public async Task<IActionResult> PostPhotoProfile([FromForm] PhotoUploadModel file)
-    {
-        var user = await _context.Users
-            .Include(x => x.Photos)
-            .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+        using Stream fileStream = file.File.OpenReadStream();
 
-        if (user == null) return NotFound(CreateResponse(StatusCodes.Status404NotFound, "Can't Find User"));
+        var result = await Mediator.Send(new Upload.Command { File = fileStream, FileName = file.File.Name, Param = mode });
 
-        var uploadResult = await _photoAccessor.UserProfileUploadPhoto500X500(file.File);
-
-        if (uploadResult == null)
-            return NotFound(CreateResponse(StatusCodes.Status404NotFound, "Please Provide A Photo File"));
-
-        var photo = new Photo()
-        {
-            Id = uploadResult.PublicId,
-            Url = uploadResult.Url,
-        };
-
-        if (!user.Photos.Any(x => x.IsMain)) photo.IsMain = true;
-
-        user.Photos.Add(photo);
-
-        var result = await _context.SaveChangesAsync() > 0;
-
-        return result
-            ? Ok(CreateResponse(StatusCodes.Status200OK, "Successfully Adding Photo"))
-            : BadRequest(CreateResponse(StatusCodes.Status400BadRequest, "There Is Something Wrong While Saving Photo In Database"));
-    }
-
-    [HttpPost("{id}/movie-upload/landscape")]
-    public async Task<IActionResult> PostPhotoMovieLandscape([FromForm] PhotoUploadModel file, [FromRoute] Guid id)
-    {
-        var movie = await _context.Movies
-            .Include(x => x.Photos)
-            .FirstOrDefaultAsync(x => x.Id == id);
-        if (movie == null) return NotFound(CreateResponse(StatusCodes.Status404NotFound, "Can't Find Movie"));
-    
-        var cloudinaryResult = await _photoAccessor.MovieUploadPhotoLandscape(file.File);
-        if (cloudinaryResult == null) return NotFound(CreateResponse(StatusCodes.Status404NotFound, "Please Provide Photo File"));
-
-        var photo = new Photo()
-        {
-            Id = cloudinaryResult.PublicId,
-            Url = cloudinaryResult.Url,
-        };
-
-        if (!movie.Photos.Any(x => x.IsMain)) photo.IsMain = true;
-        
-        movie.Photos.Add(photo);
-
-        var result = await _context.SaveChangesAsync() > 0;
-
-        return result
-            ? Ok(CreateResponse(StatusCodes.Status200OK, "Successfully Adding Photo"))
-            : BadRequest(CreateResponse(StatusCodes.Status400BadRequest, "There Is Something Wrong While Savin"));
+        return GetResult(result);
     }
     
-    [HttpPost("{id}/movie-upload/portrait")]
-    public async Task<IActionResult> PostPhotoMoviePortrait([FromForm] PhotoUploadModel file, [FromRoute] Guid id)
+    [HttpPut("{publicId}/manage-main")]
+    public async Task<IActionResult> SetMainProfile(string publicId)
     {
-        var movie = await _context.Movies
-            .Include(x => x.Photos)
-            .FirstOrDefaultAsync(x => x.Id == id);
-        if (movie == null) return NotFound(CreateResponse(StatusCodes.Status404NotFound, "Can't Find Movie"));
-    
-        var cloudinaryResult = await _photoAccessor.MovieUploadPhotoPortrait(file.File);
-        if (cloudinaryResult == null) return NotFound(CreateResponse(StatusCodes.Status404NotFound, "Please Provide Photo File"));
-
-        var photo = new Photo()
-        {
-            Id = cloudinaryResult.PublicId,
-            Url = cloudinaryResult.Url,
-        };
-
-        if (!movie.Photos.Any(x => x.IsMain)) photo.IsMain = true;
-        
-        movie.Photos.Add(photo);
-
-        var result = await _context.SaveChangesAsync() > 0;
-
-        return result
-            ? Ok(CreateResponse(StatusCodes.Status200OK, "Successfully Adding Photo"))
-            : BadRequest(CreateResponse(StatusCodes.Status400BadRequest, "There Is Something Wrong While Savin"));
-    }
-
-    [HttpDelete("{publicId}")]
-    public async Task<IActionResult> DeletePhoto([FromRoute] string publicId)
-    {
-        var result = await Mediator.Send(new ProfileDelete.Command { PublicId = publicId });
+        var result = await Mediator.Send(new ManageMain.Command { PublicId = publicId });
 
         return GetResult(result);
     }
 
-    [HttpPut("{publicId}/profile-manage-main")]
-    public async Task<IActionResult> SetMainProfile(string publicId)
+    [AuthorizeWithQuery(Role = "admin", RestrictedQueryParams = new[] { "movie", "actor", "director" })]
+    [HttpPut("save")]
+    public async Task<IActionResult> SaveInt([FromBody] PhotoResponder photoResponder, [FromQuery] PhotoQuery query)
     {
-        var result = await Mediator.Send(new ProfileMain.Command { PublicId = publicId });
+        var result = await Mediator.Send(new Save.Command { photoResponder = photoResponder, Param = query });
+
+        return GetResult(result);
+    }
+
+    [AuthorizeWithQuery(Role = "admin", RestrictedQueryParams = new[] { "movie", "actor", "director" })]
+    [HttpDelete("{publicId}")]
+    public async Task<IActionResult> DeletePhoto([FromRoute] string publicId, [FromQuery] PhotoQuery query)
+    {
+        var result = await Mediator.Send(new Delete.Command { PublicId = publicId, Param = query });
 
         return GetResult(result);
     }
