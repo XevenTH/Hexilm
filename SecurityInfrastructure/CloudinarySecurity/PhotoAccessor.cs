@@ -22,15 +22,11 @@ public class PhotoAccessor : IPhotoAccessor
         _cloudinary = new Cloudinary(account);
     }
 
-    public async Task<PhotoResult> UserProfileUploadPhoto500X500(IFormFile file)
+    public async Task<PhotoResponder> UserProfileUploadPhotoSquare(string fileName, Stream file)
     {
-        if (file.Length <= 0) return null;
-        
-        await using var readFile = file.OpenReadStream();
-
         var uploadParams = new ImageUploadParams()
         {
-            File = new FileDescription(file.Name, readFile),
+            File = new FileDescription(fileName, file),
             Transformation = new Transformation().Height(500).Width(500).Crop("fill"),
             Format = "webp"
         };
@@ -39,22 +35,18 @@ public class PhotoAccessor : IPhotoAccessor
 
         if (result.Error != null) throw new Exception(result.Error.Message);
 
-        return new PhotoResult()
+        return new PhotoResponder()
         {
             PublicId = result.PublicId,
             Url = result.SecureUrl.ToString()
         };
     }
 
-    public async Task<PhotoResult> MovieUploadPhotoLandscape(IFormFile file)
+    public async Task<PhotoResponder> MovieUploadPhotoLandscape(string fileName, Stream file)
     {
-        if (file.Length <= 0) return null;
-        
-        await using var readFile = file.OpenReadStream();
-
         var uploadParams = new ImageUploadParams()
         {
-            File = new FileDescription(file.Name, readFile),
+            File = new FileDescription(fileName, file),
             Transformation = new Transformation().Height(1080).Width(1440).Crop("fill"),
             Format = "webp"
         };
@@ -63,22 +55,18 @@ public class PhotoAccessor : IPhotoAccessor
 
         if (uploadResult.Error != null) throw new Exception(uploadResult.Error.Message);
 
-        return new PhotoResult()
+        return new PhotoResponder()
         {
             PublicId = uploadResult.PublicId,
             Url = uploadResult.Url.ToString()
         };
     }
 
-    public async Task<PhotoResult> MovieUploadPhotoPortrait(IFormFile file)
+    public async Task<PhotoResponder> MovieUploadPhotoPortrait(string fileName, Stream file)
     {
-        if (file.Length <= 0) return null;
-        
-        await using var readFile = file.OpenReadStream();
-
         var uploadParams = new ImageUploadParams()
         {
-            File = new FileDescription(file.Name, readFile),
+            File = new FileDescription(fileName, file),
             Transformation = new Transformation().Height(1440).Width(1080).Crop("fill"),
             Format = "webp"
         };
@@ -87,7 +75,7 @@ public class PhotoAccessor : IPhotoAccessor
 
         if (uploadResult.Error != null) throw new Exception(uploadResult.Error.Message);
 
-        return new PhotoResult()
+        return new PhotoResponder()
         {
             PublicId = uploadResult.PublicId,
             Url = uploadResult.Url.ToString()
