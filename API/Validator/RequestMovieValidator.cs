@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace API.Validator;
 
-public class RequestMovieValidator : AbstractValidator<MiniMovieDto>
+public class RequestMovieValidator : AbstractValidator<MiniMovieDTO>
 {
     public RequestMovieValidator()
     {
