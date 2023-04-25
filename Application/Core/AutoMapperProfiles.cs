@@ -14,7 +14,7 @@ public class AutoMapperProfiles : AutoMapper.Profile
         CreateMap<Director, DirectorDTO>();
         
         CreateMap<MovieDTO, Movie>();
-        CreateMap<Movie, MiniMovieDto>();
+        CreateMap<Movie, MiniMovieDTO>();
 
         CreateMap<Room, RoomDTO>()
             .ForMember(m => m.Movie, o => o.MapFrom(rm => rm.Movie));
