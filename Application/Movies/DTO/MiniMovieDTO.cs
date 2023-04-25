@@ -1,6 +1,6 @@
 ﻿namespace Application.Movies.DTO;
 
-public class MiniMovieDto
+public class MiniMovieDTO
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
