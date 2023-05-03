@@ -10,7 +10,7 @@ public class AutoMapperProfiles : AutoMapper.Profile
     public AutoMapperProfiles()
     {
         CreateMap<Movie, MovieDTO>();
-        CreateMap<Director, DirectorDTO>();
+        CreateMap<Director, DirectorDTO>().ReverseMap();
         CreateMap<Actor, ActorDTO>();
         
         CreateMap<MovieDTO, Movie>();
