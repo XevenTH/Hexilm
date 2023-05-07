@@ -34,11 +34,23 @@ export default class ProfileStore {
         if (!this.profile) return;
         if (!storeContainer.UserStore.User) return;
 
+        // Check if username has changed
+        if (this.profile.userName !== editData.userName) {
+          localStorage.removeItem('jwt')
+        }
+
+        // Update profile with new data
         Object.assign(this.profile, editData)
+
+        // Update user with new data
         Object.assign(storeContainer.UserStore.User, editData)
+
+        // Update edited profile in localStorage
+        localStorage.setItem('profile', JSON.stringify(this.profile))
       })
     } catch (error) {
       console.log(error)
     }
   }
+
 }

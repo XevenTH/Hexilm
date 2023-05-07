@@ -5,6 +5,7 @@ import MovieStore from "./MovieStore"
 import { UserRoomStore } from "./UserRoomStore"
 import UserStore from "./UserStore"
 import ProfileStore from "./ProfileStore"
+import PhotoStore from "./PhotoStore"
 
 interface Store {
   MovieStore: MovieStore
@@ -13,6 +14,7 @@ interface Store {
   ModalStore: ModalStore
   UserRoomStore: UserRoomStore
   ProfileStore: ProfileStore,
+  PhotoStore: PhotoStore
 }
 
 export const storeContainer: Store = {
@@ -22,6 +24,7 @@ export const storeContainer: Store = {
   ModalStore: new ModalStore(),
   UserRoomStore: new UserRoomStore(),
   ProfileStore: new ProfileStore(),
+  PhotoStore: new PhotoStore(),
 }
 
 export const BaseStoreContext = createContext(storeContainer)
