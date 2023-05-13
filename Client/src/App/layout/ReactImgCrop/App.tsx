@@ -1,5 +1,5 @@
 import './styles.css'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import ReactCrop, {
   centerCrop,
@@ -11,6 +11,8 @@ import { canvasPreview } from './canvasPreview'
 import { useDebounceEffect } from './useDebounceEffect'
 
 import 'react-image-crop/dist/ReactCrop.css'
+import { UseStore } from '../../Stores/BaseStore'
+import { json } from 'react-router-dom'
 
 // This is to demonstate how to make and center a % aspect crop
 // which is a bit trickier so we use some helper functions.
@@ -34,7 +36,7 @@ function centerAspectCrop(
   )
 }
 
-export default function App() {
+export default function App(props: any) {
   const [imgSrc, setImgSrc] = useState('')
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
@@ -45,6 +47,29 @@ export default function App() {
   const [scale, setScale] = useState(1)
   const [rotate, setRotate] = useState(0)
   const [aspect, setAspect] = useState<number | undefined>(16 / 9)
+
+  const [dataSVPhoto, setDataSVPhoto] = useState<any>(null)
+  const [btnSVPhoto, setbtnSVPhoto] = useState(false)
+  const [loadbtnSVPhoto, setLoadBtnSVPhoto] = useState(false)
+
+  const { profilePhoto } = props
+  const {
+    PhotoStore: { changePhoto, uploadPhoto, savePhoto },
+    UserStore: { User },
+  } = UseStore()
+
+  function addHorizontalScrollListener(element: HTMLElement) {
+    element.addEventListener('wheel', (e) => {
+      e.preventDefault()
+      element.scrollLeft += e.deltaY
+    })
+  }
+  useEffect(() => {
+    const AttendeesXScroll = document.querySelector(
+      '.xScroll',
+    ) as HTMLDivElement
+    addHorizontalScrollListener(AttendeesXScroll)
+  }, [])
 
   function onSelectFile(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -64,12 +89,13 @@ export default function App() {
     }
   }
 
-  function onDownloadCropClick() {
+  function addImage() {
+    setLoadBtnSVPhoto(true)
     if (!previewCanvasRef.current) {
       throw new Error('Crop canvas does not exist')
     }
 
-    previewCanvasRef.current.toBlob((blob) => {
+    previewCanvasRef.current.toBlob(async (blob) => {
       if (!blob) {
         throw new Error('Failed to create blob')
       }
@@ -77,9 +103,19 @@ export default function App() {
         URL.revokeObjectURL(blobUrlRef.current)
       }
       blobUrlRef.current = URL.createObjectURL(blob)
-      hiddenAnchorRef.current!.href = blobUrlRef.current
-      hiddenAnchorRef.current!.click()
+      const dataPhoto = await uploadPhoto(blob)
+      if (dataPhoto) {
+        setLoadBtnSVPhoto(false)
+        setbtnSVPhoto(true)
+        setDataSVPhoto(dataPhoto)
+      }
     })
+  }
+
+  function triggerSavePhoto() {
+    const data = dataSVPhoto?.data
+    savePhoto(data.publicId,data.url,User?.id)
+    window.location.reload()
   }
 
   useDebounceEffect(
@@ -121,15 +157,38 @@ export default function App() {
           <div className="md:col-start-3 md:col-end-5">
             <div className="flex md:justify-center mb-5">
               <img
-                src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80"
+                src={
+                  profilePhoto?.photos.find((x: any) => x.isMain)?.url ??
+                  'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80'
+                }
                 alt=""
                 width={80}
                 className="rounded-lg"
               />
             </div>
+            <h2>Change Image</h2>
+            <div
+              className={`duration-300 rounded-lg flex px-2 p-1 mb-5 overflow-x-scroll xScroll ${
+                !profilePhoto?.photos && 'w-0 h-0 absolute top-0 left-0'
+              } w-full static`}
+            >
+              {profilePhoto?.photos.map((photo: any) => (
+                <img
+                  key={photo.id}
+                  src={photo.url}
+                  onClick={() => {
+                    changePhoto(photo.id)
+                    window.location.reload()
+                  }}
+                  alt=""
+                  width={80}
+                  className="rounded-lg mr-5"
+                />
+              ))}
+            </div>
             <label className="w-full py-2 px-3 bg-gray-700 rounded-lg text-white font-semibold shadow-md cursor-pointer duration-200 hover:bg-gray-800">
               <i className="bi bi-image mr-2"></i>
-              <span>Select Image</span>
+              <span>Add Image</span>
               <input
                 type="file"
                 accept="image/*"
@@ -205,8 +264,29 @@ export default function App() {
               }}
             />
           </div>
-          <div>
-            <button onClick={onDownloadCropClick}>Download Crop</button>
+          <div className="mt-2">
+            {loadbtnSVPhoto ? (
+              <img
+                src="https://www.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif"
+                alt=""
+                width={40}
+              />
+            ) : !btnSVPhoto && (
+              <button
+                onClick={addImage}
+                className="py-2 px-3 bg-gray-700 rounded-lg text-white font-semibold shadow-md cursor-pointer duration-200 hover:bg-gray-800"
+              >
+                Add Image
+              </button>
+            )}
+            {btnSVPhoto && (
+              <button
+                className="py-2 px-3 bg-gray-700 rounded-lg text-white font-semibold shadow-md cursor-pointer duration-200 hover:bg-gray-800"
+                onClick={triggerSavePhoto}
+              >
+                Save Photo
+              </button>
+            )}
             <a
               ref={hiddenAnchorRef}
               download

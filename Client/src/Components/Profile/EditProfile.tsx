@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ImageCrop from '../../App/layout/ReactImgCrop/App'
 import { InitialEditProfile, Profile } from '../../App/model/profile'
 import { UseStore } from '../../App/Stores/BaseStore'
@@ -9,8 +9,25 @@ export default observer(function EditProfile() {
   const {
     ProfileStore: { editProfile, profile },
   } = UseStore()
+  
 
-  const [activePage, setActivePage] = useState(0)
+  const [activePage, setActivePage] = useState(
+    Number(localStorage.getItem('fastPageEditPhoto')) || 0
+  )
+
+  useEffect(()=>localStorage.removeItem('fastPageEditPhoto'))
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.setItem('fastPageEditPhoto', activePage.toString())
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [activePage])
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [editData, setEditData] = useState<
@@ -29,6 +46,7 @@ export default observer(function EditProfile() {
     editProfile(editData)
     window.location.reload()
   }
+  
 
   const formText = (
     <>
@@ -85,6 +103,7 @@ export default observer(function EditProfile() {
             />
           </div>
           <p className="text-sm opacity-50">No spaces allowed in username!</p>
+          <p className="text-sm text-red-700 absolute">Changing username will log you out.</p>
         </div>
         <div className="mb-5">
           <label htmlFor="bio" className="text-white/70">
@@ -111,12 +130,6 @@ export default observer(function EditProfile() {
     </>
   )
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    // Lakukan sesuatu dengan file yang dipilih
-    console.log(selectedFile)
-  }
-
   const backFromChangeToPhoto = (
     <>
       <div className="px-2">
@@ -127,9 +140,7 @@ export default observer(function EditProfile() {
           Cancel
         </button>
       </div>
-      <form onSubmit={handleSubmit} className="form px-5">
-        <ImageCrop />
-      </form>
+        <ImageCrop profilePhoto={profile}/>
     </>
   )
 
