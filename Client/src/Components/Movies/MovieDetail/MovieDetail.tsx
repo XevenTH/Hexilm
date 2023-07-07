@@ -37,14 +37,14 @@ export default observer(function MovieDetail() {
       {movie && (
         <div>
           <img
-            src={movie.picture}
+            src={movie.photos.find(x => x.isMain)?.url}
             alt="cover"
             className="h-[240px] lg:h-[400px] w-full object-cover relative -z-[3] filter brightness-75"
           />
 
           <div className="flex md:p-8 rounded-tl-xl rounded-tr-xl bg-[#181823] -mt-5 min-h-screen shadow-xl">
             <img
-              src={movie.picture}
+              src={movie.photos.find(x => x.isMain)?.url}
               alt="cover"
               className="object-cover aspect-[6/8] hidden md:block w-[max(30%,240px)] rounded-xl self-start"
             />
