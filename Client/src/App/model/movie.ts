@@ -1,8 +1,10 @@
+import Photo from "./photo"
+
 export interface Movie {
   id: string
   title: string
   description: string
-  picture: string
+  photos: Photo[]
 }
 
 export default class InitialMovie {
